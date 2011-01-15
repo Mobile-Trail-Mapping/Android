@@ -160,7 +160,7 @@ public class ShowMap extends MapActivity {
 	private void showOutOfDateDialog() {
 		final BetaDialog updateNeeded = new BetaDialog(ShowMap.this, R.layout.out_of_date);
 		TextView changelog = (TextView)updateNeeded.findViewById(R.id.changelog);
-		changelog.setText(BetaChecker.getHTTPData(this.getString(R.string.beta_user_log_url)));
+		changelog.setText(NetUtils.getHTTPData(this.getString(R.string.beta_user_log_url)));
 		updateNeeded.setSubmitAction(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -199,7 +199,7 @@ public class ShowMap extends MapActivity {
 	 * Download the newest version from the internet, then change the view
 	 */
 	public void takeUserToNewDownload() {
-		Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(this.getString(R.string.beta_download_url) + BetaChecker.getHTTPData(this.getString(R.string.beta_user_latest_version)) + ".apk"));  
+		Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(this.getString(R.string.beta_download_url) + NetUtils.getHTTPData(this.getString(R.string.beta_user_latest_version)) + ".apk"));  
 		startActivity(viewIntent);
 	}
 	private void showBannedUserDialog() {
