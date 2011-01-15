@@ -15,8 +15,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ItemDetails extends Activity {
 
@@ -38,22 +43,37 @@ public class ItemDetails extends Activity {
 		title.setText(_extras.get("title").toString());
 		summary.setText(_extras.get("summary").toString());
 
+		
+		Gallery g = (Gallery) findViewById(R.id.gallery);
+	    
+		
 		// TODO: Conditions aren't implemented for a trail scale in the XML yet.
 		// Do that, then this
 		// Line gets uncommented.
 		// condition.setText(_extras.get("title").toString());
 
-		String fromImage = "http://www.fernferret.com/mtm/images/forrest.png";
-		String toImage = "forrest.png";
+	    String webFolder = "http://www.fernferret.com/mtm/images/";
+		String[] toImage = {"forest.png", "city.png", "desert.png", "island.png"};
+		String dataFolder = "/data/data/com.brousalis/files/";
 		
 		ImageView image = (ImageView) findViewById(R.id.imview);
 		
-		File imageFile = new File("/data/data/com.brousalis/files/forrest.png");
-		if(!imageFile.exists()) {
-			DownloadFromUrl(fromImage, toImage, DATA_PATH);
+		for(int i = 0; i < toImage.length; i++) {
+			File imageFile = new File(dataFolder+toImage[i]);
+			if(!imageFile.exists()) {
+				DownloadFromUrl(webFolder + toImage[i], toImage[i], DATA_PATH);
+			}
 		}
-		Bitmap bMap = BitmapFactory.decodeFile("/data/data/com.brousalis/files/forrest.png");
+		Bitmap bMap = BitmapFactory.decodeFile(dataFolder + toImage[0]);
 		image.setImageBitmap(bMap);
+		
+		g.setAdapter(new ImageAdapter(this, dataFolder, toImage));
+
+	    g.setOnItemClickListener(new OnItemClickListener() {
+	        public void onItemClick(AdapterView parent, View v, int position, long id) {
+	            Toast.makeText(ItemDetails.this, "" + position, Toast.LENGTH_SHORT).show();
+	        }
+	    });
 		
 	}
 
