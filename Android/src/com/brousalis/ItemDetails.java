@@ -56,16 +56,12 @@ public class ItemDetails extends Activity {
 		String[] toImage = {"forest.png", "city.png", "desert.png", "island.png"};
 		String dataFolder = "/data/data/com.brousalis/files/";
 		
-		ImageView image = (ImageView) findViewById(R.id.imview);
-		
 		for(int i = 0; i < toImage.length; i++) {
 			File imageFile = new File(dataFolder+toImage[i]);
 			if(!imageFile.exists()) {
 				DownloadFromUrl(webFolder + toImage[i], toImage[i], DATA_PATH);
 			}
 		}
-		Bitmap bMap = BitmapFactory.decodeFile(dataFolder + toImage[0]);
-		image.setImageBitmap(bMap);
 		
 		g.setAdapter(new ImageAdapter(this, dataFolder, toImage));
 

@@ -19,11 +19,6 @@
 				android:gravity="center"
 				android:textSize="20dip"
 				android:paddingBottom="10dip"/>
-			<ImageView
-				android:id="@+id/imview"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"/>
 			<Gallery
 				android:id="@+id/gallery"
 				android:layout_width="fill_parent"
