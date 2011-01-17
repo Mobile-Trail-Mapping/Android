@@ -45,13 +45,9 @@ public class ItemDetails extends Activity {
 		// TODO: Conditions aren't implemented for a trail scale in the XML yet.
 		// Do that, then this
 		// Line gets uncommented.
-		// condition.setText(_extras.get("title").toString());
-		
-		NetUtils.DownloadFromUrl("http://www.fernferret.com/mtm/images/0.png", "fish.png", DATA_PATH + "0/");
-		
+		// condition.setText(_extras.get("title").toString())
 		
 		g.setAdapter(new ImageAdapter(this, _id, 4));
-		
 
 	    g.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

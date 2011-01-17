@@ -1,6 +1,5 @@
 package com.brousalis;
 
-import java.io.InputStream;
 import java.net.*;
 
 public class BetaChecker {
