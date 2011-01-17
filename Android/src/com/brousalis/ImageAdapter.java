@@ -42,7 +42,6 @@ public class ImageAdapter extends BaseAdapter {
 			}
 		}
     }
-
     
 	public int getCount() {
         return mNumberOfImages;

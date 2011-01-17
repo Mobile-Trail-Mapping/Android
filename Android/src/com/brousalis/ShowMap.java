@@ -3,6 +3,7 @@ package com.brousalis;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
@@ -63,6 +64,7 @@ public class ShowMap extends MapActivity {
 	public static final int DEFAULT_MAP_LONG = 0;
 	private static final long GPS_UPDATE_TIME = 60000;
 	private static final float GPS_UPDATE_DISTANCE = 0;
+	public static final int SETTINGS_REQUEST_CODE = 1;
 	private static boolean GPS_TRACK = false;
 	
 	public static Drawable bubble;
@@ -376,7 +378,7 @@ public class ShowMap extends MapActivity {
 	 * Resolves all connections for all trails pulled down
 	 */
 	private void drawTrail() {
-		HashSet<Trail> trails = this._dataHandler.getParsedTrails();
+		HashSet<Trail> trails = getParsedTrails();
 		this._mapView.getOverlays().clear();
 		for (Trail t : trails) {
 			t.resolveConnections();
@@ -385,6 +387,10 @@ public class ShowMap extends MapActivity {
 			
 		}
 		this._mapView.invalidate();
+	}
+	
+	public HashSet<Trail> getParsedTrails() {
+		return this._dataHandler.getParsedTrails();
 	}
 
 	/**
@@ -432,7 +438,7 @@ public class ShowMap extends MapActivity {
 			break;
 		case R.id.menu_settings:
 			Intent settings = new Intent(this, TrailPrefs.class);
-			this.startActivity(settings);
+			this.startActivityForResult(settings, SETTINGS_REQUEST_CODE);
 			break;
 		case R.id.menu_center:
 			this.centerMapOnCurrentLocation(_settings.getBoolean(SAVED_ZOOM_ON_CENTER, true));
@@ -525,5 +531,32 @@ public class ShowMap extends MapActivity {
 	public void turnOffLocationUpdates() {
 		if (_locMgr != null)
 		_locMgr.removeUpdates(_locationListen);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode == Activity.RESULT_OK) {
+			if(requestCode == SETTINGS_REQUEST_CODE) {
+				if(data.getBooleanExtra(getString(R.string.key_reset_images), false)) {
+					resetImages();
+				}
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	private void resetImages() {
+		HashSet<Trail> trails = getParsedTrails();
+		ArrayList<TrailPoint> trailPoints = new ArrayList<TrailPoint>();
+		for(Trail t : trails) {
+			trailPoints.addAll(t.getTrailHeads());
+		}
+		
+		Log.w(MTM, "ResetImages: " + trailPoints.toString());
+		
+		for(TrailPoint tp : trailPoints) {
+			NetUtils.deleteFolder(tp.getID());
+		}
+		
 	}
 }

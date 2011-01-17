@@ -186,6 +186,10 @@ public class Trail extends ItemizedOverlay<OverlayItem> {
 	public Collection<TrailPoint> getTrailPoints() {
 		return this._trailPoints;
 	}
+	
+	public Collection<TrailPoint> getTrailHeads() {
+		return this._trailHeads;
+	}
 
 	/**
 	 * Determines if this Trail does or does not contain a specific point

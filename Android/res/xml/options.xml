@@ -36,6 +36,6 @@
 		<Preference
 			android:title="@string/title_reset_images"
 			android:summary="@string/summary_reset_images"
-			android:key="key_reset_images"/>
+			android:key="@string/key_reset_images"/>
 	</PreferenceCategory>
 </PreferenceScreen>

@@ -13,6 +13,8 @@ import org.apache.http.util.ByteArrayBuffer;
 import android.util.Log;
 
 public class NetUtils {
+	
+	private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
 	/**
 	 * Get the return data from a specific HTTP connection.
 	 * @param url The url to request data from.
@@ -76,5 +78,18 @@ public class NetUtils {
 			Log.d("ImageManager", "Error: " + e);
 		}
 
+	}
+
+	public static void deleteFolder(int id) {
+		File fileDirectory = new File(DATA_FOLDER + id + "/");
+		if(fileDirectory.exists()) {
+			File[] files = fileDirectory.listFiles();
+			
+			for(File f : files) {
+				f.delete();
+			}
+			
+			fileDirectory.delete();
+		}
 	}
 }

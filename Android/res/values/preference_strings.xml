@@ -26,4 +26,5 @@
 	<!-- Reset Image Preference Item -->
     <string name="title_reset_images">Remove all Trail Images</string>
     <string name="summary_reset_images">Deletes all local images so they can be downloaded again.</string>
+    <string name="key_reset_images">key_reset_images</string>
 </resources>
