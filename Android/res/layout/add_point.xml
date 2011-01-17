@@ -3,6 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
+	style="@style/Preference"
 	android:padding="10dip">
 	<EditText
 		android:id="@+id/new_point_title"
@@ -12,13 +13,22 @@
 		android:layout_alignParentTop="true"
 		android:singleLine="true"
 		android:selectAllOnFocus="true"
-		android:inputType="textCapWords"/>
+		android:inputType="textCapWords"
+		android:imeOptions="actionNext"/>
+	<TextView
+		android:id="@+id/new_point_summary_title"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/new_point_title"
+		android:text="Test"
+		style="@style/PreferenceCat"/>
 	<EditText
 		android:id="@+id/new_point_summary"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:lines="3"
-		android:layout_below="@id/new_point_title"
+		android:layout_below="@id/new_point_summary_title"
 		android:hint="Description of this item"
-		android:singleLine="false"/>
+		android:singleLine="false"
+		android:gravity="top"/>
 </RelativeLayout>

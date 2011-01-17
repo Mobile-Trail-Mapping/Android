@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="Preference" parent="@android:style/Preference"/>
+<style name="PreferenceCat" parent="@android:style/Preference.Category"/>
+</resources>
