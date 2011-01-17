@@ -433,6 +433,10 @@ public class ShowMap extends MapActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
+		case R.id.menu_add_point:
+			Intent add_point = new Intent(this, AddPoint.class);
+			this.startActivity(add_point);
+			break;
 		case R.id.menu_quit:
 			this.finish();
 			break;
