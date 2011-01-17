@@ -17,8 +17,6 @@ public class ItemDetails extends Activity {
 	private String _summary;
 	private String _title;
 	private String _category;
-	
-	private static final String DATA_PATH = "/data/data/com.brousalis/files/";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
