@@ -2,44 +2,41 @@
 <menu
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<item
+		android:id="@+id/menu_add_point"
+		android:titleCondensed="@string/add_point"
+		android:title="@string/add_point"/>
+		<!-- android:icon="@drawable/ic_menu_add_point" -->
+	<item
 		android:id="@+id/menu_center"
 		android:icon="@drawable/ic_menu_center"
 		android:titleCondensed="@string/menu_center"
-		android:title="@string/menu_center">
-	</item>
+		android:title="@string/menu_center"/>
+	<item
+		android:visible="true"
+		android:enabled="true"
+		android:id="@+id/menu_track_enable"
+		android:titleCondensed="@string/menu_enable_tracking"
+		android:title="@string/menu_enable_tracking"
+		android:icon="@drawable/ic_menu_gps_e"/>
+	<item
+		android:visible="false"
+		android:enabled="true"
+		android:id="@+id/menu_track_disable"
+		android:titleCondensed="@string/menu_disable_tracking"
+		android:title="@string/menu_disable_tracking"
+		android:icon="@drawable/ic_menu_gps_d"/>
+	<item
+		android:visible="true"
+		android:enabled="true"
+		android:id="@+id/menu_quit"
+		android:titleCondensed="@string/menu_quit"
+		android:title="@string/menu_quit"
+		android:icon="@drawable/ic_menu_exit"/>
 	<item
 		android:id="@+id/menu_settings"
 		android:titleCondensed="@string/menu_settings"
 		android:title="@string/menu_settings"
 		android:icon="@drawable/ic_menu_settings"
 		android:visible="true"
-		android:enabled="true">
-	</item>
-	<item
-		android:visible="true"
-		android:enabled="true"
-		android:id="@+id/menu_quit"
-		android:checkable="true"
-		android:titleCondensed="@string/menu_quit"
-		android:title="@string/menu_quit"
-		android:icon="@drawable/ic_menu_exit">
-	</item>
-	<item
-		android:visible="true"
-		android:enabled="true"
-		android:id="@+id/menu_track_enable"
-		android:checkable="true"
-		android:titleCondensed="@string/menu_enable_tracking"
-		android:title="@string/menu_enable_tracking"
-		android:icon="@drawable/ic_menu_gps_e">
-	</item>
-	<item
-		android:visible="false"
-		android:enabled="true"
-		android:id="@+id/menu_track_disable"
-		android:checkable="true"
-		android:titleCondensed="@string/menu_disable_tracking"
-		android:title="@string/menu_disable_tracking"
-		android:icon="@drawable/ic_menu_gps_d">
-	</item>
+		android:enabled="true"/>
 </menu>
