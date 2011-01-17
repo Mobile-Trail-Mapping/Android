@@ -54,7 +54,7 @@ public class Trail extends ItemizedOverlay<OverlayItem> {
 	
 	/**
 	 * Returns what I think is, but what will have to be tuned with a 
-	 * better algorithm, a cool paint that is antialiased.
+	 * better algorithm, a cool colored paint that is antialiased.
 	 * @return A cool Paint color
 	 */
 	private Paint getCoolPaint() {
@@ -67,15 +67,16 @@ public class Trail extends ItemizedOverlay<OverlayItem> {
 	
 	@Override
 	protected boolean onTap(int index) {
-		Log.w("MTM", "MTM: You just touched item: " + index);
-		Intent inMyTent = new Intent(ShowMap.thisActivity, ItemDetails.class);
+		Log.w(ShowMap.MTM, "You just touched item: " + index);
+		Intent details = new Intent(ShowMap.thisActivity, ItemDetails.class);
 		
 		// Do we want to pull the name of the point, or of the trail?
 		TrailPoint touched = this._trailHeads.get(index);
-		//inMyTent.putExtra("title", this._name);
-		inMyTent.putExtra("title", touched.getTitle());
-		inMyTent.putExtra("summary", touched.getSummary());
-		ShowMap.thisActivity.startActivity(inMyTent);
+		details.putExtra("id", touched.getID());
+		details.putExtra("category", touched.getCategory());
+		details.putExtra("title", touched.getTitle());
+		details.putExtra("summary", touched.getSummary());
+		ShowMap.thisActivity.startActivity(details);
 		return true;
 	}
 	

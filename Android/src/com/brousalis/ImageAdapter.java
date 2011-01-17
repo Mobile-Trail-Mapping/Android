@@ -1,5 +1,7 @@
 package com.brousalis;
 
+import java.io.File;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -13,33 +15,37 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
     int mGalleryItemBackground;
     private Context mContext;
-    private String mDataFolder;
     
-    private String[] mImageStrings;
-
-    public ImageAdapter(Context c) {
-        mContext = c;
+    private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
+    private static final String WEB_FOLDER = "http://www.fernferret.com/mtm/images/";
+    
+    private int mNumberOfImages;
+    private String mGalleryImageFolder;
+    
+    public ImageAdapter(Context c, int pointID, int numOfPictures ) {
+    	mContext = c;
+    	mNumberOfImages = numOfPictures;
+    	mGalleryImageFolder = DATA_FOLDER + pointID + "/";
+    	
+    	verifyImageCache(pointID);
         TypedArray a = mContext.obtainStyledAttributes(R.styleable.DetailGallery);
         
         mGalleryItemBackground = a.getResourceId(R.styleable.DetailGallery_android_galleryItemBackground, 0);
         a.recycle();
     }
 
-    public ImageAdapter(Context c, String dataFolder, String[] imageStrings) {
-    	mContext = c;
-    	
-    	mDataFolder = dataFolder;
-    	
-    	mImageStrings = imageStrings;
-    	
-        TypedArray a = mContext.obtainStyledAttributes(R.styleable.DetailGallery);
-        
-        mGalleryItemBackground = a.getResourceId(R.styleable.DetailGallery_android_galleryItemBackground, 0);
-        a.recycle();
-	}
+    private void verifyImageCache(int pointID) {
+    	for(int i = 0; i < mNumberOfImages; i++) {
+			File imageFile = new File(DATA_FOLDER + pointID + "/" + i + ".png");
+			if(!imageFile.exists()) {
+				NetUtils.DownloadFromUrl(WEB_FOLDER + pointID + "/" + i + ".png", i + ".png", mGalleryImageFolder);
+			}
+		}
+    }
 
+    
 	public int getCount() {
-        return mImageStrings.length;
+        return mNumberOfImages;
     }
 
     public Object getItem(int position) {
@@ -53,7 +59,7 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView i = new ImageView(mContext);
         
-        Bitmap bMap = BitmapFactory.decodeFile(mDataFolder + mImageStrings[position]);
+        Bitmap bMap = BitmapFactory.decodeFile(mGalleryImageFolder + position + ".png");
 		i.setImageBitmap(bMap);
         
         i.setLayoutParams(new Gallery.LayoutParams(500, 300));

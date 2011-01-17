@@ -1,112 +1,63 @@
 package com.brousalis;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
-import org.apache.http.util.ByteArrayBuffer;
-
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class ItemDetails extends Activity {
 
 	private Bundle _extras;
+	
+	private int _id;
+	private String _summary;
+	private String _title;
+	private String _category;
+	
 	private static final String DATA_PATH = "/data/data/com.brousalis/files/";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.item_details);
+		
+		// Load extras data to populate view
 		_extras = this.getIntent().getExtras();
-		_extras.get("title");
-		_extras.get("summary");
+		_title = _extras.get("title").toString();
+		_summary = _extras.get("summary").toString();
+		_id = _extras.getInt("id");
+		_category = _extras.getString("category");
+		
+		// Load Views from XML
 		TextView title = (TextView) this.findViewById(R.id.detail_title);
 		TextView summary = (TextView) this.findViewById(R.id.detail_summary);
-		// TextView condition =
-		// (TextView)this.findViewById(R.id.detail_condition);
+		Gallery g = (Gallery) this.findViewById(R.id.gallery);
+		TextView condition = (TextView)this.findViewById(R.id.detail_condition);
 
-		title.setText(_extras.get("title").toString());
-		summary.setText(_extras.get("summary").toString());
+		// Set values of the textViews
+		title.setText(_title);
+		summary.setText(_summary);
 
-		
-		Gallery g = (Gallery) findViewById(R.id.gallery);
-	    
-		
 		// TODO: Conditions aren't implemented for a trail scale in the XML yet.
 		// Do that, then this
 		// Line gets uncommented.
 		// condition.setText(_extras.get("title").toString());
-
-	    String webFolder = "http://www.fernferret.com/mtm/images/";
-		String[] toImage = {"forest.png", "city.png", "desert.png", "island.png"};
-		String dataFolder = "/data/data/com.brousalis/files/";
 		
-		for(int i = 0; i < toImage.length; i++) {
-			File imageFile = new File(dataFolder+toImage[i]);
-			if(!imageFile.exists()) {
-				DownloadFromUrl(webFolder + toImage[i], toImage[i], DATA_PATH);
-			}
-		}
+		NetUtils.DownloadFromUrl("http://www.fernferret.com/mtm/images/0.png", "fish.png", DATA_PATH + "0/");
 		
-		g.setAdapter(new ImageAdapter(this, dataFolder, toImage));
+		
+		g.setAdapter(new ImageAdapter(this, _id, 4));
+		
 
 	    g.setOnItemClickListener(new OnItemClickListener() {
-	        public void onItemClick(AdapterView parent, View v, int position, long id) {
+	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	            Toast.makeText(ItemDetails.this, "" + position, Toast.LENGTH_SHORT).show();
 	        }
 	    });
 		
-	}
-
-	/**
-	 * Downloads a file from a url and places it in the data directory named the
-	 * output filename. This function is intended to work with images.
-	 * 
-	 * @param imageURL
-	 *            The Url of the file to download
-	 * @param fileName
-	 *            Output name
-	 */
-	private void DownloadFromUrl(String fileURL, String outputFileName, String dataPath) {
-		try {
-			URL url = new URL(fileURL);
-			File file = new File(outputFileName);
-
-			URLConnection urlConnect = url.openConnection();
-
-			InputStream inputStream = urlConnect.getInputStream();
-			BufferedInputStream bInputStream = new BufferedInputStream(inputStream);
-
-			/* Read the buffered input to a ByteArrayBuffer */
-			ByteArrayBuffer bArrayBuffer = new ByteArrayBuffer(50);
-			int current = 0;
-			while ((current = bInputStream.read()) != -1) {
-				bArrayBuffer.append((byte) current);
-			}
-
-			/* Save the file to disk in our private directory */
-			FileOutputStream output = new FileOutputStream(dataPath + file);
-			output.write(bArrayBuffer.toByteArray());
-			output.close();
-
-		} catch (IOException e) {
-			Log.d("ImageManager", "Error: " + e);
-		}
-
 	}
 }
