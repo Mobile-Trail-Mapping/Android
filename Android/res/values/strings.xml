@@ -35,4 +35,10 @@
     <string name="enter">Enter</string>
     <string name="close">Close</string>
     <string name="update">Update</string>
+    
+    
+    <!-- Activity Titles -->
+    <string name="title_add_point">Add A New Point</string>
+    <string name="title_details">Location Details</string>
+    <string name="title_options">Trail Options</string>
 </resources>
