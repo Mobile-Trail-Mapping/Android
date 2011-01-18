@@ -4,11 +4,23 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
+	<LinearLayout
+		style="@style/HorizontalLayoutPref">
+		<ImageView
+			android:id="@+id/picture_preview"
+			style="@style/ImagePref"
+			android:src="@drawable/icon"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Add Picture"/>
+	</LinearLayout>
 	<TextView
 		android:id="@+id/new_point_summary_title"
 		android:text="Title of Point"
 		style="@style/TitleText"/>
-	<View style="@style/TitleHilight"/>
+	<View
+		style="@style/TitleHilight"/>
 	<EditText
 		android:id="@+id/new_point_title"
 		android:hint="Title of Item"
@@ -21,7 +33,8 @@
 		android:id="@+id/new_point_summary_title"
 		android:text="Point Description"
 		style="@style/TitleText"/>
-	<View style="@style/TitleHilight"/>
+	<View
+		style="@style/TitleHilight"/>
 	<EditText
 		android:id="@+id/new_point_summary"
 		android:lines="3"
@@ -29,4 +42,14 @@
 		android:singleLine="false"
 		android:gravity="top"
 		style="@style/TextBoxPref"/>
+	<TextView
+		android:id="@+id/new_point_category_title"
+		android:text="Point Category"
+		style="@style/TitleText"/>
+	<View
+		style="@style/TitleHilight"/>
+	<Spinner
+		android:id="@+id/new_point_category"
+		style="@style/SpinnerPref"
+		android:entries="@array/DefaultPointCategories"/>
 </LinearLayout>
