@@ -23,7 +23,7 @@
 		style="@style/TitleHilight"/>
 	<EditText
 		android:id="@+id/new_point_title"
-		android:hint="@string/title_of_item"
+		android:hint="Title of Item"
 		android:singleLine="true"
 		android:selectAllOnFocus="true"
 		android:inputType="textCapWords"
@@ -31,14 +31,14 @@
 		style="@style/TextBoxPref"/>
 	<TextView
 		android:id="@+id/new_point_summary_title"
-		android:text="@string/point_description"
+		android:text="Point Description"
 		style="@style/TitleText"/>
 	<View
 		style="@style/TitleHilight"/>
 	<EditText
 		android:id="@+id/new_point_summary"
 		android:lines="3"
-		android:hint="@string/description_of_this_item"
+		android:hint="Description of this item"
 		android:singleLine="false"
 		android:gravity="top"
 		style="@style/TextBoxPref"/>
