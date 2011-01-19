@@ -5,7 +5,10 @@
     
     <!-- BETA Access Strings (These will be required in final build) -->
     <string name="test_url">http://www.fernferret.com/samplexml.xml</string>
-    <string name="data_url">http://http://mtmserver.heroku.com/point/get</string>
+    <!--<string name="data_url">http://mtmserver.heroku.com/point/get</string>-->
+    <string name="root_data_url">http://mtmserver.heroku.com/</string>
+    <string name="photo_path">image/get/</string>
+    <string name="trail_path">point/get/</string>
     <string name="beta">true</string>
     
     <!-- BETA Strings (Will not be required in final build) -->

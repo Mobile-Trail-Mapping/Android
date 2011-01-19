@@ -44,14 +44,18 @@ public class ItemDetails extends Activity {
 		// Do that, then this
 		// Line gets uncommented.
 		// condition.setText(_extras.get("title").toString())
-		
-		g.setAdapter(new ImageAdapter(this, _id, 4));
-
-	    g.setOnItemClickListener(new OnItemClickListener() {
-	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	            Toast.makeText(ItemDetails.this, "" + position, Toast.LENGTH_SHORT).show();
-	        }
-	    });
+		int numPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.root_data_url) + getString(R.string.photo_path) + _id));
+		if(numPhotos > 0) {
+			g.setAdapter(new ImageAdapter(this, _id, 4));
+	
+		    g.setOnItemClickListener(new OnItemClickListener() {
+		        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		            Toast.makeText(ItemDetails.this, "" + position, Toast.LENGTH_SHORT).show();
+		        }
+		    });
+		} else {
+			g.setVisibility(View.GONE);
+		}
 		
 	}
 }
