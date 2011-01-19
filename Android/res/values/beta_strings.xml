@@ -11,7 +11,7 @@
     <string name="beta_user_banned_content">Whoops... Looks like there\'s been an issue verifying the validity of your Android Device! To continue use of the BETA, please send fernferret@gmail.com an email including your IMEI and/or MEID number.  They can be found in Settings\>About Phone\>Phone Identity </string>
     <string name="beta_user_date_title">A new update has come out!</string>
     <string name="beta_user_date_content">Hey there! A new BETA version of the Mobile Trail Maps software has been released.  Due to the fact that we may or may not have broken something in your current version (and the fact that we\'ve fixed bunches of other things) as a BETA user it is required that you recieve this update to continue using the software.</string>
-    <string name="beta_user_date_log">Changelog:</string>
+    <string name="beta_user_date_log">Changes Include:</string>
     <string name="beta_user_test_log">No Update Log Data... Sorry...</string>
     <string name="beta_download_url">http://www.fernferret.com/mtmbeta/downloads/mtmBETA.</string>
     <string name="beta_user_update_title">Your download has started!</string>
