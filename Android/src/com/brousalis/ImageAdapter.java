@@ -35,7 +35,8 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     private void verifyImageCache(int pointID) {
-    	for(int i = 0; i < mNumberOfImages; i++) {
+    	// On the server, images begin with 1
+    	for(int i = 1; i <= mNumberOfImages; i++) {
 			File imageFile = new File(DATA_FOLDER + pointID + "/" + i + ".png");
 			if(!imageFile.exists()) {
 				NetUtils.DownloadFromUrl(WEB_FOLDER + pointID + "/" + i + ".png", i + ".png", mGalleryImageFolder);
