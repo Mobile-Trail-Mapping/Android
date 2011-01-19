@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="point_description">Point Description</string>
+    <string name="title_of_item">Title of Item</string>
 	<!-- General Application Strings -->
     <string name="app_name">Trail Maps</string>
     
     <!-- BETA Access Strings (These will be required in final build) -->
     <string name="test_url">http://www.fernferret.com/samplexml.xml</string>
     <!--<string name="data_url">http://mtmserver.heroku.com/point/get</string>-->
-    <string name="root_data_url">http://mtmserver.heroku.com/</string>
+    <string name="actual_data_url">@string/root_test_url</string>
+    <string name="root_data_url">http://mtmtest.heroku.com/</string>
+    <string name="root_test_url">http://mtmserver.heroku.com/</string>
     <string name="photo_path">image/get/</string>
     <string name="trail_path">point/get/</string>
     <string name="beta">true</string>
