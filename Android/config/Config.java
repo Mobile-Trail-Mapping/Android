@@ -1,3 +1,4 @@
+package com.brousalis;
  /*****************************************************\
  |           AUTO GEN FILE WARNING!!!                  |
  | !!! Edit this file ONLY in config/Config.java !!!   |
