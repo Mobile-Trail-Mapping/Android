@@ -420,7 +420,7 @@
     <target name="-pre-compile"/>
 
     <!-- Compiles this project's .java files into .class files. -->
-    <target name="compile" depends="-resource-src, -aidl, -pre-compile"
+    <target name="compile" depends="config, -resource-src, -aidl, -pre-compile"
                 description="Compiles project's .java files into .class files">
         <if condition="${manifest.hasCode}">
             <then>
@@ -457,6 +457,31 @@
             </else>
         </if>
     </target>
+
+    <!-- Copy Config.java to our source tree, replacing custom tokens with 
+    values in build.properties. The configuration depends on "clean" because 
+    otherwise the build system will not detect changes in the configuration. 
+    Used from: http://www.androidengineer.com/2010/06/using-ant-to-automate-building-android.html -->
+      <target name="config" depends="clean">
+
+      <property name="config-target-path" value="${source.dir}/com/brousalis"/>
+
+      <!-- Copy the configuration file, replacing tokens in the file. -->
+      <copy file="config/Config.java" todir="${config-target-path}"
+            overwrite="true" encoding="utf-8">
+       <filterset>
+        <filter token="CONFIG.LOGGING" value="${config.logging}"/>
+       </filterset>
+      </copy>
+
+      <!-- Now set it to read-only, as we don't want people accidentally
+           editing the wrong one. NOTE: This step is unnecessary, but I do
+           it so the developers remember that this is not the original file.
+      <chmod file="${config-target-path}/Config.java" perm="-w"/>
+      <attrib file="${config-target-path}/Config.java" readonly="true"/> -->
+
+     </target>
+
 
     <!-- empty default post-compile target. Create a similar target in
          your build.xml and it'll be called instead of this one. -->
