@@ -465,12 +465,21 @@
       <target name="config" depends="clean">
 
       <property name="config-target-path" value="${source.dir}/com/brousalis"/>
+      <property name="config-target-path-xml" value="${source.dir}/../res/values"/>
 
       <!-- Copy the configuration file, replacing tokens in the file. -->
       <copy file="config/Config.java" todir="${config-target-path}"
             overwrite="true" encoding="utf-8">
        <filterset>
         <filter token="CONFIG.LOGGING" value="${config.logging}"/>
+       </filterset>
+      </copy>
+      
+      <copy file="config/generated_strings.xml" todir="${config-target-path-xml}"
+            overwrite="true" encoding="utf-8">
+       <filterset>
+        <filter token="CONFIG.DATAROOT" value="${config.dataroot}"/>
+        <filter token="CONFIG.MAPSKEY" value="${config.mapskey}"/>
        </filterset>
       </copy>
 
