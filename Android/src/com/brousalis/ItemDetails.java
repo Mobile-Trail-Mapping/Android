@@ -44,7 +44,7 @@ public class ItemDetails extends Activity {
 		// Do that, then this
 		// Line gets uncommented.
 		// condition.setText(_extras.get("title").toString())
-		int numPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.root_data_url) + getString(R.string.photo_path) + _id));
+		int numPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + _id));
 		if(numPhotos > 0) {
 			g.setAdapter(new ImageAdapter(this, _id, numPhotos));
 	

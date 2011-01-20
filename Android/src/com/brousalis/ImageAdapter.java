@@ -17,12 +17,13 @@ public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     
     private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
-    private static final String WEB_FOLDER = "http://www.fernferret.com/mtm/images/";
+    private static String WEB_FOLDER;
     
     private int mNumberOfImages;
     private String mGalleryImageFolder;
     
     public ImageAdapter(Context c, int pointID, int numOfPictures ) {
+    	WEB_FOLDER = c.getString(R.string.actual_data_root) + c.getString(R.string.photo_path);
     	mContext = c;
     	mNumberOfImages = numOfPictures;
     	mGalleryImageFolder = DATA_FOLDER + pointID + "/";
@@ -35,11 +36,11 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     private void verifyImageCache(int pointID) {
-    	// On the server, images begin with 1
+    	// On the server, images begin with 1, but here it's much easier to keep them 0 indexed.
     	for(int i = 1; i <= mNumberOfImages; i++) {
-			File imageFile = new File(DATA_FOLDER + pointID + "/" + i + ".png");
+			File imageFile = new File(DATA_FOLDER + pointID + "/" + (i-1) + ".png");
 			if(!imageFile.exists()) {
-				NetUtils.DownloadFromUrl(WEB_FOLDER + pointID + "/" + i + ".png", i + ".png", mGalleryImageFolder);
+				NetUtils.DownloadFromUrl(WEB_FOLDER + pointID + "/" + i, (i-1) + ".png", mGalleryImageFolder);
 			}
 		}
     }
