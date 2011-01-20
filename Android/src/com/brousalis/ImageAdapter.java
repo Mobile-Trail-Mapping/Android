@@ -34,7 +34,8 @@ public class ImageAdapter extends BaseAdapter {
         mGalleryItemBackground = a.getResourceId(R.styleable.DetailGallery_android_galleryItemBackground, 0);
         a.recycle();
     }
-
+    
+    // TODO: Document this method.  It is very confusing and needs to be refactored.
     private void verifyImageCache(int pointID) {
     	// On the server, images begin with 1, but here it's much easier to keep them 0 indexed.
     	for(int i = 1; i <= mNumberOfImages; i++) {
