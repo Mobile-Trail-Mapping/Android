@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- All of these variables should be switched out for different build configurations -->
+	<!-- All of these variables should be switched out for different build configurations --><!--
 	
 	<string name="actual_data_root" test="root_test_url" beta="root_data_url" prod="root_data_url">@string/root_test_url</string>
 	<string name="actual_maps_key" test="maps_api_key_beta" beta="maps_api_key" prod="maps_api_key">@string/maps_api_key_beta</string>
-</resources>
+--></resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- These are Auto-Generated Strings.  Do NOT touch this file -->
+	<!-- This file was formerly build_variables.xml and has now been automated -->
+	<!-- The template file to edit is located in config/generated_strings.xml -->
+    <string name="actual_data_root">@string/@CONFIG.DATAROOT@</string>
+    <string name="actual_maps_key">@string/@CONFIG.MAPSKEY@</string>
+</resources>

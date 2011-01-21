@@ -4,3 +4,4 @@ gen/
 secure.properties
 res/values/generated_strings.xml
 src/com/brousalis/Config.java
+local.properties
