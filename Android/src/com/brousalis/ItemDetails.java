@@ -1,6 +1,7 @@
 package com.brousalis;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,8 @@ public class ItemDetails extends Activity {
 	private String _summary;
 	private String _title;
 	private String _category;
+	
+	private Gallery mGallery;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class ItemDetails extends Activity {
 		// Load Views from XML
 		TextView title = (TextView) this.findViewById(R.id.detail_title);
 		TextView summary = (TextView) this.findViewById(R.id.detail_summary);
-		Gallery g = (Gallery) this.findViewById(R.id.gallery);
+		mGallery = (Gallery) this.findViewById(R.id.gallery);
 		TextView condition = (TextView)this.findViewById(R.id.detail_condition);
 
 		// Set values of the textViews
@@ -46,15 +49,15 @@ public class ItemDetails extends Activity {
 		// condition.setText(_extras.get("title").toString())
 		int numPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + _id));
 		if(numPhotos > 0) {
-			g.setAdapter(new ImageAdapter(this, _id, numPhotos));
+			mGallery.setAdapter(new ImageAdapter(this, _id, numPhotos));
 	
-		    g.setOnItemClickListener(new OnItemClickListener() {
+		    mGallery.setOnItemClickListener(new OnItemClickListener() {
 		        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		            Toast.makeText(ItemDetails.this, "" + position, Toast.LENGTH_SHORT).show();
 		        }
 		    });
 		} else {
-			g.setVisibility(View.GONE);
+			mGallery.setVisibility(View.GONE);
 		}
 		
 	}

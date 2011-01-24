@@ -37,6 +37,8 @@ public class ImageAdapter extends BaseAdapter {
     
     // TODO: Document this method.  It is very confusing and needs to be refactored.
     private void verifyImageCache(int pointID) {
+
+    		
     	// On the server, images begin with 1, but here it's much easier to keep them 0 indexed.
     	for(int i = 1; i <= mNumberOfImages; i++) {
 			File imageFile = new File(DATA_FOLDER + pointID + "/" + (i-1) + ".png");
@@ -70,4 +72,5 @@ public class ImageAdapter extends BaseAdapter {
 
         return i;
     }
+
 }
