@@ -8,11 +8,10 @@ import android.view.Window;
 import android.widget.Button;
 
 /**
- * BetaDialog is a custom extension of the Dialog class that
- * will allow us to show any popups related to the android
- * beta program.
+ * BetaDialog is a custom extension of the Dialog class that will allow us to show any popups related to the android beta program.
+ * 
  * @author Eric Stokes 10/28/2010
- *
+ * 
  */
 public class BetaDialog extends Dialog {
 	
@@ -21,6 +20,7 @@ public class BetaDialog extends Dialog {
 	
 	/**
 	 * Constructor for a new BetaDialog
+	 * 
 	 * @param context The context to create it within
 	 * @param xmlToLoad The XML File to set as the content
 	 */
@@ -34,7 +34,7 @@ public class BetaDialog extends Dialog {
 		// We'll always have a cancel button
 		_cancelButton = (Button) this.findViewById(R.id.beta_user_cancel);
 		
-		if((Button) this.findViewById(R.id.beta_user_submit) != null) {
+		if ((Button) this.findViewById(R.id.beta_user_submit) != null) {
 			_submitButton = (Button) this.findViewById(R.id.beta_user_submit);
 		}
 		
@@ -44,7 +44,7 @@ public class BetaDialog extends Dialog {
 				
 			}
 		});
-
+		
 		this.setCancelAction(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -53,14 +53,15 @@ public class BetaDialog extends Dialog {
 		});
 		
 	}
-
+	
 	/**
 	 * Set the click listener of the Cancel Button
+	 * 
 	 * @param clickListener This will become the click listener of the cancel button
 	 * @return true for success, false for failure
 	 */
 	public boolean setCancelAction(View.OnClickListener clickListener) {
-		if(_cancelButton != null) {
+		if (_cancelButton != null) {
 			_cancelButton.setOnClickListener(clickListener);
 			
 			return true;
@@ -70,11 +71,12 @@ public class BetaDialog extends Dialog {
 	
 	/**
 	 * Set the click listener of the Submit Button
+	 * 
 	 * @param clickListener This will become the click listener of the submit button
 	 * @return true for success, false for failure
 	 */
 	public boolean setSubmitAction(View.OnClickListener clickListener) {
-		if(_submitButton != null) {
+		if (_submitButton != null) {
 			_submitButton.setOnClickListener(clickListener);
 			return true;
 		}
@@ -82,25 +84,22 @@ public class BetaDialog extends Dialog {
 	}
 	
 	/**
-	 * Override the onBackPressed to cancel out 
-	 * of the dialog class. This is done so users 
-	 * cannot close out of this dialog
+	 * Override the onBackPressed to cancel out of the dialog class. This is done so users cannot close out of this dialog
 	 */
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		//super.onBackPressed();
+		// super.onBackPressed();
 		this.cancel();
 	}
 	
 	/**
-	 * Override the onSearchRequested to do nothing.
-	 * This method, when returns true, closes the dialog.
+	 * Override the onSearchRequested to do nothing. This method, when returns true, closes the dialog.
 	 */
 	@Override
 	public boolean onSearchRequested() {
 		// TODO Auto-generated method stub
 		return false;
-		//return super.onSearchRequested();
+		// return super.onSearchRequested();
 	}
 }
