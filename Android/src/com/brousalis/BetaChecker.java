@@ -2,6 +2,12 @@ package com.brousalis;
 
 import java.net.*;
 
+/**
+ * BetaChecker provides the means to ensure users are 
+ * runing the latest beta
+ * @author Eric Stokes 10/28/2010
+ *
+ */
 public class BetaChecker {
 
 	/**

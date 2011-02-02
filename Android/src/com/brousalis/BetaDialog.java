@@ -19,6 +19,11 @@ public class BetaDialog extends Dialog {
 	private Button _cancelButton;
 	private Button _submitButton;
 	
+	/**
+	 * Constructor for a new BetaDialog
+	 * @param context The context to create it within
+	 * @param xmlToLoad The XML File to set as the content
+	 */
 	public BetaDialog(Context context, int xmlToLoad) {
 		super(context);
 		
@@ -76,6 +81,11 @@ public class BetaDialog extends Dialog {
 		return false;
 	}
 	
+	/**
+	 * Override the onBackPressed to cancel out 
+	 * of the dialog class. This is done so users 
+	 * cannot close out of this dialog
+	 */
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -83,6 +93,10 @@ public class BetaDialog extends Dialog {
 		this.cancel();
 	}
 	
+	/**
+	 * Override the onSearchRequested to do nothing.
+	 * This method, when returns true, closes the dialog.
+	 */
 	@Override
 	public boolean onSearchRequested() {
 		// TODO Auto-generated method stub
