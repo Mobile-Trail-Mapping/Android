@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-
+/**
+ * The adapter that allows the GalleryView to display multiple images.
+ * @author ericstokes
+ *
+ */
 public class ImageAdapter extends BaseAdapter {
     int mGalleryItemBackground;
     private Context mContext;

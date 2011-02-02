@@ -17,6 +17,11 @@ import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
+/**
+ * DataHandler allows parsing of trails XML from an online source.
+ * @author ericstokes
+ *
+ */
 public class DataHandler {
 	
 	private Trail _trail;
