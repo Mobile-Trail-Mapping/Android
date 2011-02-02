@@ -7,7 +7,11 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.util.Log;
-
+/**
+ * Preference Activity
+ * @author ericstokes
+ *
+ */
 public class TrailPrefs extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

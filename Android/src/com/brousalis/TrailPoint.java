@@ -12,7 +12,11 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
-
+/**
+ * Represents a single Point on the trail.
+ * @author ericstokes
+ *
+ */
 public class TrailPoint extends InterestPoint {
 	
 	private Trail _trail;
