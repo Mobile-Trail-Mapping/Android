@@ -13,7 +13,11 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
-
+/**
+ * The drawable object that represents the location the user is on the map.
+ * @author ericstokes
+ *
+ */
 public class LocationMarker extends Overlay {
 	
 	private GeoPoint _point;

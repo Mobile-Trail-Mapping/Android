@@ -10,7 +10,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 /**
- * Provides the means necessary to draw the current location
+ * Provides a LocationListner to recieve updates about the location
  * 
  * @author ericstokes 11/20/2010
  * 
