@@ -2,3 +2,7 @@
 IconStaging/
 secret.xml
 photos/
+
+# Doxygen
+Documentation/
+debug.txt
