@@ -39,7 +39,11 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-
+/**
+ * The Primary Application Class
+ * @author ericstokes
+ *
+ */
 public class ShowMap extends MapActivity {
 	
 	private static final int HTC_SENSE_ENTER = 0;
