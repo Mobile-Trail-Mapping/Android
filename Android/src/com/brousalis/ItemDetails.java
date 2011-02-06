@@ -9,7 +9,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/**
+ * The ItemDetails Activity that is in charge of populating and showing the information when someone clicks on an important point.
+ * @author ericstokes
+ *
+ */
 public class ItemDetails extends Activity {
 
 	private Bundle _extras;

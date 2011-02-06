@@ -12,11 +12,21 @@ import org.apache.http.util.ByteArrayBuffer;
 
 import android.util.Log;
 
+/**
+ * Utility class that provides multiple network communication methods
+ * 
+ * @author ericstokes
+ * 
+ */
 public class NetUtils {
-	
+	/**
+	 * Location to store files at where no other applications can get to it.
+	 */
 	private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
+	
 	/**
 	 * Get the return data from a specific HTTP connection.
+	 * 
 	 * @param url The url to request data from.
 	 * @return The resulting string from the request.
 	 */
@@ -40,8 +50,8 @@ public class NetUtils {
 	}
 	
 	/**
-	 * Downloads a file from a url and places it in the data directory named the
-	 * output filename. This function is intended to work with images.
+	 * Downloads a file from a url and places it in the data directory named the output filename. This function is intended to work with images.
+	 * 
 	 * @param fileURL The Url of the file to download
 	 * @param outputFileName Name of the file to output. Cannot contain ANY '/'s!!!
 	 * @param dataPath Path to the folder where the file will be stored
@@ -57,35 +67,39 @@ public class NetUtils {
 			fileDirectory.mkdirs();
 			
 			URLConnection urlConnect = url.openConnection();
-
+			
 			InputStream inputStream = urlConnect.getInputStream();
 			BufferedInputStream bInputStream = new BufferedInputStream(inputStream);
-
+			
 			/* Read the buffered input to a ByteArrayBuffer */
 			ByteArrayBuffer bArrayBuffer = new ByteArrayBuffer(50);
 			int current = 0;
 			while ((current = bInputStream.read()) != -1) {
 				bArrayBuffer.append((byte) current);
 			}
-
+			
 			/* Save the file to disk in our private directory */
 			FileOutputStream output = new FileOutputStream(dataPath + file);
 			output.write(bArrayBuffer.toByteArray());
 			output.close();
 			
-
 		} catch (IOException e) {
 			Log.d("ImageManager", "Error: " + e);
 		}
-
+		
 	}
-
+	
+	/**
+	 * Deletes a folder from the local filesystem. 
+	 * 
+	 * @param id The folder to delete. Folders are simply numbers.
+	 */
 	public static void deleteFolder(int id) {
 		File fileDirectory = new File(DATA_FOLDER + id + "/");
-		if(fileDirectory.exists()) {
+		if (fileDirectory.exists()) {
 			File[] files = fileDirectory.listFiles();
 			
-			for(File f : files) {
+			for (File f : files) {
 				f.delete();
 			}
 			
