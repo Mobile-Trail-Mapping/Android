@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
@@ -366,7 +367,7 @@ public class ShowMap extends MapActivity {
 		// loaded.
 		this.initLocation();
 		this.initializeParser();
-		this.drawTrail();
+		
 		Log.w(MTM, "MTM: onStart()");
 	}
 	
@@ -374,8 +375,7 @@ public class ShowMap extends MapActivity {
 	 * Initialize the XML Parser and Parse the data from the url.
 	 */
 	private void initializeParser() {
-		this.mDataHandler = new DataHandler(getString(R.string.actual_data_root) + getString(R.string.trail_path));
-		this.mDataHandler.parseDocument();
+		new AsyncXMLDownloader().execute();
 	}
 
 	/**
@@ -566,6 +566,26 @@ public class ShowMap extends MapActivity {
 		
 		for(TrailPoint tp : trailPoints) {
 			NetUtils.deleteFolder(tp.getID());
+		}
+		
+	}
+	private class AsyncXMLDownloader extends AsyncTask<String, Void, Void> {
+
+		public AsyncXMLDownloader() {
+
+		}
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			mDataHandler = new DataHandler(getString(R.string.actual_data_root) + getString(R.string.trail_path));
+			mDataHandler.parseDocument();
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			drawTrail();
+			super.onPostExecute(result);
 		}
 		
 	}
