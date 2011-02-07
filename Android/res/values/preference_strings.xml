@@ -32,4 +32,7 @@
     <string name="key_logged_in">LOGGED_IN</string>
     <string name="key_login_preference">KEY_LOGIN_PREF</string>
     <string name="key_logout_preference">KEY_LOGOUT_PREF</string>
+    <string name="key_username">KEY_USERNAME</string>
+    <string name="key_password">KEY_PASSWORD</string>
+    <string name="key_community">KEY_COMMUNITY</string>
 </resources>

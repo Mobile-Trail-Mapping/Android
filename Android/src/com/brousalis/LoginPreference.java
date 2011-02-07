@@ -30,6 +30,7 @@ public class LoginPreference extends DialogPreference implements DialogInterface
 		View v = super.onCreateDialogView();
 		mUsername = (EditText)v.findViewById(R.id.login_username);
 		mPassword = (EditText)v.findViewById(R.id.login_password);
+		mUsername.setText(mSettings.getString(mContext.getString(R.string.key_username), ""));
 		return v;
 	}
 	
@@ -40,16 +41,18 @@ public class LoginPreference extends DialogPreference implements DialogInterface
 			HashMap<String, String> credentials = new HashMap<String, String>();
 			
 			String password = NetUtils.hashStringSHA(mPassword.getText().toString());
-			
+			String username = mUsername.getText().toString();
 			String postingURL = mContext.getString(R.string.actual_data_root) + "user/check";
 			
-			credentials.put("user", mUsername.getText().toString());
+			credentials.put("user", username);
 			credentials.put("pwhash", password);
 
 			String result = NetUtils.postHTTPData(credentials, postingURL);
 			if(result.equals("true")) {
 				Editor editor = mSettings.edit();
 				editor.putBoolean(mContext.getString(R.string.key_logged_in), true);
+				editor.putString(mContext.getString(R.string.key_username), username);
+				editor.putString(mContext.getString(R.string.key_password), password);
 				editor.commit();
 			} else {
 				// Show an error dialog.
