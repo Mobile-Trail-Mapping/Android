@@ -24,10 +24,14 @@
 	<PreferenceCategory
 		android:title="@string/category_community"
 		android:key="@string/key_community">
-		<Preference
+		<com.brousalis.ConfirmPreference
+			android:key="@string/key_logout_preference"
 			android:title="@string/title_logout"
 			android:summary="@string/summary_logout"
-			android:key="@string/key_logout_preference"/>
+			android:dialogTitle="@string/title_logout"
+			android:dialogMessage="Are you sure you want to logout?"
+			android:negativeButtonText="@string/cancel"
+			android:positiveButtonText="@string/ok"/>
 		<com.brousalis.LoginPreference
 			android:key="@string/key_login_preference"
 			android:title="@string/login_title"

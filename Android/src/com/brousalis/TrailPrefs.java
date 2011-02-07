@@ -3,6 +3,7 @@ package com.brousalis;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -18,7 +19,7 @@ import android.util.Log;
  * @author ericstokes
  * 
  */
-public class TrailPrefs extends PreferenceActivity implements OnPreferenceChangeListener {
+public class TrailPrefs extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	
 	SharedPreferences mSettings;
 	
@@ -34,7 +35,7 @@ public class TrailPrefs extends PreferenceActivity implements OnPreferenceChange
 		
 		mLogoutPref = findPreference(getString(R.string.key_logout_preference));
 		mLoginPref = (LoginPreference) findPreference(getString(R.string.key_login_preference));
-		PreferenceGroup mCommunityPrefCategory = ((PreferenceGroup) getPreferenceScreen().findPreference(getString(R.string.key_community)));
+		mCommunityPrefCategory = ((PreferenceGroup) getPreferenceScreen().findPreference(getString(R.string.key_community)));
 		
 		// If the user has authenticated before
 		if (mSettings.getBoolean(getString(R.string.key_logged_in), false) &&
@@ -52,7 +53,14 @@ public class TrailPrefs extends PreferenceActivity implements OnPreferenceChange
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+		super.onPause();
 	}
 	
 	@Override
@@ -65,15 +73,42 @@ public class TrailPrefs extends PreferenceActivity implements OnPreferenceChange
 			setResult(Activity.RESULT_OK, finished);
 			finish();
 		}
-		return true;
-	}
-	
-	@Override
-	public boolean onPreferenceChange(Preference preference, Object newValue) {
+		
 		if(preference.getKey().equals(mLogoutPref.getKey())) {
 			// User has logged out
-			
+			Log.w(ShowMap.MTM, "User has requested Logout");
+			PreferenceGroup communitySettings = ((PreferenceGroup)preferenceScreen.findPreference(getString(R.string.key_community)));
+			//communitySettings.removePreference(mLogoutPref);
+			//communitySettings.addPreference(mLoginPref);
 		}
-		return false;
+		
+		if(preference.getKey().equals(mLoginPref.getKey())) {
+			// User has tried to login
+			Log.w(ShowMap.MTM, "User has requested Login");
+			//mCommunityPrefCategory.removePreference(mLogoutPref);
+		}
+		
+		return true;
 	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		Log.d(ShowMap.MTM, "Preference has changed.");
+		if(key.equals(getString(R.string.key_logged_in))) {
+			if(sharedPreferences.getBoolean(key, false)) {
+				// If the user just logged in
+				Log.w(ShowMap.MTM, "User Just logged in.");
+				mCommunityPrefCategory.removePreference(mLoginPref);
+				mCommunityPrefCategory.addPreference(mLogoutPref);
+				
+			} else {
+				// If the user just logged out or failed login
+				Log.w(ShowMap.MTM, "User Just logged out or failed login.");
+				mCommunityPrefCategory.removePreference(mLogoutPref);
+				mCommunityPrefCategory.addPreference(mLoginPref);
+				
+			}
+		}
+	}
+	
 }
