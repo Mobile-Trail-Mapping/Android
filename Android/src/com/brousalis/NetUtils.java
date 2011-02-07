@@ -7,7 +7,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.ByteArrayBuffer;
 
 import android.util.Log;
@@ -47,6 +62,57 @@ public class NetUtils {
 			e.printStackTrace();
 		}
 		return httpResult;
+	}
+	
+	public static String hashStringSHA(String str) {
+		try {
+			MessageDigest digest = java.security.MessageDigest.getInstance("SHA-1");
+			digest.update(str.getBytes());
+			byte messageDigest[] = digest.digest();
+			
+			// Create Hex String
+			StringBuffer hexString = new StringBuffer();
+	        for (int i = 0; i < messageDigest.length; i++) {
+	            String h = Integer.toHexString(0xFF & messageDigest[i]);
+	            while (h.length() < 2)
+	                h = "0" + h;
+	            hexString.append(h);
+	        }
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "HASH ERROR";
+	}
+	
+	public static String postHTTPData(HashMap<String, String> items, String url) {
+		// Create a new HttpClient and Post Header
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(url);
+		
+		try {
+			// Add your data
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(items.size());
+			for (Map.Entry<String, String> s : items.entrySet()) {
+				nameValuePairs.add(new BasicNameValuePair(s.getKey(), s.getValue()));
+			}
+			
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			
+			// Execute HTTP Post Request
+			
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			String responseBody = httpclient.execute(httppost, responseHandler);
+			Log.w("MTM", responseBody);
+			return responseBody;
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+		return "ERROR fetching data";
 	}
 	
 	/**
@@ -90,7 +156,7 @@ public class NetUtils {
 	}
 	
 	/**
-	 * Deletes a folder from the local filesystem. 
+	 * Deletes a folder from the local filesystem.
 	 * 
 	 * @param id The folder to delete. Folders are simply numbers.
 	 */

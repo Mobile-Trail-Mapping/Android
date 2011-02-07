@@ -5,11 +5,12 @@
     <string name="category_community">Community Settings</string>
     <string name="category_debug">Debug Settings</string>
     
-    <!-- Community Settings Preference Item -->
-    <string name="title_email">Email address</string>
-    <string name="summary_email">Enter your email address to enable community features!</string>
-    <string name="dialog_title_email">Enter your email</string>
-    <string name="dialog_summary_email">Please enter your email address</string>
+    <!-- Logout Settings Preference Item -->
+    <string name="title_logout">Logout</string>
+    <string name="summary_logout">Remove this device from </string>
+    
+    <!-- Login Settings Preference Item -->
+    <string name="login_title">Admin Login</string>
     
     <!-- Default Zoom Preference Item -->
     <string name="title_default_zoom">Default Zoom</string>
@@ -27,4 +28,8 @@
     <string name="title_reset_images">Remove all Trail Images</string>
     <string name="summary_reset_images">Deletes all local images so they can be downloaded again.</string>
     <string name="key_reset_images">key_reset_images</string>
+    
+    <string name="key_logged_in">LOGGED_IN</string>
+    <string name="key_login_preference">KEY_LOGIN_PREF</string>
+    <string name="key_logout_preference">KEY_LOGOUT_PREF</string>
 </resources>

@@ -2,9 +2,11 @@ package com.brousalis;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 /**
@@ -13,10 +15,24 @@ import android.util.Log;
  *
  */
 public class TrailPrefs extends PreferenceActivity {
+	
+	SharedPreferences mSettings;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mSettings =  PreferenceManager.getDefaultSharedPreferences(this);
 		this.addPreferencesFromResource(R.xml.options);
+		
+		Preference logoutPref = findPreference(getString(R.string.key_logout_preference));
+		Preference loginPref = findPreference(getString(R.string.key_login_preference));
+		
+		// If the user has authenticated before
+		if (mSettings.getBoolean(getString(R.string.key_logged_in), false)) {
+            getPreferenceScreen().removePreference(loginPref);
+        } else {
+        	getPreferenceScreen().removePreference(logoutPref);
+        }
 	}
 	
 	@Override
