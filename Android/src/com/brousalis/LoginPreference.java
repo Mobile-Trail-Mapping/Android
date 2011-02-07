@@ -2,6 +2,7 @@ package com.brousalis;
 
 import java.util.HashMap;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -56,6 +57,12 @@ public class LoginPreference extends DialogPreference implements DialogInterface
 				editor.commit();
 			} else {
 				// Show an error dialog.
+				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+				AlertDialog error = builder.setTitle("Login Failed")
+				.setMessage("Sorry, incorrect username or password provided. Please try again.")
+				.setPositiveButton(R.string.ok, null).create();
+				error.show();
+				
 				//TODO: Show an error dialog.
 			}
 			// Try to do the login
