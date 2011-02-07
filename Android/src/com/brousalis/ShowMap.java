@@ -76,36 +76,37 @@ public class ShowMap extends MapActivity {
 	
 	private String mVersionName;
 	
-	private LocationMarker _locationMarker;
+	private LocationMarker mLocationMarker;
 
 	/**
 	 * The Standard Location manager for an Android Device
 	 */
-	private LocationManager _locMgr;
+	private LocationManager mLocationManager;
 
 	/**
 	 * The Map controller that allows us to retrieve or send information to our
-	 * _mapView
+	 * mMapView
 	 */
-	private MapController _mapController;
+	private MapController mMapController;
 
 	/**
 	 * MapView which will display trails to users
 	 */
-	private MapView _mapView;
+	private MapView mMapView;
 
 	/**
 	 * The settings object where both custom settings are stored as well as
 	 * settings set in the options dialog
 	 */
-	private SharedPreferences _settings;
+	private SharedPreferences mSettings;
 
-	private DataHandler _dataHandler;
+	private DataHandler mDataHandler;
 	
-	private static CurrentLocation _locationListen;
+	private static CurrentLocation mLocationListen;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 		String pkg = getPackageName();
 		try {
 			mVersionName = getPackageManager().getPackageInfo(pkg, 0).versionName;
@@ -120,12 +121,12 @@ public class ShowMap extends MapActivity {
 		thisActivity = ShowMap.this;
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
-		this._mapView = (MapView) findViewById(R.id.mapView);
-		this._mapView.setBuiltInZoomControls(true);
+		this.mMapView = (MapView) findViewById(R.id.mapView);
+		this.mMapView.setBuiltInZoomControls(true);
 
-		this._mapController = this._mapView.getController();
+		this.mMapController = this.mMapView.getController();
 		
-		this._locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+		this.mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		NetworkInfo cellConnMgr = ((ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE)).getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		NetworkInfo wifiConnMgr = ((ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE)).getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		
@@ -135,6 +136,7 @@ public class ShowMap extends MapActivity {
 		else {
 			//showNotConnectedDialog();
 		}
+		
 		Log.w(MTM, "MTM: onCreate()");
 		
 	}
@@ -147,8 +149,8 @@ public class ShowMap extends MapActivity {
 		TelephonyManager mTelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 		UNIQUE_ID = mTelephonyMgr.getDeviceId();
 
-		this._settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		Log.w(MTM, "MTM Settings: " + this._settings.getBoolean(REGISTERED_DEVICE, false));
+		
+		Log.w(MTM, "MTM Settings: " + this.mSettings.getBoolean(REGISTERED_DEVICE, false));
 		String idCheckResult = BetaChecker.checkUser( this.getString(R.string.register_device_url), UNIQUE_ID);
 		Boolean validUser = idCheckResult.equals("registered");
 		Boolean bannedUser = idCheckResult.equals("banned");
@@ -304,7 +306,7 @@ public class ShowMap extends MapActivity {
 	}
 	
 	public void registerDeviceLocally() {
-		SharedPreferences.Editor editor = this._settings.edit();
+		SharedPreferences.Editor editor = this.mSettings.edit();
 		editor.putBoolean(REGISTERED_DEVICE, true);
 		editor.commit();
 	}
@@ -319,10 +321,10 @@ public class ShowMap extends MapActivity {
 	public void onPause() {
 		super.onPause();
 		// Always save the location, regardless if the user wants to go here
-		SharedPreferences.Editor editor = this._settings.edit();
-		editor.putInt(SAVED_MAP_LAT, this._mapView.getMapCenter().getLatitudeE6());
-		editor.putInt(SAVED_MAP_LONG, this._mapView.getMapCenter().getLongitudeE6());
-		editor.putInt(SAVED_MAP_ZOOM, this._mapView.getZoomLevel());
+		SharedPreferences.Editor editor = this.mSettings.edit();
+		editor.putInt(SAVED_MAP_LAT, this.mMapView.getMapCenter().getLatitudeE6());
+		editor.putInt(SAVED_MAP_LONG, this.mMapView.getMapCenter().getLongitudeE6());
+		editor.putInt(SAVED_MAP_ZOOM, this.mMapView.getZoomLevel());
 		editor.commit();
 		Log.w(MTM, "MTM: onPause()");
 	}
@@ -372,8 +374,8 @@ public class ShowMap extends MapActivity {
 	 * Initialize the XML Parser and Parse the data from the url.
 	 */
 	private void initializeParser() {
-		this._dataHandler = new DataHandler(getString(R.string.actual_data_root) + getString(R.string.trail_path));
-		this._dataHandler.parseDocument();
+		this.mDataHandler = new DataHandler(getString(R.string.actual_data_root) + getString(R.string.trail_path));
+		this.mDataHandler.parseDocument();
 	}
 
 	/**
@@ -381,18 +383,18 @@ public class ShowMap extends MapActivity {
 	 */
 	private void drawTrail() {
 		HashSet<Trail> trails = getParsedTrails();
-		this._mapView.getOverlays().clear();
+		this.mMapView.getOverlays().clear();
 		for (Trail t : trails) {
 			t.resolveConnections();
-			this._mapView.getOverlays().addAll(t.getTrailPoints());
-			this._mapView.getOverlays().add(t);
+			this.mMapView.getOverlays().addAll(t.getTrailPoints());
+			this.mMapView.getOverlays().add(t);
 			
 		}
-		this._mapView.invalidate();
+		this.mMapView.invalidate();
 	}
 	
 	public HashSet<Trail> getParsedTrails() {
-		return this._dataHandler.getParsedTrails();
+		return this.mDataHandler.getParsedTrails();
 	}
 
 	/**
@@ -425,6 +427,8 @@ public class ShowMap extends MapActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_track_enable).setVisible(!GPS_TRACK);
 		menu.findItem(R.id.menu_track_disable).setVisible(GPS_TRACK);
+		// Only show the add point menu if the user is an admin.
+		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_logged_in), false));
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -447,10 +451,10 @@ public class ShowMap extends MapActivity {
 			this.startActivityForResult(settings, SETTINGS_REQUEST_CODE);
 			break;
 		case R.id.menu_center:
-			this.centerMapOnCurrentLocation(_settings.getBoolean(SAVED_ZOOM_ON_CENTER, true));
+			this.centerMapOnCurrentLocation(mSettings.getBoolean(SAVED_ZOOM_ON_CENTER, true));
 			break;
 		case R.id.menu_track_enable:
-			_locationListen = new CurrentLocation(_locationMarker, _mapView);
+			mLocationListen = new CurrentLocation(mLocationMarker, mMapView);
 			this.turnOnLocationUpdates();
 			GPS_TRACK = true;
 			break;
@@ -468,28 +472,28 @@ public class ShowMap extends MapActivity {
 	 */
 	private void initLocation() {
 		GeoPoint p;
-		this._settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-		p = new GeoPoint(this._settings.getInt(SAVED_MAP_LAT,DEFAULT_MAP_LAT), this._settings.getInt(SAVED_MAP_LONG,DEFAULT_MAP_LONG));
-		if (this._settings.getBoolean(SAVED_MAP_STATE, false)) {
+		this.mSettings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		p = new GeoPoint(this.mSettings.getInt(SAVED_MAP_LAT,DEFAULT_MAP_LAT), this.mSettings.getInt(SAVED_MAP_LONG,DEFAULT_MAP_LONG));
+		if (this.mSettings.getBoolean(SAVED_MAP_STATE, false)) {
 			
-			this._mapController.animateTo(p);
+			this.mMapController.animateTo(p);
 			// Zoom to the Saved Map zoom. If none is present, get the Saved
 			// Default zoom from the prefs.
 			// If that's not there, Use the DefaultMapZoom. That last one should
 			// NEVER happen
-			this._mapController.setZoom(this._settings.getInt(SAVED_MAP_ZOOM,Integer.parseInt(this._settings.getString(SAVED_DEFAULT_ZOOM,Integer.toString(DEFAULT_MAP_ZOOM)))));
-			this._mapView.setSatellite(true);
-			this._mapView.invalidate();
+			this.mMapController.setZoom(this.mSettings.getInt(SAVED_MAP_ZOOM,Integer.parseInt(this.mSettings.getString(SAVED_DEFAULT_ZOOM,Integer.toString(DEFAULT_MAP_ZOOM)))));
+			this.mMapView.setSatellite(true);
+			this.mMapView.invalidate();
 		} else {
 			this.centerMapOnCurrentLocation(false);
 		}
 		//this._mapView.getOverlays().add(new LocationMarker(p, R.drawable.dot, this));
 		Log.w(MTM, "MTM: Initializing Location Variables");
-		_locationMarker = new LocationMarker(p, R.drawable.dot, this);
-		//_locationListen = new CurrentLocation(this, _locationMarker, _mapView, 1);
+		mLocationMarker = new LocationMarker(p, R.drawable.dot, this);
+		//mLocationListen = new CurrentLocation(this, mLocationMarker, mMapView, 1);
 		//this.turnOnLocationUpdates();
-		_mapView.getOverlays().add(_locationMarker);
-		_mapView.invalidate();
+		mMapView.getOverlays().add(mLocationMarker);
+		mMapView.invalidate();
 	}
 
 	/**
@@ -501,22 +505,22 @@ public class ShowMap extends MapActivity {
 	 */
 	private void centerMapOnCurrentLocation(boolean zoomOnCenter) {
 		GeoPoint p;
-		Location networkLoc = _locMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		Location gpsLoc = _locMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		Location networkLoc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		Location gpsLoc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location recentLoc = (gpsLoc != null) ? gpsLoc : networkLoc;
 		// CSN01
 		// We can't just pull this from prefs, as this function is shared
 		// It's sometimes called by the initializer, not the "center me" button.
 		if (zoomOnCenter) {
-			this._mapController.setZoom(Integer.parseInt(_settings.getString(SAVED_DEFAULT_ZOOM, DEFAULT_MAP_ZOOM + "")));
+			this.mMapController.setZoom(Integer.parseInt(mSettings.getString(SAVED_DEFAULT_ZOOM, DEFAULT_MAP_ZOOM + "")));
 		}
 
 		if (recentLoc != null) {
 			p = new GeoPoint((int) (recentLoc.getLatitude() * 1E6),
 					(int) (recentLoc.getLongitude() * 1E6));
-			this._mapController.animateTo(p);
-			this._mapView.setSatellite(true);
-			this._mapView.invalidate();
+			this.mMapController.animateTo(p);
+			this.mMapView.setSatellite(true);
+			this.mMapView.invalidate();
 		}
 	}
 	
@@ -524,10 +528,10 @@ public class ShowMap extends MapActivity {
 	 * Enable Location based updating automatically.
 	 */
 	private void turnOnLocationUpdates() {
-		if (_locMgr != null) {
-		_locMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
+		if (mLocationManager != null) {
+		mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-		_locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_UPDATE_TIME, GPS_UPDATE_DISTANCE,_locationListen);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_UPDATE_TIME, GPS_UPDATE_DISTANCE,mLocationListen);
 		}
 	}
 	
@@ -535,8 +539,8 @@ public class ShowMap extends MapActivity {
 	 * Turn off GPS Updates, saves us lots of battery.
 	 */
 	public void turnOffLocationUpdates() {
-		if (_locMgr != null)
-		_locMgr.removeUpdates(_locationListen);
+		if (mLocationManager != null)
+		mLocationManager.removeUpdates(mLocationListen);
 	}
 	
 	@Override
