@@ -12,7 +12,11 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
-
+/**
+ * Custom preference that displays login fields.
+ * @author ericstokes 2/7/2011
+ *
+ */
 public class LoginPreference extends DialogPreference implements DialogInterface.OnClickListener{
 	
 	Context mContext;
