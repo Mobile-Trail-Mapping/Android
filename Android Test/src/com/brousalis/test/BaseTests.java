@@ -123,24 +123,24 @@ public class BaseTests extends ActivityInstrumentationTestCase2<ShowMap> {
 		Log.w("MTM", "MTM: Center A = " + mView.getMapCenter());
 	}
 	
-	public void testMoveMapThenCloseAndReOpen() {
-		rotateToPortrait();
-		GeoPoint p1 = mView.getMapCenter();
-
-		TouchUtils.dragQuarterScreenDown(this, mActivity);
-		TouchUtils.longClickView(this, mView);
-		GeoPoint p2 = mView.getMapCenter();
-		
-		closeActivity();
-		openActivity();
-		
-		GeoPoint p3 = mView.getMapCenter();
-		
-		//assertFalse("P2 is On Center",p2.equals(p1));
-		assertEquals(p2, p1);
-		assertEquals("P3 did not resume in the same location as P2 Center",p3, p2);
-		
-	}
+//	public void testMoveMapThenCloseAndReOpen() {
+//		rotateToPortrait();
+//		GeoPoint p1 = mView.getMapCenter();
+//
+//		TouchUtils.dragQuarterScreenDown(this, mActivity);
+//		TouchUtils.longClickView(this, mView);
+//		GeoPoint p2 = mView.getMapCenter();
+//		
+//		closeActivity();
+//		openActivity();
+//		
+//		GeoPoint p3 = mView.getMapCenter();
+//		
+//		//assertFalse("P2 is On Center",p2.equals(p1));
+//		assertEquals(p2, p1);
+//		assertEquals("P3 did not resume in the same location as P2 Center",p3, p2);
+//		
+//	}
 
 	public void testZoomLevel() {
 		assertEquals(initialZoomLevel,mView.getZoomLevel());
