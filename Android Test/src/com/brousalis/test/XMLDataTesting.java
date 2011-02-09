@@ -7,7 +7,11 @@ import com.brousalis.DataHandler;
 import com.brousalis.ShowMap;
 import com.brousalis.Trail;
 import com.google.android.maps.MapView;
-
+/**
+ * Tests that ensure that the XML documentation is being parsed correctly.
+ * @author ericstokes
+ *
+ */
 public class XMLDataTesting extends ActivityInstrumentationTestCase2<ShowMap> {
 	
 public static final int GOOD_ZOOM_LEVEL = 17;
@@ -42,7 +46,7 @@ public static final int GOOD_ZOOM_LEVEL = 17;
 		Trail t = handler.getParsedTrail(ALT_TRAIL_NAME);
 		t.resolveConnections();
 		//HashSet<Trail> trails = handler.getParsedTrails();
-		assertEquals("Trail: "+ALT_TRAIL_NAME+" (4 TrailPoints)", t.toString());
+		assertEquals("Trail: "+ALT_TRAIL_NAME+" (76 TrailPoints)", t.toString());
 		assertEquals(17,t.getTrailPoint(17).getID());
 		assertEquals(1,t.getTrailPoint(17).getConnections().size());
 		assertEquals(1,t.getTrailPoint(17).getCategoryID());

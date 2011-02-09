@@ -8,7 +8,7 @@
     <string name="root_data_url">http://mtmserver.heroku.com/</string>
     <string name="root_test_url">http://mtmtest.heroku.com/</string>
     <string name="photo_path">image/get/</string>
-    <string name="trail_path">point/get/</string>
+    <string name="trail_path">point/get</string>
     <string name="beta">true</string>
     
     <!-- Common Button Actions -->
@@ -18,4 +18,10 @@
     <string name="enter">Enter</string>
     <string name="close">Close</string>
     <string name="update">Update</string>
+    <string name="login">Login</string>
+    
+    <!-- Activity Titles -->
+    <string name="title_add_point">Add A New Point</string>
+    <string name="title_details">Location Details</string>
+    <string name="title_options">Trail Options</string>
 </resources>

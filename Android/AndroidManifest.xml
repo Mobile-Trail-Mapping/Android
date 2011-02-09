@@ -2,8 +2,8 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.brousalis"
-	android:versionName="0.0.7"
-	android:versionCode="7">
+	android:versionName="0.0.9"
+	android:versionCode="9">
 	<application
 		android:icon="@drawable/icon"
 		android:label="@string/app_name"
@@ -13,38 +13,29 @@
 			android:label="@string/app_name"
 			android:configChanges="orientation">
 			<intent-filter>
-				<action
-					android:name="android.intent.action.MAIN"/>
-				<category
-					android:name="android.intent.category.LAUNCHER"/>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
 		<activity
 			android:name=".TrailPrefs"
-			android:label="Trail Map Options">
-		</activity>
+			android:label="@string/title_options"/>
 		<activity
 			android:name=".ItemDetails"
-			android:label="Location Details">
-		</activity>
+			android:label="@string/title_details"/>
+		<activity
+			android:name=".AddPoint"
+			android:label="@string/title_add_point"/>
 		<uses-library
 			android:name="com.google.android.maps"
-			android:required="true"></uses-library>
+			android:required="true"/>
 	</application>
-	<uses-sdk
-		android:minSdkVersion="7"/>
-	<uses-permission
-		android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-	<uses-permission
-		android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-	<uses-permission
-		android:name="android.permission.INTERNET"></uses-permission>
-	<uses-permission
-		android:name="android.permission.ACCESS_MOCK_LOCATION"></uses-permission>
-	<uses-permission
-		android:name="android.permission.CAMERA"></uses-permission>
-	<uses-permission
-		android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-	<uses-permission
-		android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+	<uses-sdk android:minSdkVersion="7"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"></uses-permission>
+	<uses-permission android:name="android.permission.CAMERA"></uses-permission>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
 </manifest>

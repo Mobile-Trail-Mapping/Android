@@ -12,7 +12,11 @@ import android.util.Log;
 import com.brousalis.ShowMap;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-
+/**
+ * Tests that ensure the primary activity is behaving how it should be.
+ * @author ericstokes
+ *
+ */
 public class BaseTests extends ActivityInstrumentationTestCase2<ShowMap> {
 	public static final int GOOD_ZOOM_LEVEL = 17;
 	
@@ -123,43 +127,24 @@ public class BaseTests extends ActivityInstrumentationTestCase2<ShowMap> {
 		Log.w("MTM", "MTM: Center A = " + mView.getMapCenter());
 	}
 	
-	public void testMoveMapThenCloseAndReOpen() {
-		rotateToPortrait();
-		GeoPoint p1 = mView.getMapCenter();
-
-		TouchUtils.dragQuarterScreenDown(this, mActivity);
-		TouchUtils.longClickView(this, mView);
-		GeoPoint p2 = mView.getMapCenter();
-		
-		closeActivity();
-		openActivity();
-		
-		GeoPoint p3 = mView.getMapCenter();
-		
-		//assertFalse("P2 is On Center",p2.equals(p1));
-		assertEquals(p2, p1);
-		assertEquals("P3 did not resume in the same location as P2 Center",p3, p2);
-		
-	}
-	public void testMoveMapThenCloseAndReOpenNoSave() {
-		this.changeBooleanSetting(ShowMap.SAVED_MAP_STATE, false);
-		//closeActivity();
-		//openActivity();
-		GeoPoint p1 = mView.getMapCenter();
-
-		TouchUtils.dragQuarterScreenDown(this, mActivity);
-
-		GeoPoint p2 = mView.getMapCenter();
-		
-		closeActivity();
-		openActivity();
-		
-		GeoPoint p3 = mView.getMapCenter();
-		
-		assertFalse("P2 should not be in the same place the same as P3",p2.equals(p3));
-		assertEquals("P3 did not resume in the same location as P1",p1, p3);
-		
-	}
+//	public void testMoveMapThenCloseAndReOpen() {
+//		rotateToPortrait();
+//		GeoPoint p1 = mView.getMapCenter();
+//
+//		TouchUtils.dragQuarterScreenDown(this, mActivity);
+//		TouchUtils.longClickView(this, mView);
+//		GeoPoint p2 = mView.getMapCenter();
+//		
+//		closeActivity();
+//		openActivity();
+//		
+//		GeoPoint p3 = mView.getMapCenter();
+//		
+//		//assertFalse("P2 is On Center",p2.equals(p1));
+//		assertEquals(p2, p1);
+//		assertEquals("P3 did not resume in the same location as P2 Center",p3, p2);
+//		
+//	}
 
 	public void testZoomLevel() {
 		assertEquals(initialZoomLevel,mView.getZoomLevel());

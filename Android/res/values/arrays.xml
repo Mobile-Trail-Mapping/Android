@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string-array name="DefaultZoomsHuman"><item>Street</item>
-<item>Park</item>
-<item>City</item>
-<item>County</item>
-<item>State</item>
-<item>Country</item>
-</string-array>
-<string-array name="DefaultZoomsInts"><item>19</item>
-<item>17</item>
-<item>14</item>
-<item>12</item>
-<item>9</item>
-<item>5</item>
-</string-array>
+	<string-array name="DefaultZoomsHuman"><item>Street</item>
+		<item>Park</item>
+		<item>City</item>
+		<item>County</item>
+		<item>State</item>
+		<item>Country</item>
+	</string-array>
+	<string-array name="DefaultZoomsInts"><item>19</item>
+		<item>17</item>
+		<item>14</item>
+		<item>12</item>
+		<item>9</item>
+		<item>5</item>
+	</string-array>
+	<string-array name="DefaultPointCategories">
+		<item>Trail Head</item>
+		<item>Trail Point</item>
+		<item>Restroom</item>
+		<item>Parking</item>
+		<item>Info Board</item>
+		<item>Bike Rack</item>
+		<item>Drinking Fountain</item>
+		<item>Playground</item>
+	</string-array>
 </resources>

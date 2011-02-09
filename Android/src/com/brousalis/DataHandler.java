@@ -43,6 +43,7 @@ public class DataHandler {
 	 */
 	public DataHandler(String XMLFILE) {
 		Log.w("MTM", "Handler initialized");
+		Log.w("MTM", "Document Location:" + XMLFILE);
 		_trails = new HashSet<Trail>();
 		_factory = DocumentBuilderFactory.newInstance();
 		try {
@@ -64,6 +65,7 @@ public class DataHandler {
 			e.printStackTrace();
 		}
 		Log.w("MTM", "Parsing Document...");
+		
 		if (_doc != null) {
 			extractTrails(_doc);
 		} else {

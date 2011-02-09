@@ -22,14 +22,22 @@
 			android:defaultValue="15"/>
 	</PreferenceCategory>
 	<PreferenceCategory
-		android:title="@string/category_community">
-		<EditTextPreference
-			android:dialogTitle="@string/dialog_title_email"
-			android:dialogMessage="@string/dialog_summary_email"
-			android:title="@string/title_email"
-			android:summary="@string/summary_email"
-			android:key="emailAddressPref"
-			android:enabled="false"/>
+		android:title="@string/category_community"
+		android:key="@string/key_community">
+		<com.brousalis.ConfirmPreference
+			android:key="@string/key_logout_preference"
+			android:title="@string/title_logout"
+			android:summary="@string/summary_logout"
+			android:dialogTitle="@string/title_logout"
+			android:dialogMessage="Are you sure you want to logout?"
+			android:negativeButtonText="@string/cancel"
+			android:positiveButtonText="@string/ok"/>
+		<com.brousalis.LoginPreference
+			android:key="@string/key_login_preference"
+			android:title="@string/login_title"
+			android:negativeButtonText="@string/cancel"
+			android:positiveButtonText="@string/login"
+			android:dialogLayout="@layout/login_dialog"/>
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/category_debug">

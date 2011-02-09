@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		style="@style/HorizontalLayoutPref">
+		<ImageView
+			android:id="@+id/picture_preview"
+			style="@style/ImagePref"
+			android:src="@drawable/icon"/>
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Add Picture"/>
+	</LinearLayout>
+	<TextView
+		android:id="@+id/new_point_summary_title"
+		android:text="Title of Point"
+		style="@style/TitleText"/>
+	<View
+		style="@style/TitleHilight"/>
+	<EditText
+		android:id="@+id/new_point_title"
+		android:hint="Title of Item"
+		android:singleLine="true"
+		android:selectAllOnFocus="true"
+		android:inputType="textCapWords"
+		android:imeOptions="actionNext"
+		style="@style/TextBoxPref"/>
+	<TextView
+		android:id="@+id/new_point_summary_title"
+		android:text="Point Description"
+		style="@style/TitleText"/>
+	<View
+		style="@style/TitleHilight"/>
+	<EditText
+		android:id="@+id/new_point_summary"
+		android:lines="3"
+		android:hint="Description of this item"
+		android:singleLine="false"
+		android:gravity="top"
+		style="@style/TextBoxPref"/>
+	<TextView
+		android:id="@+id/new_point_category_title"
+		android:text="Point Category"
+		style="@style/TitleText"/>
+	<View
+		style="@style/TitleHilight"/>
+	<Spinner
+		android:id="@+id/new_point_category"
+		style="@style/SpinnerPref"
+		android:entries="@array/DefaultPointCategories"/>
+</LinearLayout>
