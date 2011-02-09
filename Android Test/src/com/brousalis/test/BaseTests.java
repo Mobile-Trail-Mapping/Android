@@ -141,25 +141,6 @@ public class BaseTests extends ActivityInstrumentationTestCase2<ShowMap> {
 		assertEquals("P3 did not resume in the same location as P2 Center",p3, p2);
 		
 	}
-	public void testMoveMapThenCloseAndReOpenNoSave() {
-		this.changeBooleanSetting(ShowMap.SAVED_MAP_STATE, false);
-		//closeActivity();
-		//openActivity();
-		GeoPoint p1 = mView.getMapCenter();
-
-		TouchUtils.dragQuarterScreenDown(this, mActivity);
-
-		GeoPoint p2 = mView.getMapCenter();
-		
-		closeActivity();
-		openActivity();
-		
-		GeoPoint p3 = mView.getMapCenter();
-		
-		assertFalse("P2 should not be in the same place the same as P3",p2.equals(p3));
-		assertEquals("P3 did not resume in the same location as P1",p1, p3);
-		
-	}
 
 	public void testZoomLevel() {
 		assertEquals(initialZoomLevel,mView.getZoomLevel());
