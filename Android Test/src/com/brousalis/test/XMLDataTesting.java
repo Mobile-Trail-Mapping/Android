@@ -7,7 +7,11 @@ import com.brousalis.DataHandler;
 import com.brousalis.ShowMap;
 import com.brousalis.Trail;
 import com.google.android.maps.MapView;
-
+/**
+ * Tests that ensure that the XML documentation is being parsed correctly.
+ * @author ericstokes
+ *
+ */
 public class XMLDataTesting extends ActivityInstrumentationTestCase2<ShowMap> {
 	
 public static final int GOOD_ZOOM_LEVEL = 17;

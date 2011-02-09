@@ -14,7 +14,11 @@ import com.brousalis.Trail;
 import com.brousalis.TrailPoint;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-
+/**
+ * Tests for Trail, TrailPoint and other repersentational objects.
+ * @author ericstokes
+ *
+ */
 public class ObjectTests extends ActivityInstrumentationTestCase2<ShowMap> {
 	
 	private ShowMap mActivity;

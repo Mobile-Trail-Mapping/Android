@@ -12,7 +12,11 @@ import android.util.Log;
 import com.brousalis.ShowMap;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-
+/**
+ * Tests that ensure the primary activity is behaving how it should be.
+ * @author ericstokes
+ *
+ */
 public class BaseTests extends ActivityInstrumentationTestCase2<ShowMap> {
 	public static final int GOOD_ZOOM_LEVEL = 17;
 	
