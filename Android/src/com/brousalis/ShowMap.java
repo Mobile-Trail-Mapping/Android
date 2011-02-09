@@ -487,11 +487,9 @@ public class ShowMap extends MapActivity {
 			this.centerMapOnCurrentLocation(false);
 		}
 		// this._mapView.getOverlays().add(new LocationMarker(p, R.drawable.dot, this));
+		// TODO: Come Back here
 		Log.w(MTM, "MTM: Initializing Location Variables");
 		mLocationMarker = new LocationMarker(p, R.drawable.dot, this);
-		// mLocationListen = new CurrentLocation(this, mLocationMarker, mMapView, 1);
-		// this.turnOnLocationUpdates();
-		mMapView.getOverlays().add(mLocationMarker);
 		mMapView.invalidate();
 	}
 	
@@ -525,6 +523,7 @@ public class ShowMap extends MapActivity {
 	 * Enable Location based updating automatically.
 	 */
 	private void turnOnLocationUpdates() {
+		mMapView.getOverlays().add(mLocationMarker);
 		if (mLocationManager != null) {
 			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 			
@@ -536,6 +535,7 @@ public class ShowMap extends MapActivity {
 	 * Turn off GPS Updates, saves us lots of battery.
 	 */
 	public void turnOffLocationUpdates() {
+		mMapView.getOverlays().remove(mLocationMarker);
 		if (mLocationManager != null)
 			mLocationManager.removeUpdates(mLocationListen);
 	}
