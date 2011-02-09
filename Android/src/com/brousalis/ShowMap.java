@@ -569,10 +569,6 @@ public class ShowMap extends MapActivity {
 	
 	private class AsyncXMLDownloader extends AsyncTask<String, Void, Void> {
 		
-		public AsyncXMLDownloader() {
-			
-		}
-		
 		@Override
 		protected Void doInBackground(String... params) {
 			mDataHandler = new DataHandler(getString(R.string.actual_data_root) + getString(R.string.trail_path));

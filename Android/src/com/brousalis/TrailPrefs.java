@@ -72,21 +72,6 @@ public class TrailPrefs extends PreferenceActivity implements OnSharedPreference
 			setResult(Activity.RESULT_OK, finished);
 			finish();
 		}
-		
-		if(preference.getKey().equals(mLogoutPref.getKey())) {
-			// User has logged out
-			Log.w(ShowMap.MTM, "User has requested Logout");
-			PreferenceGroup communitySettings = ((PreferenceGroup)preferenceScreen.findPreference(getString(R.string.key_community)));
-			//communitySettings.removePreference(mLogoutPref);
-			//communitySettings.addPreference(mLoginPref);
-		}
-		
-		if(preference.getKey().equals(mLoginPref.getKey())) {
-			// User has tried to login
-			Log.w(ShowMap.MTM, "User has requested Login");
-			//mCommunityPrefCategory.removePreference(mLogoutPref);
-		}
-		
 		return true;
 	}
 
