@@ -8,7 +8,11 @@ import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
-
+/**
+ * A custom preference item that displays a yes/no and lets the user confirm or deny the choice.
+ * @author ericstokes
+ *
+ */
 public class ConfirmPreference extends DialogPreference implements DialogInterface.OnClickListener {
 
 	Context mContext;
