@@ -69,7 +69,7 @@ public class ShowMap extends MapActivity {
 	// TODO: Figure out some good value to init these to
 	public static final int DEFAULT_MAP_LAT = 0;
 	public static final int DEFAULT_MAP_LONG = 0;
-	private static final long GPS_UPDATE_TIME = 60000;
+	private static final long GPS_UPDATE_TIME = 6000;
 	private static final float GPS_UPDATE_DISTANCE = 0;
 	public static final int SETTINGS_REQUEST_CODE = 1;
 	private static boolean GPS_TRACK = false;
@@ -348,7 +348,7 @@ public class ShowMap extends MapActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		// drawTrail();
+		
 		Log.w(MTM, "MTM: onResume()");
 	}
 	
@@ -427,6 +427,7 @@ public class ShowMap extends MapActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_track_enable).setVisible(!GPS_TRACK);
 		menu.findItem(R.id.menu_track_disable).setVisible(GPS_TRACK);
+		menu.findItem(R.id.menu_add_point).setEnabled(GPS_TRACK);
 		// Only show the add point menu if the user is an admin.
 		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_logged_in), false));
 		return super.onPrepareOptionsMenu(menu);
@@ -441,6 +442,9 @@ public class ShowMap extends MapActivity {
 		switch (item.getItemId()) {
 			case R.id.menu_add_point:
 				Intent add_point = new Intent(this, AddPoint.class);
+				GeoPoint p = new GeoPoint(0, 0);
+				ParcelableGeoPoint p2 = new ParcelableGeoPoint(0, 0);
+				add_point.putExtra("GeoPoint", p2);
 				this.startActivity(add_point);
 				break;
 			case R.id.menu_quit:
@@ -464,6 +468,8 @@ public class ShowMap extends MapActivity {
 				break;
 		}
 		return true;
+		
+		
 	}
 	
 	/**
@@ -514,9 +520,17 @@ public class ShowMap extends MapActivity {
 			p = new GeoPoint((int) (recentLoc.getLatitude() * 1E6),
 					(int) (recentLoc.getLongitude() * 1E6));
 			this.mMapController.animateTo(p);
-			this.mMapView.setSatellite(true);
 			this.mMapView.invalidate();
 		}
+	}
+	
+	private GeoPoint getRecentLocation() {
+		GeoPoint p;
+		Location networkLoc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		Location gpsLoc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		Location recentLoc = (gpsLoc != null) ? gpsLoc : networkLoc;
+		
+		return new GeoPoint((int) (recentLoc.getLatitude() * 1E6), (int) (recentLoc.getLongitude() * 1E6));
 	}
 	
 	/**

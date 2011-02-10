@@ -14,14 +14,15 @@
 		<item>9</item>
 		<item>5</item>
 	</string-array>
+	<!--  These are staticly added right now -->
 	<string-array name="DefaultPointCategories">
-		<item>Trail Head</item>
-		<item>Trail Point</item>
+		<item>Trailhead</item>
+		<item>Trail</item>
 		<item>Restroom</item>
 		<item>Parking</item>
-		<item>Info Board</item>
-		<item>Bike Rack</item>
+		<item>Food</item>
+		<item>Dormitory</item>
+		<item>Academic Building</item>
 		<item>Drinking Fountain</item>
-		<item>Playground</item>
 	</string-array>
 </resources>

@@ -14,7 +14,7 @@
     
     <!-- Default Zoom Preference Item -->
     <string name="title_default_zoom">Default Zoom</string>
-    <string name="summary_default_zoom">The Zoom Level that is set when the map is centered</string>
+    <string name="summary_default_zoom">The Zoom Level that is used when the map is centered</string>
     
     <!-- Center On Zoom Preference Item -->
     <string name="title_zoom">Zoom on Center</string>

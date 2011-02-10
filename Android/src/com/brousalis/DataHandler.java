@@ -28,9 +28,6 @@ public class DataHandler {
 	private HashSet<Trail> _trails;
 	private TrailPoint _trailPoint;
 	
-	// static String XML_LOC = "http://mtmserver.heroku.com/point/get";
-	// static String XML_SCHEMA = "http://www.fernferret.com/mtmSchema.xsd";
-	
 	private DocumentBuilderFactory _factory;
 	private DocumentBuilder _builder;
 	private URL _xmlFile;
@@ -211,7 +208,7 @@ public class DataHandler {
 	}
 	
 	/**
-	 * Performs validation on the document This is not yet implemented UPDATE: 2/2/2011 This will be done on Android 2.1
+	 * Performs validation on the document This is not yet implemented UPDATE: 2/2/2011 This will be so long as we support Android 2.1
 	 */
 	public boolean validateDocument() {
 		return false;
