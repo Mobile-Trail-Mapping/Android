@@ -30,8 +30,7 @@ public class ParcelableGeoPointTests extends TestCase {
 		
 	}
 	
-	public void testBothTypesWorkCorrectly() {
-		GeoPoint gp = new GeoPoint(5,5);
+	public void testParcelablePackagingWorks(){
 		
 	}
 	
