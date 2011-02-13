@@ -2,14 +2,17 @@ package com.brousalis;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +32,7 @@ public class AddPoint extends Activity {
 	private Button mPictureButton;
 	private Bitmap mPicture;
 	private ImageView mImagePreview;
+	private SharedPreferences mSettings;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class AddPoint extends Activity {
 		mPictureButton = (Button) findViewById(R.id.add_picture_button);
 		mImagePreview = (ImageView) findViewById(R.id.picture_preview);
 		mPictureButton.setOnClickListener(mOnAddPictureListener);
+		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 	
 	private View.OnClickListener mOnAddPictureListener = new View.OnClickListener() {
@@ -58,7 +63,11 @@ public class AddPoint extends Activity {
 				Log.w(ShowMap.MTM, "Content URI: " + selectedImageURI.toString());
 				Log.w(ShowMap.MTM, "Image Path : " + getRealPathFromURI(selectedImageURI));
 				mImagePreview.setImageBitmap(mPicture);
-				NetUtils.postHTTPImage("URL", getRealPathFromURI(selectedImageURI));
+				HashMap<String, String> otherValues = new HashMap<String, String>();
+				otherValues.put("id", "1");
+				otherValues.put("user", mSettings.getString(getString(R.string.key_username), ""));
+				otherValues.put("pwhash", mSettings.getString(getString(R.string.key_password), ""));
+				NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), getRealPathFromURI(selectedImageURI));
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

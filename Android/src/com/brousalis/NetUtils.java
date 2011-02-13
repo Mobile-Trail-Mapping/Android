@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -24,6 +25,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -103,14 +105,21 @@ public class NetUtils {
 		
 		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 		try {
-			HttpClient cleint = new DefaultHttpClient();
+			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			File imageFile = new File(imageFileName);
 
 			FileBody image = new FileBody(imageFile);
-			MultipartEntity e = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+			MultipartEntity uploadEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+			uploadEntity.addPart("file", image);
 			
-			
+			for (Map.Entry<String, String> s : items.entrySet()) {
+				uploadEntity.addPart(s.getKey(), new StringBody(s.getValue()));
+			}
+			httpPost.setEntity(uploadEntity);
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			String response = httpClient.execute(httpPost, responseHandler);
+			Log.w(ShowMap.MTM, response);
 			
 		} catch (Exception e) {
 			

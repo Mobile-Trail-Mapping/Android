@@ -1,9 +1,12 @@
 package com.brousalis;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,7 +22,7 @@ import android.widget.Toast;
  * 
  */
 public class ItemDetails extends Activity {
-	
+	private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
 	private Bundle _extras;
 	
 	private int mID;
@@ -30,6 +33,8 @@ public class ItemDetails extends Activity {
 	private Gallery mGallery;
 	private ProgressBar mProgress;
 	private int mNumPhotos;
+	
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,9 @@ public class ItemDetails extends Activity {
 		// Set values of the textViews
 		title.setText(mTitle);
 		summary.setText(mSummary);
+		//mNumPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + mID));
+		//verifyImageCache(mID);
+		//loadGallery();
 		new AsyncImageChecker().execute();
 		// TODO: Conditions aren't implemented for a trail scale in the XML yet.
 		// Do that, then this
@@ -62,16 +70,20 @@ public class ItemDetails extends Activity {
 		
 		
 	}
-	
-	private void DownloadImages(){
+	private void verifyImageCache(int pointID) {
+    	Log.w(ShowMap.MTM, "verifying the image cache");
+    		
+    	// On the server, images begin with 1, but here it's much easier to keep them 0 indexed.
+    	for(int i = 1; i <= mNumPhotos; i++) {
+			File imageFile = new File(DATA_FOLDER + pointID + "/" + (i-1) + ".png");
+			if(!imageFile.exists()) {
+				NetUtils.DownloadFromUrl(this.getString(R.string.actual_data_root) + this.getString(R.string.photo_path) + pointID + "/" + i, (i-1) + ".png", DATA_FOLDER + pointID + "/");
+			}
+		}
+    }
+	private void loadGallery(){
 		if (mNumPhotos > 0) {
 			mGallery.setAdapter(new ImageAdapter(ItemDetails.this, mID, mNumPhotos));
-			
-			mGallery.setOnItemClickListener(new OnItemClickListener() {
-				public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-					Toast.makeText(ItemDetails.this, "" + position, Toast.LENGTH_SHORT).show();
-				}
-			});
 		} else {
 			mGallery.setVisibility(View.GONE);
 
@@ -84,12 +96,13 @@ public class ItemDetails extends Activity {
 		@Override
 		protected Void doInBackground(String... params) {
 			mNumPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + mID));
+			verifyImageCache(mID);
 			return null;
 		}
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			DownloadImages();
+			loadGallery();
 			super.onPostExecute(result);
 		}
 		

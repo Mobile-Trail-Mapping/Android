@@ -9,6 +9,7 @@
     <string name="root_test_url">http://mtmtest.heroku.com/</string>
     <string name="photo_path">image/get/</string>
     <string name="trail_path">point/get</string>
+    <string name="add_photo_path">image/add</string>
     <string name="beta">true</string>
     
     <!-- Common Button Actions -->
