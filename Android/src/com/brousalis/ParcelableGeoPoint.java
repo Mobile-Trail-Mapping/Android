@@ -16,6 +16,10 @@ public class ParcelableGeoPoint extends GeoPoint implements Parcelable {
 		// TODO Auto-generated constructor stub
 	}
 
+	public ParcelableGeoPoint(GeoPoint recentLocation) {
+		super(recentLocation.getLatitudeE6(), recentLocation.getLongitudeE6());
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

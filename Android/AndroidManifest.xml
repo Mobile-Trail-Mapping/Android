@@ -25,7 +25,8 @@
 			android:label="@string/title_details"/>
 		<activity
 			android:name=".AddPoint"
-			android:label="@string/title_add_point"/>
+			android:label="@string/title_add_point"
+			android:windowSoftInputMode="stateHidden|adjustUnspecified"/>
 		<uses-library
 			android:name="com.google.android.maps"
 			android:required="true"/>

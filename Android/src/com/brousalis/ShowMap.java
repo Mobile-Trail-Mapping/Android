@@ -525,7 +525,6 @@ public class ShowMap extends MapActivity {
 	}
 	
 	private GeoPoint getRecentLocation() {
-		GeoPoint p;
 		Location networkLoc = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		Location gpsLoc = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		Location recentLoc = (gpsLoc != null) ? gpsLoc : networkLoc;
