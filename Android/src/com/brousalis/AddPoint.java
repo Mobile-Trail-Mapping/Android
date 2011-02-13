@@ -2,6 +2,7 @@ package com.brousalis;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -33,6 +34,7 @@ public class AddPoint extends Activity {
 	private Bitmap mPicture;
 	private ImageView mImagePreview;
 	private SharedPreferences mSettings;
+	private Uri mSelectedImageURI;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class AddPoint extends Activity {
 		TextView t = (TextView) findViewById(R.id.new_point_summary_title);
 		mPictureButton = (Button) findViewById(R.id.add_picture_button);
 		mImagePreview = (ImageView) findViewById(R.id.picture_preview);
+		
 		mPictureButton.setOnClickListener(mOnAddPictureListener);
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 	}
@@ -55,19 +58,15 @@ public class AddPoint extends Activity {
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
-			Uri selectedImageURI = data.getData();
+			mSelectedImageURI = data.getData();
 			try {
-				mPicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageURI);
+				mPicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImageURI);
 				ContentResolver cr = getContentResolver();
-				cr.openFileDescriptor(selectedImageURI, "r");
-				Log.w(ShowMap.MTM, "Content URI: " + selectedImageURI.toString());
-				Log.w(ShowMap.MTM, "Image Path : " + getRealPathFromURI(selectedImageURI));
+				cr.openFileDescriptor(mSelectedImageURI, "r");
+				Log.w(ShowMap.MTM, "Content URI: " + mSelectedImageURI.toString());
+				Log.w(ShowMap.MTM, "Image Path : " + getRealPathFromURI(mSelectedImageURI));
 				mImagePreview.setImageBitmap(mPicture);
-				HashMap<String, String> otherValues = new HashMap<String, String>();
-				otherValues.put("id", "1");
-				otherValues.put("user", mSettings.getString(getString(R.string.key_username), ""));
-				otherValues.put("pwhash", mSettings.getString(getString(R.string.key_password), ""));
-				NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), getRealPathFromURI(selectedImageURI));
+				
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -78,6 +77,14 @@ public class AddPoint extends Activity {
 			}
 		}
 	};
+	
+	private void uploadImage() {
+		HashMap<String, String> otherValues = new HashMap<String, String>();
+		otherValues.put("id", "1");
+		otherValues.put("user", mSettings.getString(getString(R.string.key_username), ""));
+		otherValues.put("pwhash", mSettings.getString(getString(R.string.key_password), ""));
+		NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), getRealPathFromURI(mSelectedImageURI));
+	}
 	
 	/**
 	 * Provides the file location used when selecting an image

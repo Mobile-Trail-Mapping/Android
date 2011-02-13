@@ -25,4 +25,5 @@
     <string name="title_add_point">Add A New Point</string>
     <string name="title_details">Location Details</string>
     <string name="title_options">Trail Options</string>
+    <string name="point_category">Point Category</string>
 </resources>
