@@ -1,6 +1,7 @@
 package com.brousalis;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,11 +21,16 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.ByteArrayBuffer;
 
+//import org.apache.http.entity.mime.*;
+
+import android.graphics.Bitmap;
 import android.util.Log;
 
 /**
@@ -87,11 +93,29 @@ public class NetUtils {
 		return "HASH ERROR";
 	}
 	
+	public static boolean postHTTPImage(HashMap<String, String> items, String url, Bitmap b) {
+		
+		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+		b.compress(Bitmap.CompressFormat.PNG, 100, byteOutput);
+		
+		
+		
+		try {
+			MultipartEntity e = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+			
+			
+		} catch (Exception e) {
+			
+		}
+		
+		
+		return false;
+	}
+	
 	public static String postHTTPData(HashMap<String, String> items, String url) {
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(url);
-		
 		try {
 			// Add your data
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(items.size());

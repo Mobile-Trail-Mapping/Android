@@ -3,5 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="lib" path="/Users/ericstokes/MobileTrails/Android/libraries/apache-mime4j-0.6.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ericstokes/MobileTrails/Android/libraries/httpclient-4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ericstokes/MobileTrails/Android/libraries/httpcore-4.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ericstokes/MobileTrails/Android/libraries/httpmime-4.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

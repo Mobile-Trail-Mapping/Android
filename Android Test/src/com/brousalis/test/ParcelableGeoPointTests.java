@@ -1,6 +1,7 @@
 package com.brousalis.test;
 
 import junit.framework.TestCase;
+import android.os.Parcel;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.brousalis.ParcelableGeoPoint;
@@ -27,10 +28,20 @@ public class ParcelableGeoPointTests extends TestCase {
 	}
 	
 	public void testPGPcanbecreatedfromGP() {
-		
+		assertTrue(true);
 	}
 	
 	public void testParcelablePackagingWorks(){
+		ParcelableGeoPoint pgp = new ParcelableGeoPoint(5,5);
+		int latp = pgp.getLatitudeE6();
+		int longp = pgp.getLatitudeE6();
+		Parcel p = Parcel.obtain();
+		pgp.writeToParcel(p, 0);
+		p.setDataPosition(0);
+		ParcelableGeoPoint pgpShipped = new ParcelableGeoPoint(p);
+		
+		assertEquals("Failed to rebuild parcel", latp, pgpShipped.getLatitudeE6());
+		assertEquals("Failed to rebuild parcel", longp, pgpShipped.getLongitudeE6());
 		
 	}
 	
