@@ -23,6 +23,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -30,7 +31,10 @@ import org.apache.http.util.ByteArrayBuffer;
 
 //import org.apache.http.entity.mime.*;
 
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 /**
@@ -93,15 +97,19 @@ public class NetUtils {
 		return "HASH ERROR";
 	}
 	
-	public static boolean postHTTPImage(HashMap<String, String> items, String url, Bitmap b) {
+	
+	
+	public static boolean postHTTPImage(HashMap<String, String> items, String url, String imageFileName) {
 		
 		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-		b.compress(Bitmap.CompressFormat.PNG, 100, byteOutput);
-		
-		
-		
 		try {
+			HttpClient cleint = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost(url);
+			File imageFile = new File(imageFileName);
+
+			FileBody image = new FileBody(imageFile);
 			MultipartEntity e = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+			
 			
 			
 		} catch (Exception e) {
