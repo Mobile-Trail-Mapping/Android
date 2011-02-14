@@ -149,9 +149,9 @@ public class NetUtils {
 			Log.w("MTM", responseBody);
 			return responseBody;
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
+			Log.w(ShowMap.MTM, "ClientProtocolException");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.w(ShowMap.MTM, "IOException");
 		}
 		return "ERROR fetching data";
 	}

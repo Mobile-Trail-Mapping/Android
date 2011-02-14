@@ -152,7 +152,7 @@ public class Trail extends ItemizedOverlay<OverlayItem> {
 		// TODO: Remove this static reference
 		// This is using a static category reference, when category parsing is implemented
 		// thsi will go away
-		if (point.getCategoryID() == 1) {
+		if (point.getCategoryID() != 2) {
 			this._trailHeads.add(point);
 			
 		}

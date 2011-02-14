@@ -443,7 +443,7 @@ public class ShowMap extends MapActivity {
 			case R.id.menu_add_point:
 				Intent add_point = new Intent(this, AddPoint.class);
 				ParcelableGeoPoint transportPoint = new ParcelableGeoPoint(getRecentLocation());
-				add_point.putExtra("GeoPoint", transportPoint);
+				add_point.putExtra("GEOPOINT", transportPoint);
 				
 				int parsedTrailsLength = getParsedTrails().size();
 				String[] trailNames = new String[parsedTrailsLength];
@@ -453,7 +453,7 @@ public class ShowMap extends MapActivity {
 					i++;
 				}
 				
-				add_point.putExtra("trailnames", trailNames);
+				add_point.putExtra("TRAILNAMES", trailNames);
 				this.startActivity(add_point);
 				break;
 			case R.id.menu_quit:

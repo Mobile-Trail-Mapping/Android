@@ -73,10 +73,23 @@
 			android:singleLine="false"
 			android:gravity="top"
 			style="@style/TextBoxPref"/>
-		<TextView
-			android:text="@string/point_category"
-			style="@style/TitleText"/>
-		<View
-			style="@style/TitleHilight"/>
+		<TableLayout
+			android:stretchColumns="*"
+			android:padding="10dip"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TableRow>
+				<Button
+					android:id="@+id/add_point_button"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Add Point"/>
+				<Button
+					android:id="@+id/go_back_button"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/cancel"/>
+			</TableRow>
+		</TableLayout>
 	</LinearLayout>
 </ScrollView>
