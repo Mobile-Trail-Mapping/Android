@@ -3,10 +3,14 @@ package com.brousalis;
 import java.io.File;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -34,12 +38,16 @@ public class ItemDetails extends Activity {
 	private ProgressBar mProgress;
 	private int mNumPhotos;
 	
+	private SharedPreferences mSettings;
+	
 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.item_details);
+		
+		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		// Load extras data to populate view
 		_extras = this.getIntent().getExtras();
@@ -89,6 +97,21 @@ public class ItemDetails extends Activity {
 
 		}
 		mProgress.setVisibility(View.GONE);
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = new MenuInflater(this);
+		inflater.inflate(R.menu.edit_point, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Only show this menu if the user is an admin.
+		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_logged_in), false));
+		return super.onPrepareOptionsMenu(menu);
 	}
 	
 	private class AsyncImageChecker extends AsyncTask<String, Void, Void> {

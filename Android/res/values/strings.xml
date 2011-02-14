@@ -27,4 +27,8 @@
     <string name="title_details">Location Details</string>
     <string name="title_options">Trail Options</string>
     <string name="point_category">Point Category</string>
+    <string name="edit_this_point">Edit This Point</string>
+    <string name="edit">Edit</string>
+    <string name="add_another_photo">Add Another Photo</string>
+    <string name="add_photo">Add Photo</string>
 </resources>
