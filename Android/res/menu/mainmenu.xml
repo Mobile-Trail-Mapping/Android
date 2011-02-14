@@ -5,13 +5,14 @@
 		android:id="@+id/admin">
 		<item
 			android:id="@+id/menu_add_point"
+			android:icon="@drawable/ic_menu_add"
 			android:titleCondensed="@string/menu_add_point"
 			android:title="@string/menu_add_point"/>
 	</group>
 	<!-- android:icon="@drawable/ic_menu_add_point" -->
 	<item
 		android:id="@+id/menu_center"
-		android:icon="@drawable/ic_menu_center"
+		android:icon="@drawable/ic_menu_mylocation"
 		android:titleCondensed="@string/menu_center"
 		android:title="@string/menu_center"/>
 	<item
@@ -39,7 +40,7 @@
 		android:id="@+id/menu_settings"
 		android:titleCondensed="@string/menu_settings"
 		android:title="@string/menu_settings"
-		android:icon="@drawable/ic_menu_settings"
+		android:icon="@drawable/ic_menu_preferences"
 		android:visible="true"
 		android:enabled="true"/>
 </menu>
