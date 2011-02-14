@@ -35,9 +35,8 @@
 			<ImageView
 				android:layout_width="200dip"
 				android:layout_height="200dip"
-				android:layout_marginRight="30dip"
 				android:id="@+id/picture_preview"
-				android:src="@drawable/icon"
+				android:src="@drawable/camera"
 				android:scaleType="fitCenter"/>
 			<Button
 				android:id="@+id/add_picture_button"
@@ -81,12 +80,12 @@
 			<TableRow>
 				<Button
 					android:id="@+id/add_point_button"
-					android:layout_width="wrap_content"
+					android:layout_width="120dip"
 					android:layout_height="wrap_content"
 					android:text="Add Point"/>
 				<Button
 					android:id="@+id/go_back_button"
-					android:layout_width="wrap_content"
+					android:layout_width="120dip"
 					android:layout_height="wrap_content"
 					android:text="@string/cancel"/>
 			</TableRow>

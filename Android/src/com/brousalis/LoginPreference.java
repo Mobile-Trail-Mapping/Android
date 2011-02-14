@@ -66,8 +66,6 @@ public class LoginPreference extends DialogPreference implements DialogInterface
 				.setMessage("Sorry, incorrect username or password provided. Please try again.")
 				.setPositiveButton(R.string.ok, null).create();
 				error.show();
-				
-				//TODO: Show an error dialog.
 			}
 			// Try to do the login
 		}
