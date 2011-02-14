@@ -442,9 +442,18 @@ public class ShowMap extends MapActivity {
 		switch (item.getItemId()) {
 			case R.id.menu_add_point:
 				Intent add_point = new Intent(this, AddPoint.class);
-				GeoPoint p = new GeoPoint(0, 0);
-				ParcelableGeoPoint p2 = new ParcelableGeoPoint(0, 0);
-				add_point.putExtra("GeoPoint", p2);
+				ParcelableGeoPoint transportPoint = new ParcelableGeoPoint(getRecentLocation());
+				add_point.putExtra("GeoPoint", transportPoint);
+				
+				int parsedTrailsLength = getParsedTrails().size();
+				String[] trailNames = new String[parsedTrailsLength];
+				int i = 0;
+				for (Trail t : getParsedTrails()) {
+					trailNames[i] = t.getName();
+					i++;
+				}
+				
+				add_point.putExtra("trailnames", trailNames);
 				this.startActivity(add_point);
 				break;
 			case R.id.menu_quit:
@@ -468,7 +477,6 @@ public class ShowMap extends MapActivity {
 				break;
 		}
 		return true;
-		
 		
 	}
 	

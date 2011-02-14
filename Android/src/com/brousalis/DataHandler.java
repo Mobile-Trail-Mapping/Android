@@ -105,6 +105,7 @@ public class DataHandler {
 	 */
 	private void extractTrail(Node currentNode) {
 		Node point = null;
+		
 		point = getPointNode(currentNode);
 		
 		while (point != null) {

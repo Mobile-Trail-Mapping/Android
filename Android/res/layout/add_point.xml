@@ -8,6 +8,14 @@
 		android:layout_height="fill_parent"
 		android:orientation="vertical">
 		<TextView
+			android:text="Trail to put point on"
+			style="@style/TitleText"/>
+		<View
+			style="@style/TitleHilight"/>
+		<Spinner
+			android:id="@+id/new_point_trail"
+			style="@style/SpinnerPref"/>
+		<TextView
 			android:id="@+id/new_point_category_title"
 			android:text="@string/point_category"
 			style="@style/TitleText"/>
