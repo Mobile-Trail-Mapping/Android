@@ -169,6 +169,7 @@ public class AddPoint extends Activity {
 			} catch (NumberFormatException e) {
 				mUploadProgress.setVisibility(View.INVISIBLE);
 				AlertDialog.Builder build = new AlertDialog.Builder(AddPoint.this);
+				build.setTitle("Failed to upload image").setMessage("The image was not uploaded. You can open the point and edit it later to add your photo.");
 			}
 			if (mID > -1) {
 				mUploadProgress.setVisibility(View.VISIBLE);
