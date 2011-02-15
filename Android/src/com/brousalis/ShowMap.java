@@ -35,6 +35,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -72,6 +73,7 @@ public class ShowMap extends MapActivity {
 	private static final long GPS_UPDATE_TIME = 6000;
 	private static final float GPS_UPDATE_DISTANCE = 0;
 	public static final int SETTINGS_REQUEST_CODE = 1;
+	private static final int REPORT_PROBLEM_REQUEST_CODE = 2;
 	private static boolean GPS_TRACK = false;
 	
 	public static Drawable bubble;
@@ -428,6 +430,7 @@ public class ShowMap extends MapActivity {
 		menu.findItem(R.id.menu_track_enable).setVisible(!GPS_TRACK);
 		menu.findItem(R.id.menu_track_disable).setVisible(GPS_TRACK);
 		menu.findItem(R.id.menu_add_point).setEnabled(GPS_TRACK);
+		menu.findItem(R.id.menu_report_problem).setEnabled(GPS_TRACK);
 		// Only show the add point menu if the user is an admin.
 		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_logged_in), false));
 		return super.onPrepareOptionsMenu(menu);
@@ -456,8 +459,11 @@ public class ShowMap extends MapActivity {
 				add_point.putExtra("TRAILNAMES", trailNames);
 				this.startActivity(add_point);
 				break;
-			case R.id.menu_quit:
-				this.finish();
+			case R.id.menu_report_problem:
+				Intent report_problem = new Intent(this, ReportProblem.class);
+				ParcelableGeoPoint point = new ParcelableGeoPoint(getRecentLocation());
+				report_problem.putExtra("GEOPOINT", point);
+				this.startActivityForResult(report_problem, REPORT_PROBLEM_REQUEST_CODE);
 				break;
 			case R.id.menu_settings:
 				Intent settings = new Intent(this, TrailPrefs.class);
@@ -567,6 +573,10 @@ public class ShowMap extends MapActivity {
 			if (requestCode == SETTINGS_REQUEST_CODE) {
 				if (data.getBooleanExtra(getString(R.string.key_reset_images), false)) {
 					resetImages();
+				}
+			} else if (requestCode == REPORT_PROBLEM_REQUEST_CODE) {
+				if (data.getBooleanExtra(getString(R.string.problem_report_success), false)) {
+					Toast.makeText(this, R.string.problem_has_been_reported, Toast.LENGTH_SHORT).show();
 				}
 			}
 		}

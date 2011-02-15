@@ -10,6 +10,9 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
+			<View
+				style="@style/TitleHilight"
+				android:layout_marginTop="10dip"/>
 			<TextView
 				style="@style/TitleText"
 				android:id="@+id/detail_title"

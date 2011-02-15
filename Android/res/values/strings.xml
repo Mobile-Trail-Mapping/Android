@@ -31,4 +31,9 @@
     <string name="edit">Edit</string>
     <string name="add_another_photo">Add Another Photo</string>
     <string name="add_photo">Add Photo</string>
+    <string name="picture_of_problem">Picture of problem</string>
+    <string name="problem_has_been_reported">Thank you, your problem has been reported!</string>
+    <string name="problem_report_success">SUCCESS</string>
+    <string name="report_a_problem">Report a Problem</string>
+    <string name="problem_add">problem/add</string>
 </resources>

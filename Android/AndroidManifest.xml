@@ -20,14 +20,21 @@
 		</activity>
 		<activity
 			android:name=".TrailPrefs"
-			android:label="@string/title_options"/>
+			android:label="@string/title_options"
+			android:theme="@android:style/Theme.Black.NoTitleBar"/>
 		<activity
 			android:name=".ItemDetails"
-			android:label="@string/title_details"/>
+			android:label="@string/title_details"
+			android:theme="@android:style/Theme.Black.NoTitleBar"/>
 		<activity
 			android:name=".AddPoint"
 			android:label="@string/title_add_point"
-			android:windowSoftInputMode="stateHidden|adjustUnspecified"/>
+			android:windowSoftInputMode="stateHidden|adjustUnspecified"
+			android:theme="@android:style/Theme.Black.NoTitleBar"/>
+		<activity
+			android:name=".ReportProblem"
+			android:label="@string/report_a_problem"
+			android:theme="@android:style/Theme.Black.NoTitleBar"/>
 		<uses-library
 			android:name="com.google.android.maps"
 			android:required="true"/>
