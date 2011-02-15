@@ -1,23 +1,24 @@
 package com.brousalis;
 
 import java.io.File;
+import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Gallery;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * The ItemDetails Activity that is in charge of populating and showing the information when someone clicks on an important point.
@@ -37,10 +38,13 @@ public class ItemDetails extends Activity {
 	private Gallery mGallery;
 	private ProgressBar mProgress;
 	private int mNumPhotos;
+	private Uri mSelectedImageURI;
+	private LinearLayout mUploadProgress;
 	
 	private SharedPreferences mSettings;
+	private ImageAdapter mImageAdapter;
 	
-
+	private static final int SELECT_IMAGE = 3;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,41 +66,52 @@ public class ItemDetails extends Activity {
 		mGallery = (Gallery) this.findViewById(R.id.gallery);
 		mProgress = (ProgressBar) findViewById(R.id.loading_gallery);
 		TextView condition = (TextView) this.findViewById(R.id.detail_condition);
-		
+		mUploadProgress = (LinearLayout) findViewById(R.id.upload_progress);
 		// Set values of the textViews
 		title.setText(mTitle);
 		summary.setText(mSummary);
-		//mNumPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + mID));
-		//verifyImageCache(mID);
-		//loadGallery();
+		// mNumPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + mID));
+		// verifyImageCache(mID);
+		// loadGallery();
 		new AsyncImageChecker().execute();
 		// TODO: Conditions aren't implemented for a trail scale in the XML yet.
 		// Do that, then this
 		// Line gets uncommented.
 		// condition.setText(_extras.get("title").toString())
 		
-		
-		
 	}
+	
 	private void verifyImageCache(int pointID) {
-    	Log.w(ShowMap.MTM, "verifying the image cache");
-    		
-    	// On the server, images begin with 1, but here it's much easier to keep them 0 indexed.
-    	for(int i = 1; i <= mNumPhotos; i++) {
-			File imageFile = new File(DATA_FOLDER + pointID + "/" + (i-1) + ".png");
-			if(!imageFile.exists()) {
-				NetUtils.DownloadFromUrl(this.getString(R.string.actual_data_root) + this.getString(R.string.photo_path) + pointID + "/" + i, (i-1) + ".png", DATA_FOLDER + pointID + "/");
+		Log.w(ShowMap.MTM, "verifying the image cache");
+		
+		// On the server, images begin with 1, but here it's much easier to keep them 0 indexed.
+		for (int i = 1; i <= mNumPhotos; i++) {
+			File imageFile = new File(DATA_FOLDER + pointID + "/" + (i - 1) + ".png");
+			if (!imageFile.exists()) {
+				NetUtils.DownloadFromUrl(this.getString(R.string.actual_data_root) + this.getString(R.string.photo_path) + pointID + "/" + i, (i - 1) + ".png", DATA_FOLDER + pointID + "/");
 			}
 		}
-    }
-	private void loadGallery(){
+	}
+	
+	private void refreshGallery() {
 		if (mNumPhotos > 0) {
-			mGallery.setAdapter(new ImageAdapter(ItemDetails.this, mID, mNumPhotos));
+			if (mImageAdapter == null) {
+				mImageAdapter = new ImageAdapter(ItemDetails.this, mID, mNumPhotos);
+				mGallery.setAdapter(mImageAdapter);
+			} else {
+				Log.w(ShowMap.MTM, "Data set is changing!");
+				mImageAdapter.notifyDataSetChanged();
+			}
+			
 		} else {
 			mGallery.setVisibility(View.GONE);
-
 		}
 		mProgress.setVisibility(View.GONE);
+	}
+	
+	private void hideGallery() {
+		mGallery.setVisibility(View.GONE);
+		mProgress.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
@@ -114,6 +129,18 @@ public class ItemDetails extends Activity {
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_add_photo:
+				startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), SELECT_IMAGE);
+				break;
+			case R.id.menu_edit_point:
+				break;
+		}
+		return true;
+	}
+	
 	private class AsyncImageChecker extends AsyncTask<String, Void, Void> {
 		
 		@Override
@@ -125,9 +152,50 @@ public class ItemDetails extends Activity {
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			loadGallery();
+			// The most recent photo always has the same id as the count
+			if(mImageAdapter != null) {
+				// We only want to call add Item when a new photo is uploaded, not the first time, hence the if.
+				mImageAdapter.addItem(mNumPhotos);
+			}
+			Log.w(ShowMap.MTM, "Done uploading, and re-downloading, trying to refresh gallery");
+			refreshGallery();
+			Log.w(ShowMap.MTM, "Gallery refreshed");
 			super.onPostExecute(result);
 		}
 		
+	}
+	
+	private class AsyncImageUploader extends AsyncTask<String, Void, Void> {
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			uploadImage(mID);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			new AsyncImageChecker().execute();
+			mUploadProgress.setVisibility(View.INVISIBLE);
+			super.onPostExecute(result);
+		}
+		
+	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
+			mSelectedImageURI = data.getData();
+			mUploadProgress.setVisibility(View.VISIBLE);
+			new AsyncImageUploader().execute();
+		}
+	};
+	
+	private void uploadImage(int id) {
+		HashMap<String, String> otherValues = new HashMap<String, String>();
+		otherValues.put("id", id + "");
+		otherValues.put("user", mSettings.getString(getString(R.string.key_username), ""));
+		otherValues.put("pwhash", mSettings.getString(getString(R.string.key_password), ""));
+		NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), NetUtils.getRealPathFromURI(mSelectedImageURI, this));
 	}
 }

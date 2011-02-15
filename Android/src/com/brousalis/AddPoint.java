@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -19,8 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 /**
  * Activity for adding points to the trail system.
@@ -48,6 +49,9 @@ public class AddPoint extends Activity {
 	private EditText mDescription;
 	private EditText mTitle;
 	
+	private LinearLayout mUploadProgress;
+	// The id of the created point to be used by async process
+	private int mID;
 	private Bundle mExtras;
 	
 	@Override
@@ -59,7 +63,7 @@ public class AddPoint extends Activity {
 		
 		mDescription = (EditText) findViewById(R.id.new_point_summary);
 		mTitle = (EditText) findViewById(R.id.new_point_title);
-		
+		mUploadProgress = (LinearLayout) findViewById(R.id.upload_progress);
 		mPictureButton = (Button) findViewById(R.id.add_picture_button);
 		mImagePreview = (ImageView) findViewById(R.id.picture_preview);
 		mTrailNames = mExtras.getStringArray("TRAILNAMES");
@@ -72,9 +76,9 @@ public class AddPoint extends Activity {
 		mCategoryPicker = (Spinner) findViewById(R.id.new_point_category);
 		
 		mPictureButton.setOnClickListener(mOnAddPictureListener);
-		
+		mImagePreview.setOnClickListener(mOnAddPictureListener);
+		// If we've rotated, we have a very cheap way to get the image again
 		final Object data = getLastNonConfigurationInstance();
-		
 		if (data != null) {
 			mPicture = (Bitmap) data;
 			mImagePreview.setImageBitmap(mPicture);
@@ -113,7 +117,7 @@ public class AddPoint extends Activity {
 			}
 			mPicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImageURI);
 			Log.w(ShowMap.MTM, "Content URI: " + mSelectedImageURI.toString());
-			Log.w(ShowMap.MTM, "Image Path : " + getRealPathFromURI(mSelectedImageURI));
+			Log.w(ShowMap.MTM, "Image Path : " + NetUtils.getRealPathFromURI(mSelectedImageURI, this));
 			mImagePreview.setImageBitmap(mPicture);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -125,32 +129,19 @@ public class AddPoint extends Activity {
 		
 	}
 	
-	private void uploadImage() {
+	private void uploadImage(int id) {
 		HashMap<String, String> otherValues = new HashMap<String, String>();
-		otherValues.put("id", "1");
+		otherValues.put("id", id + "");
 		otherValues.put("user", mSettings.getString(getString(R.string.key_username), ""));
 		otherValues.put("pwhash", mSettings.getString(getString(R.string.key_password), ""));
-		NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), getRealPathFromURI(mSelectedImageURI));
+		Log.w(ShowMap.MTM, "Hash posting on image upload: " + otherValues);
+		NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), NetUtils.getRealPathFromURI(mSelectedImageURI, this));
 	}
 	
 	@Override
 	public Object onRetainNonConfigurationInstance() {
 		final Bitmap savePicture = mPicture;
 		return savePicture;
-	}
-	
-	/**
-	 * Provides the file location used when selecting an image
-	 * 
-	 * @param contentUri The URI provided by the image pick activity
-	 * @return File path to pass to the uploader
-	 */
-	public String getRealPathFromURI(Uri contentUri) {
-		String[] proj = { MediaStore.Images.Media.DATA };
-		Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		cursor.moveToFirst();
-		return cursor.getString(column_index);
 	}
 	
 	private View.OnClickListener mOnSubmitPointListener = new View.OnClickListener() {
@@ -171,7 +162,19 @@ public class AddPoint extends Activity {
 			Log.w(ShowMap.MTM, "hash: " + items.toString());
 			String result = NetUtils.postHTTPData(items, getString(R.string.actual_data_root) + getString(R.string.add_point_path));
 			Log.w(ShowMap.MTM, "Result: " + result);
-			//finish();
+			mID = -1;
+			// Try and retrieve the result, if it fails, the point failed adding, do not upload
+			try {
+				mID = Integer.parseInt(result);
+			} catch (NumberFormatException e) {
+				mUploadProgress.setVisibility(View.INVISIBLE);
+				AlertDialog.Builder build = new AlertDialog.Builder(AddPoint.this);
+			}
+			if (mID > -1) {
+				mUploadProgress.setVisibility(View.VISIBLE);
+				new AsyncImageUploader().execute();
+			}
+			// finish();
 		}
 	};
 	
@@ -191,6 +194,24 @@ public class AddPoint extends Activity {
 	 */
 	private float convertIntGeoE6toFloat(int location) {
 		return (location / ((float) (1000000.0)));
+	}
+	
+	private class AsyncImageUploader extends AsyncTask<String, Void, Void> {
+		
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			uploadImage(mID);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			mUploadProgress.setVisibility(View.INVISIBLE);
+			super.onPostExecute(result);
+			finish();
+		}
+		
 	}
 	
 }

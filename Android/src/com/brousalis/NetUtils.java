@@ -33,6 +33,7 @@ import org.apache.http.util.ByteArrayBuffer;
 
 //import org.apache.http.entity.mime.*;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -99,7 +100,19 @@ public class NetUtils {
 		return "HASH ERROR";
 	}
 	
-	
+	/**
+	 * Provides the file location used when selecting an image
+	 * 
+	 * @param contentUri The URI provided by the image pick activity
+	 * @return File path to pass to the uploader
+	 */
+	public static String getRealPathFromURI(Uri contentUri, Activity a) {
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor cursor = a.managedQuery(contentUri, proj, null, null, null);
+		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
 	
 	public static boolean postHTTPImage(HashMap<String, String> items, String url, String imageFileName) {
 		
