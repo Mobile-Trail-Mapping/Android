@@ -75,18 +75,6 @@ public class ReportProblem extends Activity {
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 	}
 	
-//	@Override
-//	protected void onPause() {
-//		Editor edit = mSettings.edit();
-//		if (mImageFilePath != null) {
-//			edit.putString("IMAGEPATH", mImageFilePath);
-//		} else {
-//			// If the filepath does not exist, put nothing in there
-//			edit.putString("IMAGEPATH", "");
-//		}
-//		super.onPause();
-//	}
-	
 	private View.OnClickListener mOnAddPictureListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -161,9 +149,6 @@ public class ReportProblem extends Activity {
 		mCancelButton.setEnabled(false);
 		mSubmitButton.setEnabled(false);
 		mImagePreview.setEnabled(false);
-		Editor edit = mSettings.edit();
-		edit.putBoolean("UPLOADING", true);
-		edit.commit();
 	}
 	
 	private void postProblem() {
@@ -206,9 +191,6 @@ public class ReportProblem extends Activity {
 			finished.putExtra(getString(R.string.problem_report_success), true);
 			setResult(Activity.RESULT_OK, finished);
 			
-			Editor edit = mSettings.edit();
-			edit.putBoolean("UPLOADING", false);
-			edit.commit();
 			mImagePreview.setImageDrawable(getResources().getDrawable(R.drawable.camera));
 			mPicture.recycle();
 			finish();
