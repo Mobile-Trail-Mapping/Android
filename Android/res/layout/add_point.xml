@@ -10,6 +10,17 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:orientation="vertical">
+			<View
+				style="@style/TitleHilight"
+				android:layout_marginTop="10dip"/>
+			<TextView
+				style="@style/TitleText"
+				android:text="Add a New Trail Point"
+				android:gravity="center"
+				android:textSize="20dip"/>
+			<View
+				style="@style/TitleHilight"
+				android:layout_marginBottom="10dip"/>
 			<TextView
 				android:text="Trail to put point on"
 				style="@style/TitleText"/>
@@ -76,11 +87,15 @@
 				android:gravity="top"
 				android:imeOptions="actionDone"
 				style="@style/TextBoxPref"/>
+			<View
+				style="@style/TitleHilight"
+				android:layout_marginTop="10dip"/>
 			<TableLayout
 				android:stretchColumns="*"
 				android:padding="10dip"
 				android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:background="@color/gray_background">
 				<TableRow>
 					<Button
 						android:id="@+id/add_point_button"

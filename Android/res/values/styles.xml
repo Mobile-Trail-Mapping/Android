@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<style name="TitleText" parent="@android:style/TextAppearance.Small">
-		<item name="android:textColor">#BFBFBF</item>
+		<item name="android:textColor">@color/gray_text_light</item>
         <item name="android:typeface">normal</item>
-        <item name="android:background">#323232</item>
+        <item name="android:background">@color/gray_background</item>
         <item name="android:paddingLeft">10dip</item>
         <item name="android:paddingRight">10dip</item>
         <item name="android:paddingTop">2dip</item>
@@ -12,7 +12,7 @@
 		<item name="android:layout_height">wrap_content</item>
 	</style>
 	<style name="TitleHilight">
-		<item name="android:background">#FF808080</item>
+		<item name="android:background">@color/gray_hilight</item>
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">1px</item>
 	</style>

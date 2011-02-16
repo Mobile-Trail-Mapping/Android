@@ -65,7 +65,7 @@ public class ItemDetails extends Activity {
 		TextView summary = (TextView) this.findViewById(R.id.detail_summary);
 		mGallery = (Gallery) this.findViewById(R.id.gallery);
 		mProgress = (ProgressBar) findViewById(R.id.loading_gallery);
-		TextView condition = (TextView) this.findViewById(R.id.detail_condition);
+		//TextView condition = (TextView) this.findViewById(R.id.detail_condition);
 		mUploadProgress = (LinearLayout) findViewById(R.id.upload_progress);
 		// Set values of the textViews
 		title.setText(mTitle);
