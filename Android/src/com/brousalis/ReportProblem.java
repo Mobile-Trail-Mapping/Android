@@ -73,33 +73,19 @@ public class ReportProblem extends Activity {
 		mLocation = mExtras.getParcelable("GEOPOINT");
 		
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		// If we've rotated, we have a very cheap way to get the image again
-//		final Object data = getLastNonConfigurationInstance();
-//		if (data != null) {
-//			mImageFilePath = mSettings.getString("IMAGEPATH", "");
-//			mPicture = (Bitmap) data;
-//			mImagePreview.setImageBitmap(mPicture);
-//			setPicturePreviewLoaded();
-//		}
-//		
-//		if (mSettings.getBoolean("UPLOADING", false)) {
-//			disableAllButtons();
-//			mUploadProgress.setVisibility(View.VISIBLE);
-//		}
 	}
 	
-	@Override
-	protected void onPause() {
-		Editor edit = mSettings.edit();
-		if (mImageFilePath != null) {
-			edit.putString("IMAGEPATH", mImageFilePath);
-		} else {
-			// If the filepath does not exist, put nothing in there
-			edit.putString("IMAGEPATH", "");
-		}
-		super.onPause();
-	}
+//	@Override
+//	protected void onPause() {
+//		Editor edit = mSettings.edit();
+//		if (mImageFilePath != null) {
+//			edit.putString("IMAGEPATH", mImageFilePath);
+//		} else {
+//			// If the filepath does not exist, put nothing in there
+//			edit.putString("IMAGEPATH", "");
+//		}
+//		super.onPause();
+//	}
 	
 	private View.OnClickListener mOnAddPictureListener = new View.OnClickListener() {
 		@Override
@@ -202,15 +188,6 @@ public class ReportProblem extends Activity {
 	private float convertIntGeoE6toFloat(int location) {
 		return (location / ((float) (1000000.0)));
 	}
-	
-//	@Override
-//	public Object onRetainNonConfigurationInstance() {
-//		Bitmap savePicture = null;
-//		if (mImageFilePath != null) {
-//			savePicture = mPicture;
-//		}
-//		return savePicture;
-//	}
 	
 	private class AsyncImageUploader extends AsyncTask<String, Void, Void> {
 		

@@ -576,7 +576,7 @@ public class ShowMap extends MapActivity {
 				}
 			} else if (requestCode == REPORT_PROBLEM_REQUEST_CODE) {
 				if (data.getBooleanExtra(getString(R.string.problem_report_success), false)) {
-					Toast.makeText(this, R.string.problem_has_been_reported, Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, R.string.problem_has_been_reported, Toast.LENGTH_LONG).show();
 				}
 			}
 		}

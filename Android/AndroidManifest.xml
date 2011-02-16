@@ -25,11 +25,13 @@
 		<activity
 			android:name=".ItemDetails"
 			android:label="@string/title_details"
+			android:configChanges="orientation"
 			android:theme="@android:style/Theme.Black.NoTitleBar"/>
 		<activity
 			android:name=".AddPoint"
 			android:label="@string/title_add_point"
 			android:windowSoftInputMode="stateHidden|adjustUnspecified"
+			android:configChanges="orientation"
 			android:theme="@android:style/Theme.Black.NoTitleBar"/>
 		<activity
 			android:name=".ReportProblem"
