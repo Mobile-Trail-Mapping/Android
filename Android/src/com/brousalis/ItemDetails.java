@@ -110,6 +110,7 @@ public class ItemDetails extends Activity {
 				Log.w(ShowMap.MTM, "Data set is changing!");
 				mImageAdapter.notifyDataSetChanged();
 			}
+			mGallery.setVisibility(View.VISIBLE);
 			
 		} else {
 			mGallery.setVisibility(View.GONE);
