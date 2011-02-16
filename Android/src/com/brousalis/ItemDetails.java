@@ -103,6 +103,7 @@ public class ItemDetails extends Activity {
 	private void refreshGallery() {
 		if (mNumPhotos > 0) {
 			if (mImageAdapter == null) {
+				Log.w(ShowMap.MTM, "We're creating a new gallery");
 				mImageAdapter = new ImageAdapter(ItemDetails.this, mID, mNumPhotos, mDensity);
 				mGallery.setAdapter(mImageAdapter);
 			} else {
