@@ -2,11 +2,12 @@ package com.brousalis;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,12 @@ public class ImageAdapter extends BaseAdapter {
 	private String mGalleryImageFolder;
 	
 	private ArrayList<Bitmap> mDrawables;
-	
-	public ImageAdapter(Context c, int pointID, int numOfPictures) {
+	private int mDensity;
+	public ImageAdapter(Context c, int pointID, int numOfPictures, int density) {
 		WEB_FOLDER = c.getString(R.string.actual_data_root) + c.getString(R.string.photo_path);
 		mContext = c;
 		mGalleryImageFolder = DATA_FOLDER + pointID + "/";
-		
+		mDensity = density;
 		// verifyImageCache(pointID);
 		TypedArray a = mContext.obtainStyledAttributes(R.styleable.DetailGallery);
 		
@@ -79,12 +80,31 @@ public class ImageAdapter extends BaseAdapter {
 		Log.w(ShowMap.MTM, "getView fired");
 		i = new ImageView(mContext);
 		Log.w(ShowMap.MTM, "using Recycled");
+		Bitmap b = mDrawables.get(position);
 		i.setImageBitmap(mDrawables.get(position));
-		i.setLayoutParams(new Gallery.LayoutParams(400, 300));
+		
+		b.getHeight();
+		b.getWidth();
+		
+		
+		i.setLayoutParams(getLayoutParamsForScreen(mDensity));
 		i.setScaleType(ImageView.ScaleType.FIT_CENTER);
 		i.setBackgroundResource(mGalleryItemBackground);
 		
 		return i;
+	}
+	
+	private Gallery.LayoutParams getLayoutParamsForScreen(int screenDPI) {
+		switch(screenDPI) {
+			case DisplayMetrics.DENSITY_HIGH:
+				return new Gallery.LayoutParams(400, 300);
+			case DisplayMetrics.DENSITY_MEDIUM:
+				return new Gallery.LayoutParams(300, 225);
+			case DisplayMetrics.DENSITY_LOW:
+				return new Gallery.LayoutParams(200, 150);
+			default:
+				return new Gallery.LayoutParams(300, 225);
+		}
 	}
 	
 }

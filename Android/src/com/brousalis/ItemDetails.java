@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +45,8 @@ public class ItemDetails extends Activity {
 	private SharedPreferences mSettings;
 	private ImageAdapter mImageAdapter;
 	
+	private int mDensity;
+	
 	private static final int SELECT_IMAGE = 3;
 	
 	@Override
@@ -52,6 +55,10 @@ public class ItemDetails extends Activity {
 		this.setContentView(R.layout.item_details);
 		
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		mDensity = dm.densityDpi;
 		
 		// Load extras data to populate view
 		_extras = this.getIntent().getExtras();
@@ -96,7 +103,7 @@ public class ItemDetails extends Activity {
 	private void refreshGallery() {
 		if (mNumPhotos > 0) {
 			if (mImageAdapter == null) {
-				mImageAdapter = new ImageAdapter(ItemDetails.this, mID, mNumPhotos);
+				mImageAdapter = new ImageAdapter(ItemDetails.this, mID, mNumPhotos, mDensity);
 				mGallery.setAdapter(mImageAdapter);
 			} else {
 				Log.w(ShowMap.MTM, "Data set is changing!");
