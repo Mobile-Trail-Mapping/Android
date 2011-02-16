@@ -143,24 +143,33 @@ public class ItemDetails extends Activity {
 	
 	private class AsyncImageChecker extends AsyncTask<String, Void, Void> {
 		
+		private boolean mConnectionBroke = false;
+		
 		@Override
 		protected Void doInBackground(String... params) {
-			mNumPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + mID));
-			verifyImageCache(mID);
+			try {
+				mNumPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + mID));
+				verifyImageCache(mID);
+			} catch (NumberFormatException e) {
+				mConnectionBroke = true;
+			}
+			
 			return null;
 		}
 		
 		@Override
 		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
 			// The most recent photo always has the same id as the count
 			if(mImageAdapter != null) {
 				// We only want to call add Item when a new photo is uploaded, not the first time, hence the if.
 				mImageAdapter.addItem(mNumPhotos);
 			}
 			Log.w(ShowMap.MTM, "Done uploading, and re-downloading, trying to refresh gallery");
-			refreshGallery();
+			if(!mConnectionBroke) {
+				refreshGallery();
+			}
 			Log.w(ShowMap.MTM, "Gallery refreshed");
-			super.onPostExecute(result);
 		}
 		
 	}
