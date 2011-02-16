@@ -11,7 +11,9 @@
 		<item
 			android:id="@+id/menu_report_problem"
 			android:titleCondensed="Report Problem"
-			android:title="Report Problem"/>
+			android:title="Report Problem"
+			android:icon="@drawable/ic_menu_warning"
+			/>
 	</group>
 	<!-- android:icon="@drawable/ic_menu_add_point" -->
 	<item
