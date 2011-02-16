@@ -49,6 +49,8 @@ public class AddPoint extends Activity {
 	private EditText mDescription;
 	private EditText mTitle;
 	
+	private String mImageFilePath;
+	
 	private LinearLayout mUploadProgress;
 	// The id of the created point to be used by async process
 	private int mID;
@@ -83,11 +85,11 @@ public class AddPoint extends Activity {
 		mPictureButton.setOnClickListener(mOnAddPictureListener);
 		mImagePreview.setOnClickListener(mOnAddPictureListener);
 		// If we've rotated, we have a very cheap way to get the image again
-		final Object data = getLastNonConfigurationInstance();
-		if (data != null) {
-			mPicture = (Bitmap) data;
-			mImagePreview.setImageBitmap(mPicture);
-		}
+		// final Object data = getLastNonConfigurationInstance();
+		// if (data != null) {
+		// mPicture = (Bitmap) data;
+		// mImagePreview.setImageBitmap(mPicture);
+		// }
 		
 		mCancelButton = (Button) findViewById(R.id.go_back_button);
 		mCancelButton.setOnClickListener(mOnCancelListener);
@@ -109,43 +111,33 @@ public class AddPoint extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
 			mSelectedImageURI = data.getData();
-			setPreviewImage();
+			mImageFilePath = NetUtils.getRealPathFromURI(mSelectedImageURI, this);
+			try {
+				if (mPicture != null) {
+					mPicture.recycle();
+				}
+				mPicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImageURI);
+				Log.w(ShowMap.MTM, "Image Path : " + mImageFilePath);
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			mImagePreview.setImageBitmap(mPicture);
 			
 		}
 	};
-	
-	private void setPreviewImage() {
-		try {
-			if (mPicture != null) {
-				mPicture.recycle();
-			}
-			mPicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImageURI);
-			Log.w(ShowMap.MTM, "Content URI: " + mSelectedImageURI.toString());
-			Log.w(ShowMap.MTM, "Image Path : " + NetUtils.getRealPathFromURI(mSelectedImageURI, this));
-			mImagePreview.setImageBitmap(mPicture);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
 	private void uploadImage(int id) {
 		HashMap<String, String> otherValues = new HashMap<String, String>();
 		otherValues.put("id", id + "");
 		otherValues.put("user", mSettings.getString(getString(R.string.key_username), ""));
 		otherValues.put("pwhash", mSettings.getString(getString(R.string.key_password), ""));
-		Log.w(ShowMap.MTM, "Hash posting on image upload: " + otherValues);
-		NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), NetUtils.getRealPathFromURI(mSelectedImageURI, this));
-	}
-	
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		final Bitmap savePicture = mPicture;
-		return savePicture;
+		NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.add_photo_path), mImageFilePath);
 	}
 	
 	private View.OnClickListener mOnSubmitPointListener = new View.OnClickListener() {
@@ -166,16 +158,17 @@ public class AddPoint extends Activity {
 			Log.w(ShowMap.MTM, "hash: " + items.toString());
 			String result = NetUtils.postHTTPData(items, getString(R.string.actual_data_root) + getString(R.string.add_point_path));
 			Log.w(ShowMap.MTM, "Result: " + result);
-			mID = -1;
 			// Try and retrieve the result, if it fails, the point failed adding, do not upload
-			try {
-				mID = Integer.parseInt(result);
-				mUploadProgress.setVisibility(View.VISIBLE);
-				new AsyncImageUploader().execute();
-			} catch (NumberFormatException e) {
-				mUploadProgress.setVisibility(View.INVISIBLE);
-				AlertDialog.Builder build = new AlertDialog.Builder(AddPoint.this);
-				build.setTitle("Failed to upload image").setMessage("The image was not uploaded. You can open the point and edit it later to add your photo.");
+			if (mImageFilePath != null) {
+				try {
+					mID = Integer.parseInt(result);
+					mUploadProgress.setVisibility(View.VISIBLE);
+					new AsyncImageUploader().execute();
+				} catch (NumberFormatException e) {
+					mUploadProgress.setVisibility(View.INVISIBLE);
+					AlertDialog.Builder build = new AlertDialog.Builder(AddPoint.this);
+					build.setTitle("Failed to upload image").setMessage("The image was not uploaded. You can open the point and edit it later to add your photo.");
+				}
 			}
 			finish();
 		}
