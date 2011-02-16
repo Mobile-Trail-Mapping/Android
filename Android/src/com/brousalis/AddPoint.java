@@ -59,20 +59,25 @@ public class AddPoint extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_point);
 		
+		// Extract Extras from package
 		mExtras = this.getIntent().getExtras();
+		mTrailNames = mExtras.getStringArray("TRAILNAMES");
+		mLocation = mExtras.getParcelable("GEOPOINT");
 		
+		// Load UI Resources
 		mDescription = (EditText) findViewById(R.id.new_point_summary);
 		mTitle = (EditText) findViewById(R.id.new_point_title);
 		mUploadProgress = (LinearLayout) findViewById(R.id.upload_progress);
 		mPictureButton = (Button) findViewById(R.id.add_picture_button);
 		mImagePreview = (ImageView) findViewById(R.id.picture_preview);
-		mTrailNames = mExtras.getStringArray("TRAILNAMES");
-		mLocation = mExtras.getParcelable("GEOPOINT");
 		mTrailPicker = (Spinner) findViewById(R.id.new_point_trail);
+		
+		// Set the adapters for the Trails
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mTrailNames);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mTrailPicker.setAdapter(spinnerAdapter);
 		
+		// Set the adapter for the Categories
 		mCategoryPicker = (Spinner) findViewById(R.id.new_point_category);
 		
 		mPictureButton.setOnClickListener(mOnAddPictureListener);
