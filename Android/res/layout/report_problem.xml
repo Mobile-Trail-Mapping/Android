@@ -41,6 +41,8 @@
 				style="@style/TitleHilight"/>
 			<EditText
 				android:id="@+id/new_problem_desc"
+				android:hint="The Problem is with the..."
+				android:gravity="top"
 				android:lines="3"
 				android:imeOptions="actionDone"
 				style="@style/TextBoxPref"/>
@@ -57,12 +59,24 @@
 					android:id="@+id/picture_preview"
 					android:src="@drawable/camera"
 					android:scaleType="fitCenter"/>
-				<Button
-					android:id="@+id/add_picture_button"
+				<LinearLayout
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:text="Add Picture"/>
+					android:layout_height="fill_parent"
+					android:orientation="vertical"
+					android:gravity="center">
+					<Button
+						android:id="@+id/add_picture_button"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:text="Add Picture"/>
+					<Button
+						android:id="@+id/remove_picture_button"
+						android:layout_width="fill_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:text="Remove Picture"/>
+				</LinearLayout>
 			</LinearLayout>
 			<View
 				style="@style/TitleHilight"
