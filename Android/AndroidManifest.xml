@@ -34,6 +34,8 @@
 		<activity
 			android:name=".ReportProblem"
 			android:label="@string/report_a_problem"
+			android:windowSoftInputMode="stateHidden|adjustUnspecified"
+			android:configChanges="orientation"
 			android:theme="@android:style/Theme.Black.NoTitleBar"/>
 		<uses-library
 			android:name="com.google.android.maps"

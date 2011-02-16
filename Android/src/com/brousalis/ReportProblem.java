@@ -7,6 +7,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ public class ReportProblem extends Activity {
 	private Bitmap mPicture;
 	private SharedPreferences mSettings;
 	private Uri mSelectedImageURI;
+	private String mImageFilePath;
 	private ParcelableGeoPoint mLocation;
 	
 	// UI Elements
@@ -34,9 +37,11 @@ public class ReportProblem extends Activity {
 	private EditText mProblem;
 	private EditText mProblemDescription;
 	private LinearLayout mUploadProgress;
+	
 	private Button mCancelButton;
 	private Button mSubmitButton;
 	private Button mAddPictureButton;
+	private Button mRemovePictureButton;
 	
 	// Extras
 	private Bundle mExtras;
@@ -51,15 +56,18 @@ public class ReportProblem extends Activity {
 		mProblemDescription = (EditText) findViewById(R.id.new_problem_desc);
 		mImagePreview = (ImageView) findViewById(R.id.picture_preview);
 		mUploadProgress = (LinearLayout) findViewById(R.id.upload_progress);
+		
 		mCancelButton = (Button) findViewById(R.id.go_back_button);
 		mSubmitButton = (Button) findViewById(R.id.add_point_button);
 		mAddPictureButton = (Button) findViewById(R.id.add_picture_button);
+		mRemovePictureButton = (Button) findViewById(R.id.remove_picture_button);
 		
 		// Add listeners
 		mCancelButton.setOnClickListener(mOnCancelListener);
 		mSubmitButton.setOnClickListener(mOnSubmitReportListener);
 		mAddPictureButton.setOnClickListener(mOnAddPictureListener);
 		mImagePreview.setOnClickListener(mOnAddPictureListener);
+		mRemovePictureButton.setOnClickListener(mOnRemovePictureListener);
 		
 		// Get data from the GeoPoint
 		mLocation = mExtras.getParcelable("GEOPOINT");
@@ -67,11 +75,30 @@ public class ReportProblem extends Activity {
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		// If we've rotated, we have a very cheap way to get the image again
-		final Object data = getLastNonConfigurationInstance();
-		if (data != null) {
-			mPicture = (Bitmap) data;
-			mImagePreview.setImageBitmap(mPicture);
+//		final Object data = getLastNonConfigurationInstance();
+//		if (data != null) {
+//			mImageFilePath = mSettings.getString("IMAGEPATH", "");
+//			mPicture = (Bitmap) data;
+//			mImagePreview.setImageBitmap(mPicture);
+//			setPicturePreviewLoaded();
+//		}
+//		
+//		if (mSettings.getBoolean("UPLOADING", false)) {
+//			disableAllButtons();
+//			mUploadProgress.setVisibility(View.VISIBLE);
+//		}
+	}
+	
+	@Override
+	protected void onPause() {
+		Editor edit = mSettings.edit();
+		if (mImageFilePath != null) {
+			edit.putString("IMAGEPATH", mImageFilePath);
+		} else {
+			// If the filepath does not exist, put nothing in there
+			edit.putString("IMAGEPATH", "");
 		}
+		super.onPause();
 	}
 	
 	private View.OnClickListener mOnAddPictureListener = new View.OnClickListener() {
@@ -89,41 +116,73 @@ public class ReportProblem extends Activity {
 	private View.OnClickListener mOnSubmitReportListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			disableAllButtons();
+			mUploadProgress.setVisibility(View.VISIBLE);
 			new AsyncImageUploader().execute();
 			
+		}
+	};
+	private View.OnClickListener mOnRemovePictureListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mImageFilePath = null;
+			setPicturePreviewUnloaded();
+			mPicture.recycle();
 		}
 	};
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == SELECT_IMAGE && resultCode == Activity.RESULT_OK) {
+			setPicturePreviewLoaded();
 			mSelectedImageURI = data.getData();
-			setPreviewImage();
+			mImageFilePath = NetUtils.getRealPathFromURI(mSelectedImageURI, this);
+			try {
+				if (mPicture != null) {
+					mPicture.recycle();
+				}
+				mPicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImageURI);
+				Log.w(ShowMap.MTM, "Image Path : " + mImageFilePath);
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			mImagePreview.setImageBitmap(mPicture);
 			
 		}
 	};
 	
-	private void setPreviewImage() {
-		try {
-			if (mPicture != null) {
-				mPicture.recycle();
-			}
-			mPicture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mSelectedImageURI);
-			Log.w(ShowMap.MTM, "Content URI: " + mSelectedImageURI.toString());
-			Log.w(ShowMap.MTM, "Image Path : " + NetUtils.getRealPathFromURI(mSelectedImageURI, this));
-			mImagePreview.setImageBitmap(mPicture);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+	private void setPicturePreviewLoaded() {
+		mAddPictureButton.setText("Modify Picture");
+		mRemovePictureButton.setVisibility(View.VISIBLE);
+	}
+	
+	private void setPicturePreviewUnloaded() {
+		mRemovePictureButton.setVisibility(View.GONE);
+		mImagePreview.setImageDrawable(getResources().getDrawable(R.drawable.camera));
+		mAddPictureButton.setText("Add Picture");
+	}
+	
+	private void disableAllButtons() {
+		mProblem.setEnabled(false);
+		mProblemDescription.setEnabled(false);
+		mAddPictureButton.setEnabled(false);
+		mRemovePictureButton.setEnabled(false);
+		mCancelButton.setEnabled(false);
+		mSubmitButton.setEnabled(false);
+		mImagePreview.setEnabled(false);
+		Editor edit = mSettings.edit();
+		edit.putBoolean("UPLOADING", true);
+		edit.commit();
 	}
 	
 	private void postProblem() {
 		HashMap<String, String> otherValues = new HashMap<String, String>();
-		
+		Log.w(ShowMap.MTM, "Image Path : " + mImageFilePath);
 		otherValues.put("title", mProblem.getText().toString());
 		otherValues.put("desc", mProblemDescription.getText().toString());
 		otherValues.put("lat", convertIntGeoE6toFloat(mLocation.getLatitudeE6()) + "");
@@ -133,18 +192,25 @@ public class ReportProblem extends Activity {
 		otherValues.put("pwhash", mSettings.getString(getString(R.string.key_password), ""));
 		
 		Log.w(ShowMap.MTM, "Hash posting on image upload: " + otherValues);
-		NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.problem_add), NetUtils.getRealPathFromURI(mSelectedImageURI, this));
+		if (mImageFilePath != null) {
+			NetUtils.postHTTPImage(otherValues, getString(R.string.actual_data_root) + getString(R.string.problem_add), mImageFilePath);
+		} else {
+			NetUtils.postHTTPData(otherValues, getString(R.string.actual_data_root) + getString(R.string.problem_add));
+		}
 	}
 	
 	private float convertIntGeoE6toFloat(int location) {
 		return (location / ((float) (1000000.0)));
 	}
 	
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		final Bitmap savePicture = mPicture;
-		return savePicture;
-	}
+//	@Override
+//	public Object onRetainNonConfigurationInstance() {
+//		Bitmap savePicture = null;
+//		if (mImageFilePath != null) {
+//			savePicture = mPicture;
+//		}
+//		return savePicture;
+//	}
 	
 	private class AsyncImageUploader extends AsyncTask<String, Void, Void> {
 		
@@ -162,6 +228,12 @@ public class ReportProblem extends Activity {
 			Intent finished = new Intent();
 			finished.putExtra(getString(R.string.problem_report_success), true);
 			setResult(Activity.RESULT_OK, finished);
+			
+			Editor edit = mSettings.edit();
+			edit.putBoolean("UPLOADING", false);
+			edit.commit();
+			mImagePreview.setImageDrawable(getResources().getDrawable(R.drawable.camera));
+			mPicture.recycle();
 			finish();
 		}
 		
