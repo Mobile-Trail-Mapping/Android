@@ -36,4 +36,8 @@
     <string name="problem_report_success">SUCCESS</string>
     <string name="report_a_problem">Report a Problem</string>
     <string name="problem_add">problem/add</string>
+    <string name="about">About</string>
+    <string name="aboutthetrails">LC Trails for Android allows users to easily map and get information about their favorite trails in the Linn County, Iowa area. Users can view trails, buildings, and photos, and help improve the system by submitting reports of problems on the trails.
+\n\n
+Developed for the Linn County Trails Association by students at Rose-Hulman Institute of Technology.</string>
 </resources>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
@@ -464,6 +465,10 @@ public class ShowMap extends MapActivity {
 				ParcelableGeoPoint point = new ParcelableGeoPoint(getRecentLocation());
 				report_problem.putExtra("GEOPOINT", point);
 				this.startActivityForResult(report_problem, REPORT_PROBLEM_REQUEST_CODE);
+				break;
+			case R.id.menu_about:
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle("About LC Trails").setMessage(R.string.aboutthetrails).setPositiveButton(R.string.ok, null).show();
 				break;
 			case R.id.menu_settings:
 				Intent settings = new Intent(this, TrailPrefs.class);

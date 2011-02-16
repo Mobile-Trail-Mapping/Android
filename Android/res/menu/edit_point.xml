@@ -7,7 +7,8 @@
 			android:id="@+id/menu_edit_point"
 			android:icon="@drawable/ic_menu_edit"
 			android:title="@string/edit_this_point"
-			android:titleCondensed="@string/edit"/>
+			android:titleCondensed="@string/edit"
+			android:enabled="false"/>
 		<item
 			android:id="@+id/menu_add_photo"
 			android:icon="@drawable/ic_menu_camera"

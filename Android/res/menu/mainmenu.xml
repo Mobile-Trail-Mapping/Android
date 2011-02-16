@@ -40,4 +40,11 @@
 		android:icon="@drawable/ic_menu_preferences"
 		android:visible="true"
 		android:enabled="true"/>
+	<item
+		android:id="@+id/menu_about"
+		android:titleCondensed="@string/about"
+		android:title="@string/about"
+		android:icon="@drawable/ic_menu_info_details"
+		android:visible="true"
+		android:enabled="true"/>
 </menu>
