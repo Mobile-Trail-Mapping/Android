@@ -31,6 +31,7 @@ public class BetaDialog extends Dialog {
 		this.setContentView(xmlToLoad);
 		this.setCancelable(true);
 		
+		
 		// We'll always have a cancel button
 		_cancelButton = (Button) this.findViewById(R.id.beta_user_cancel);
 		

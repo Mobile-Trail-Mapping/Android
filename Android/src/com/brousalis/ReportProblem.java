@@ -21,7 +21,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+/**
+ * Activity that lets users report problems in the trails.
+ * @author ericstokes
+ *
+ */
 public class ReportProblem extends Activity {
 	
 	private static final int SELECT_IMAGE = 3;

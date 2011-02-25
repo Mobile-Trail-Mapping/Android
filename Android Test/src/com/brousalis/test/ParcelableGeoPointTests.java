@@ -7,7 +7,11 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.brousalis.ParcelableGeoPoint;
 import com.brousalis.ShowMap;
 import com.google.android.maps.GeoPoint;
-
+/**
+ * Tests that verify that the ParcelableGeoPoint can work.
+ * @author ericstokes
+ *
+ */
 public class ParcelableGeoPointTests extends TestCase {
 	
 	public ParcelableGeoPointTests() {

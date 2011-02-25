@@ -4,7 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.maps.GeoPoint;
-
+/**
+ * A GeoPoint that can be packaged up and shipped between intents.
+ * @author ericstokes
+ *
+ */
 public class ParcelableGeoPoint extends GeoPoint implements Parcelable {
 	
 	public ParcelableGeoPoint(int latitudeE6, int longitudeE6) {
