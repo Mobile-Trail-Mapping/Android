@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import com.brousalis.mtm.R;
 
 /**
  * The adapter that allows the GalleryView to display multiple images.

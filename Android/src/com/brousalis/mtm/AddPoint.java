@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import com.brousalis.mtm.R;
 
 /**
  * Activity for adding points to the trail system.

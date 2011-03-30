@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import com.brousalis.mtm.R;
 /**
  * Activity that lets users report problems in the trails.
  * @author ericstokes

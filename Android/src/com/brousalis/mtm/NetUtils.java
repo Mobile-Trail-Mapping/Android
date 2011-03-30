@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -39,6 +39,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
+import com.brousalis.mtm.R;
 
 /**
  * Utility class that provides multiple network communication methods

@@ -8,6 +8,9 @@
 			android:icon="@drawable/ic_menu_add"
 			android:titleCondensed="@string/menu_add_point"
 			android:title="@string/menu_add_point"/>
+	</group>
+	<group
+		android:id="@+id/user">
 		<item
 			android:id="@+id/menu_report_problem"
 			android:titleCondensed="Report Problem"

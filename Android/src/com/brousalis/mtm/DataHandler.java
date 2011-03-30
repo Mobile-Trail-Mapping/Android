@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import org.xml.sax.InputSource;
 
 import android.util.Log;
 
+import com.brousalis.mtm.R;
 import com.google.android.maps.GeoPoint;
 
 /**

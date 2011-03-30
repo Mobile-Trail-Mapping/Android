@@ -29,6 +29,7 @@
     <string name="summary_reset_images">Deletes all local images so they can be downloaded again.</string>
     <string name="key_reset_images">key_reset_images</string>
     
+    <string name="key_is_admin">IS_ADMIN</string>
     <string name="key_logged_in">LOGGED_IN</string>
     <string name="key_login_preference">KEY_LOGIN_PREF</string>
     <string name="key_logout_preference">KEY_LOGOUT_PREF</string>

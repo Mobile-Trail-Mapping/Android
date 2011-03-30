@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import com.brousalis.mtm.R;
 
 /**
  * BetaDialog is a custom extension of the Dialog class that will allow us to show any popups related to the android beta program.

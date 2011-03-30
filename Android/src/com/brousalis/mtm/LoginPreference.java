@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.util.HashMap;
 
@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
+import com.brousalis.mtm.R;
 /**
  * Custom preference that displays login fields.
  * @author ericstokes 2/7/2011
@@ -19,6 +20,8 @@ import android.widget.EditText;
  */
 public class LoginPreference extends DialogPreference implements DialogInterface.OnClickListener{
 	
+	public final static String ADMIN = "admin";
+	public final static String USER = "user";
 	Context mContext;
 	SharedPreferences mSettings;
 	
@@ -53,8 +56,9 @@ public class LoginPreference extends DialogPreference implements DialogInterface
 			credentials.put("pwhash", password);
 
 			String result = NetUtils.postHTTPData(credentials, postingURL);
-			if(result.equals("true")) {
+			if(result.equals(ADMIN) || result.equals(USER)) {
 				Editor editor = mSettings.edit();
+				editor.putBoolean(mContext.getString(R.string.key_is_admin), result.equals(ADMIN));
 				editor.putBoolean(mContext.getString(R.string.key_logged_in), true);
 				editor.putString(mContext.getString(R.string.key_username), username);
 				editor.putString(mContext.getString(R.string.key_password), password);

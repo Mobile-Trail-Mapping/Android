@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +8,7 @@ import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import com.brousalis.mtm.R;
 /**
  * A custom preference item that displays a yes/no and lets the user confirm or deny the choice.
  * @author ericstokes

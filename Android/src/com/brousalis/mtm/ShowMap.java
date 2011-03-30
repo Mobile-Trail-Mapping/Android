@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,6 +38,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.brousalis.mtm.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -433,7 +434,8 @@ public class ShowMap extends MapActivity {
 		menu.findItem(R.id.menu_add_point).setEnabled(GPS_TRACK);
 		menu.findItem(R.id.menu_report_problem).setEnabled(GPS_TRACK);
 		// Only show the add point menu if the user is an admin.
-		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_logged_in), false));
+		menu.setGroupVisible(R.id.user, mSettings.getBoolean(getString(R.string.key_logged_in), false));
+		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_is_admin), false));
 		return super.onPrepareOptionsMenu(menu);
 	}
 	

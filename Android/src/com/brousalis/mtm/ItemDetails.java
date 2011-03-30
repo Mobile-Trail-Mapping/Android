@@ -1,4 +1,4 @@
-package com.brousalis;
+package com.brousalis.mtm;
 
 import java.io.File;
 import java.util.HashMap;
@@ -20,6 +20,7 @@ import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.brousalis.mtm.R;
 
 /**
  * The ItemDetails Activity that is in charge of populating and showing the information when someone clicks on an important point.
