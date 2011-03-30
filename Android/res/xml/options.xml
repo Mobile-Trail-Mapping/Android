@@ -29,7 +29,7 @@
 			android:title="@string/title_logout"
 			android:summary="@string/summary_logout"
 			android:dialogTitle="@string/title_logout"
-			android:dialogMessage="Are you sure you want to logout?"
+			android:dialogMessage="@string/confirm_logout"
 			android:negativeButtonText="@string/cancel"
 			android:positiveButtonText="@string/ok"/>
 		<com.brousalis.mtm.LoginPreference
