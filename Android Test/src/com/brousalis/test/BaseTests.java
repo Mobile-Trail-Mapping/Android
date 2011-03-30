@@ -9,7 +9,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.util.Log;
 
-import com.brousalis.ShowMap;
+import com.brousalis.mtm.ShowMap;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 /**
@@ -36,7 +36,7 @@ public class BaseTests extends ActivityInstrumentationTestCase2<ShowMap> {
 		config.setToDefaults();
 		
 		mActivity = this.getActivity();
-		mView = (MapView) mActivity.findViewById(com.brousalis.R.id.mapView);
+		mView = (MapView) mActivity.findViewById(com.brousalis.mtm.R.id.mapView);
 		initialZoomLevel = mView.getZoomLevel();
 		setSaveLocation(true);
 	}

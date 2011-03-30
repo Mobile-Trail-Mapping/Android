@@ -4,8 +4,8 @@ import junit.framework.TestCase;
 import android.os.Parcel;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.brousalis.ParcelableGeoPoint;
-import com.brousalis.ShowMap;
+import com.brousalis.mtm.ParcelableGeoPoint;
+import com.brousalis.mtm.ShowMap;
 import com.google.android.maps.GeoPoint;
 /**
  * Tests that verify that the ParcelableGeoPoint can work.

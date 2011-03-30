@@ -8,10 +8,10 @@ import junit.framework.TestCase;
 import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.brousalis.InterestPoint;
-import com.brousalis.ShowMap;
-import com.brousalis.Trail;
-import com.brousalis.TrailPoint;
+import com.brousalis.mtm.InterestPoint;
+import com.brousalis.mtm.ShowMap;
+import com.brousalis.mtm.Trail;
+import com.brousalis.mtm.TrailPoint;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 /**
@@ -36,7 +36,7 @@ public class ObjectTests extends ActivityInstrumentationTestCase2<ShowMap> {
 		config.setToDefaults();
 		
 		mActivity = this.getActivity();
-		mView = (MapView) mActivity.findViewById(com.brousalis.R.id.mapView);
+		mView = (MapView) mActivity.findViewById(com.brousalis.mtm.R.id.mapView);
 	}
 	public void testItemIsTrue() {
 		assertTrue(true);

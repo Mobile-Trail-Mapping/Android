@@ -73,7 +73,7 @@ public class NetUtils {
 			}
 			httpResult = buffer.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(ShowMap.MTM, e.getMessage());
 		}
 		return httpResult;
 	}
@@ -86,12 +86,12 @@ public class NetUtils {
 			
 			// Create Hex String
 			StringBuffer hexString = new StringBuffer();
-	        for (int i = 0; i < messageDigest.length; i++) {
-	            String h = Integer.toHexString(0xFF & messageDigest[i]);
-	            while (h.length() < 2)
-	                h = "0" + h;
-	            hexString.append(h);
-	        }
+			for (int i = 0; i < messageDigest.length; i++) {
+				String h = Integer.toHexString(0xFF & messageDigest[i]);
+				while (h.length() < 2)
+					h = "0" + h;
+				hexString.append(h);
+			}
 			return hexString.toString();
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
@@ -122,7 +122,7 @@ public class NetUtils {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			File imageFile = new File(imageFileName);
-
+			
 			FileBody image = new FileBody(imageFile);
 			MultipartEntity uploadEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 			uploadEntity.addPart("file", image);
@@ -138,7 +138,6 @@ public class NetUtils {
 		} catch (Exception e) {
 			
 		}
-		
 		
 		return false;
 	}

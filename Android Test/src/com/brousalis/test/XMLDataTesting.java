@@ -3,9 +3,9 @@ package com.brousalis.test;
 import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.brousalis.DataHandler;
-import com.brousalis.ShowMap;
-import com.brousalis.Trail;
+import com.brousalis.mtm.DataHandler;
+import com.brousalis.mtm.ShowMap;
+import com.brousalis.mtm.Trail;
 import com.google.android.maps.MapView;
 /**
  * Tests that ensure that the XML documentation is being parsed correctly.
@@ -31,7 +31,7 @@ public static final int GOOD_ZOOM_LEVEL = 17;
 		config.setToDefaults();
 		
 		mActivity = this.getActivity();
-		mView = (MapView) mActivity.findViewById(com.brousalis.R.id.mapView);
+		mView = (MapView) mActivity.findViewById(com.brousalis.mtm.R.id.mapView);
 	}
 	
 	public static final String URL = "http://www.fernferret.com/samplexml.xml";

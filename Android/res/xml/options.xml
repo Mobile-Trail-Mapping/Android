@@ -24,7 +24,7 @@
 	<PreferenceCategory
 		android:title="@string/category_community"
 		android:key="@string/key_community">
-		<com.brousalis.ConfirmPreference
+		<com.brousalis.mtm.ConfirmPreference
 			android:key="@string/key_logout_preference"
 			android:title="@string/title_logout"
 			android:summary="@string/summary_logout"
@@ -32,7 +32,7 @@
 			android:dialogMessage="Are you sure you want to logout?"
 			android:negativeButtonText="@string/cancel"
 			android:positiveButtonText="@string/ok"/>
-		<com.brousalis.LoginPreference
+		<com.brousalis.mtm.LoginPreference
 			android:key="@string/key_login_preference"
 			android:title="@string/login_title"
 			android:negativeButtonText="@string/cancel"

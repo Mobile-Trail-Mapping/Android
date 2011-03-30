@@ -10,7 +10,7 @@
     <string name="summary_logout">Remove this device from </string>
     
     <!-- Login Settings Preference Item -->
-    <string name="login_title">Admin Login</string>
+    <string name="login_title">Login</string>
     
     <!-- Default Zoom Preference Item -->
     <string name="title_default_zoom">Default Zoom</string>
