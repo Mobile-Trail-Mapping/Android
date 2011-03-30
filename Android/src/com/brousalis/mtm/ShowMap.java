@@ -2,6 +2,7 @@ package com.brousalis.mtm;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -38,7 +39,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.brousalis.mtm.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -106,6 +106,7 @@ public class ShowMap extends MapActivity {
 	private SharedPreferences mSettings;
 	
 	private DataHandler mDataHandler;
+	private DataHandler mCategoryXMLHandler;
 	
 	private static CurrentLocation mLocationListen;
 	
@@ -382,6 +383,7 @@ public class ShowMap extends MapActivity {
 	 */
 	private void initializeParser() {
 		new AsyncXMLDownloader().execute();
+		new AsyncXMLCategoryDownloader().execute();
 	}
 	
 	/**
@@ -451,13 +453,16 @@ public class ShowMap extends MapActivity {
 				ParcelableGeoPoint transportPoint = new ParcelableGeoPoint(getRecentLocation());
 				add_point.putExtra("GEOPOINT", transportPoint);
 				
-				int parsedTrailsLength = getParsedTrails().size();
-				String[] trailNames = new String[parsedTrailsLength];
+				HashSet<Trail> trails = getParsedTrails();
+				String[] trailNames = new String[trails.size()];
 				int i = 0;
-				for (Trail t : getParsedTrails()) {
+				for (Trail t : trails) {
 					trailNames[i] = t.getName();
 					i++;
 				}
+				List<String> catList = mCategoryXMLHandler.parseCategoryXML();
+				String[] catNames = catList.toArray(new String[catList.size()]);
+				add_point.putExtra("CATNAMES", catNames);
 				
 				add_point.putExtra("TRAILNAMES", trailNames);
 				this.startActivity(add_point);
@@ -619,6 +624,20 @@ public class ShowMap extends MapActivity {
 			drawTrail();
 			super.onPostExecute(result);
 		}
+	}
+	
+	private class AsyncXMLCategoryDownloader extends AsyncTask<String, Void, Void> {
 		
+		@Override
+		protected Void doInBackground(String... params) {
+			mCategoryXMLHandler = new DataHandler(getString(R.string.actual_data_root) + getString(R.string.category_get_path));
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			drawTrail();
+			super.onPostExecute(result);
+		}
 	}
 }

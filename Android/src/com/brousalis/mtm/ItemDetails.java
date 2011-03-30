@@ -135,7 +135,7 @@ public class ItemDetails extends Activity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// Only show this menu if the user is an admin.
-		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_logged_in), false));
+		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_is_admin), false));
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
@@ -146,6 +146,7 @@ public class ItemDetails extends Activity {
 				startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), SELECT_IMAGE);
 				break;
 			case R.id.menu_edit_point:
+				//startActivityForResult
 				break;
 		}
 		return true;

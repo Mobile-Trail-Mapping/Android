@@ -39,6 +39,7 @@ public class AddPoint extends Activity {
 	private SharedPreferences mSettings;
 	private Uri mSelectedImageURI;
 	private String[] mTrailNames;
+	private String[] mCategoryNames;
 	private ParcelableGeoPoint mLocation;
 	
 	private Spinner mTrailPicker;
@@ -57,6 +58,10 @@ public class AddPoint extends Activity {
 	private String mImageFilePath;
 	
 	private LinearLayout mUploadProgress;
+	
+	// This will be set to true if this activity is called to add a new point
+	private boolean mIsEditingPoint = false;
+	
 	// The id of the created point to be used by async process
 	private int mID;
 	private Bundle mExtras;
@@ -69,6 +74,7 @@ public class AddPoint extends Activity {
 		// Extract Extras from package
 		mExtras = this.getIntent().getExtras();
 		mTrailNames = mExtras.getStringArray("TRAILNAMES");
+		mCategoryNames = mExtras.getStringArray("CATNAMES");
 		mLocation = mExtras.getParcelable("GEOPOINT");
 		
 		// Load UI Resources
@@ -78,6 +84,7 @@ public class AddPoint extends Activity {
 		mPictureButton = (Button) findViewById(R.id.add_picture_button);
 		mImagePreview = (ImageView) findViewById(R.id.picture_preview);
 		mTrailPicker = (Spinner) findViewById(R.id.new_point_trail);
+		mCategoryPicker = (Spinner) findViewById(R.id.new_point_category);
 		mRemovePicButton = (Button) findViewById(R.id.remove_picture_button);
 		mCancelButton = (Button) findViewById(R.id.go_back_button);
 		mSubmitButton = (Button) findViewById(R.id.add_point_button);
@@ -88,7 +95,10 @@ public class AddPoint extends Activity {
 		mTrailPicker.setAdapter(spinnerAdapter);
 		
 		// Set the adapter for the Categories
-		mCategoryPicker = (Spinner) findViewById(R.id.new_point_category);
+		//mCategoryPicker = (Spinner) findViewById(R.id.new_point_category);
+		ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCategoryNames);
+		categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		mCategoryPicker.setAdapter(categoryAdapter);
 		
 		// If we've rotated, we have a very cheap way to get the image again
 		// final Object data = getLastNonConfigurationInstance();

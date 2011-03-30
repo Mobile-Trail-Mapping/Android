@@ -1,6 +1,7 @@
 package com.brousalis.mtm;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -15,13 +16,13 @@ import org.xml.sax.InputSource;
 
 import android.util.Log;
 
-import com.brousalis.mtm.R;
 import com.google.android.maps.GeoPoint;
 
 /**
  * DataHandler allows parsing of trails XML from an online source.
+ * 
  * @author ericstokes
- *
+ * 
  */
 public class DataHandler {
 	
@@ -33,6 +34,7 @@ public class DataHandler {
 	private DocumentBuilder _builder;
 	private URL _xmlFile;
 	private Document _doc;
+	private Object mCategories;
 	
 	/**
 	 * Initializes the DataHandler values using a custom XML File
@@ -40,17 +42,54 @@ public class DataHandler {
 	 * @param XMLFILE Location of the xml to parse.
 	 */
 	public DataHandler(String XMLFILE) {
-		//Log.w("MTM", "Handler initialized");
-		//Log.w("MTM", "Document Location:" + XMLFILE);
+		// Log.w("MTM", "Handler initialized");
+		// Log.w("MTM", "Document Location:" + XMLFILE);
 		_trails = new HashSet<Trail>();
 		_factory = DocumentBuilderFactory.newInstance();
 		try {
 			_xmlFile = new URL(XMLFILE);
 			_builder = _factory.newDocumentBuilder();
 		} catch (Exception e) {
-			//Log.w("MTM", "Caught Exception!");
-			e.printStackTrace();
+			Log.e(ShowMap.MTM, "Parsing Exception: " + e);
 		}
+	}
+	
+	public ArrayList<String> parseCategoryXML() {
+		URL localXMLFile;
+		DocumentBuilder localBuilder;
+		Document localdoc;
+		mCategories = new ArrayList<String>();
+		_factory = DocumentBuilderFactory.newInstance();
+		try {
+			
+			localBuilder = _factory.newDocumentBuilder();
+			localdoc = localBuilder.parse(new InputSource(_xmlFile.openStream()));
+			if (localdoc != null) {
+				return extractCategories(localdoc);
+			} else {
+				// Failure to parse XML
+				Log.w("MTM", "Failure to parse category XML...");
+			}
+		} catch (Exception e) {
+			Log.e(ShowMap.MTM, "Parsing Exception: " + e);
+		}
+		return new ArrayList<String>();
+	}
+	
+	private ArrayList<String> extractCategories(Document localdoc) {
+		ArrayList<String> returnArray = new ArrayList<String>();
+		NodeList itemList = localdoc.getElementsByTagName("category");
+		Node currentNode;
+		for (int k = 0; k < itemList.getLength(); k++) {
+			currentNode = itemList.item(k);
+			for (int i = 0; i < currentNode.getChildNodes().getLength(); i++) {
+				if (currentNode.getChildNodes().item(i).getNodeType() == Node.ELEMENT_NODE) {
+					returnArray.add(currentNode.getChildNodes().item(i).getChildNodes().item(0).getNodeValue());
+				}
+			}
+		}
+		
+		return returnArray;
 	}
 	
 	/**
@@ -62,7 +101,7 @@ public class DataHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//Log.w("MTM", "Parsing Document...");
+		// Log.w("MTM", "Parsing Document...");
 		
 		if (_doc != null) {
 			extractTrails(_doc);
@@ -79,14 +118,14 @@ public class DataHandler {
 	 * @param doc The XML Document to pull trails from
 	 */
 	private void extractTrails(Document doc) {
-		//Log.w("MTM", "Extracting Trails...");
+		// Log.w("MTM", "Extracting Trails...");
 		NodeList itemList = doc.getElementsByTagName("trail");
 		Node currentNode = itemList.item(0);
 		while (currentNode != null) {
 			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 				String trailName = currentNode.getAttributes().getNamedItem("name").getNodeValue();
-				//Log.w("MTM", "MTM: Trail ID   : " + currentNode.getAttributes().getNamedItem("id").getNodeValue());
-				//Log.w("MTM", "MTM: Trail Name : " + trailName);
+				// Log.w("MTM", "MTM: Trail ID   : " + currentNode.getAttributes().getNamedItem("id").getNodeValue());
+				// Log.w("MTM", "MTM: Trail Name : " + trailName);
 				createTrail(trailName);
 				extractTrail(currentNode);
 				saveTrail();
@@ -116,7 +155,7 @@ public class DataHandler {
 			try {
 				point = point.getNextSibling();
 			} catch (Exception e) {
-				//Log.w("MTM", "MTM Fixed another part of the 2.1 xml parser");
+				// Log.w("MTM", "MTM Fixed another part of the 2.1 xml parser");
 				point = null;
 			}
 		}
@@ -147,9 +186,9 @@ public class DataHandler {
 	 */
 	private void getPointInfo(Node point) {
 		Node localPoint = null;
-		//Log.w("MTM", "MTM: Point         : " + point.getNodeName());
-		//Log.w("MTM", "MTM: Point ID      : " + point.getAttributes().getNamedItem("id").getNodeValue());
-		//Log.w("MTM", "MTM: Point Content : " + point.getNodeValue());
+		// Log.w("MTM", "MTM: Point         : " + point.getNodeName());
+		// Log.w("MTM", "MTM: Point ID      : " + point.getAttributes().getNamedItem("id").getNodeValue());
+		// Log.w("MTM", "MTM: Point Content : " + point.getNodeValue());
 		HashMap<String, Object> trailPointInfo = new HashMap<String, Object>();
 		trailPointInfo.put("id", point.getAttributes().getNamedItem("id").getNodeValue());
 		
@@ -170,7 +209,7 @@ public class DataHandler {
 			if (localPoint.getNodeType() == Node.ELEMENT_NODE && !localPoint.getNodeName().equals("connection") && !localPoint.getNodeName().equals("connections")) {
 				String name = localPoint.getNodeName();
 				String value = localPoint.getFirstChild().getNodeValue();
-				//Log.w("MTM", "MTM Value: " + name + " : " + value);
+				// Log.w("MTM", "MTM Value: " + name + " : " + value);
 				
 				trailPointInfo.put(name, value);
 			}
@@ -183,7 +222,7 @@ public class DataHandler {
 				int connID = Integer.parseInt(localPoint.getFirstChild().getNodeValue());
 				_trailPoint.addConnectionByID(connID);
 				
-				//Log.w("MTM", "Found the connections node " + localPoint.getFirstChild().getNodeValue());
+				// Log.w("MTM", "Found the connections node " + localPoint.getFirstChild().getNodeValue());
 			}
 			if (localPoint.getNodeName().equals("longitude")) {
 				createNewTrailPoint(Integer.parseInt((String) trailPointInfo.get("id")), Double.parseDouble((String) trailPointInfo.get("latitude")), Double.parseDouble((String) trailPointInfo.get("longitude")));
@@ -194,14 +233,14 @@ public class DataHandler {
 			if (localPoint.getNodeName().equals("connections")) {
 				localPoint = localPoint.getFirstChild();
 				
-				//Log.w("MTM", "Found the connections node");
+				// Log.w("MTM", "Found the connections node");
 			} else {
 				
 				try {
 					localPoint = localPoint.getNextSibling();
 				} catch (Exception e) {
 					// This is here to fix the IndexOutOfBoundsException that is present in Android 2.1
-					//Log.w("MTM", "MTM I hate android 2.1-update1's parser...");
+					// Log.w("MTM", "MTM I hate android 2.1-update1's parser...");
 					localPoint = null;
 				}
 			}

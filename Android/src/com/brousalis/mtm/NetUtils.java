@@ -94,8 +94,7 @@ public class NetUtils {
 			}
 			return hexString.toString();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(ShowMap.MTM, e.getMessage());
 		}
 		
 		return "HASH ERROR";
@@ -136,7 +135,7 @@ public class NetUtils {
 			Log.w(ShowMap.MTM, response);
 			
 		} catch (Exception e) {
-			
+			Log.e(ShowMap.MTM, e.getMessage());
 		}
 		
 		return false;
