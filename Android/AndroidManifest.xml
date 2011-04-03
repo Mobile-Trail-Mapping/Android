@@ -34,6 +34,12 @@
 			android:configChanges="orientation"
 			android:theme="@android:style/Theme.Black.NoTitleBar"/>
 		<activity
+			android:name=".AddTrail"
+			android:label="@string/title_add_trail"
+			android:windowSoftInputMode="stateHidden|adjustUnspecified"
+			android:configChanges="orientation"
+			android:theme="@android:style/Theme.Black.NoTitleBar"/>
+		<activity
 			android:name=".ReportProblem"
 			android:label="@string/report_a_problem"
 			android:windowSoftInputMode="stateHidden|adjustUnspecified"

@@ -393,9 +393,11 @@ public class ShowMap extends MapActivity {
 		HashSet<Trail> trails = getParsedTrails();
 		this.mMapView.getOverlays().clear();
 		for (Trail t : trails) {
-			t.resolveConnections();
-			this.mMapView.getOverlays().addAll(t.getTrailPoints());
-			this.mMapView.getOverlays().add(t);
+			if (t.getNumberOfTrailPoints() > 0) {
+				t.resolveConnections();
+				this.mMapView.getOverlays().addAll(t.getTrailPoints());
+				this.mMapView.getOverlays().add(t);
+			}
 			
 		}
 		this.mMapView.invalidate();
@@ -453,13 +455,8 @@ public class ShowMap extends MapActivity {
 				ParcelableGeoPoint transportPoint = new ParcelableGeoPoint(getRecentLocation());
 				add_point.putExtra("GEOPOINT", transportPoint);
 				
-				HashSet<Trail> trails = getParsedTrails();
-				String[] trailNames = new String[trails.size()];
-				int i = 0;
-				for (Trail t : trails) {
-					trailNames[i] = t.getName();
-					i++;
-				}
+				
+				String[] trailNames = mDataHandler.getParsedTrailNames();
 				List<String> catList = mCategoryXMLHandler.parseCategoryXML();
 				String[] catNames = catList.toArray(new String[catList.size()]);
 				add_point.putExtra("CATNAMES", catNames);
@@ -467,16 +464,20 @@ public class ShowMap extends MapActivity {
 				add_point.putExtra("TRAILNAMES", trailNames);
 				this.startActivity(add_point);
 				break;
+			case R.id.menu_add_trail:
+				Intent add_trail = new Intent(this, AddTrail.class);
+				this.startActivity(add_trail);
+				break;
 			case R.id.menu_report_problem:
 				Intent report_problem = new Intent(this, ReportProblem.class);
 				ParcelableGeoPoint point = new ParcelableGeoPoint(getRecentLocation());
 				report_problem.putExtra("GEOPOINT", point);
 				this.startActivityForResult(report_problem, REPORT_PROBLEM_REQUEST_CODE);
 				break;
-			case R.id.menu_about:
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setTitle("About LC Trails").setMessage(R.string.aboutthetrails).setPositiveButton(R.string.ok, null).show();
-				break;
+			// case R.id.menu_about:
+			// AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			// builder.setTitle("About LC Trails").setMessage(R.string.aboutthetrails).setPositiveButton(R.string.ok, null).show();
+			// break;
 			case R.id.menu_settings:
 				Intent settings = new Intent(this, TrailPrefs.class);
 				this.startActivityForResult(settings, SETTINGS_REQUEST_CODE);
@@ -636,7 +637,6 @@ public class ShowMap extends MapActivity {
 		
 		@Override
 		protected void onPostExecute(Void result) {
-			drawTrail();
 			super.onPostExecute(result);
 		}
 	}

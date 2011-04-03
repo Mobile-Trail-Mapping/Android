@@ -165,12 +165,18 @@ public class DataHandler {
 	 * @return A Node that is either on the current level or down one.
 	 */
 	private Node getPointNode(Node currentNode) {
+		if(currentNode == null) {
+			return null;
+		}
 		Node myNode = currentNode.getFirstChild();
+		if(myNode == null) {
+			return null;
+		}
 		while (myNode.getNodeType() != Node.ELEMENT_NODE && !myNode.getNodeName().equals("points")) {
 			myNode = myNode.getNextSibling();
 		}
 		myNode = myNode.getFirstChild();
-		while (myNode.getNodeType() != Node.ELEMENT_NODE && !myNode.getNodeName().equals("point")) {
+		while (myNode != null && myNode.getNodeType() != Node.ELEMENT_NODE && !myNode.getNodeName().equals("point")) {
 			myNode = myNode.getNextSibling();
 		}
 		return myNode;
@@ -311,5 +317,15 @@ public class DataHandler {
 	 */
 	private void saveTrail() {
 		this._trails.add(this._trail);
+	}
+
+	public String[] getParsedTrailNames() {
+		String[] names = new String[_trails.size()];
+		int i = 0;
+		for(Trail t : _trails) {
+			names[i] = t.getName();
+			i++;
+		}
+		return names;
 	}
 }
