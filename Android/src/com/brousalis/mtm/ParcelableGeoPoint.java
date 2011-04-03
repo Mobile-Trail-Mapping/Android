@@ -3,7 +3,6 @@ package com.brousalis.mtm;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.brousalis.mtm.R;
 import com.google.android.maps.GeoPoint;
 /**
  * A GeoPoint that can be packaged up and shipped between intents.

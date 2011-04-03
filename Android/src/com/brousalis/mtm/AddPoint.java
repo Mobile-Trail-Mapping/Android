@@ -59,9 +59,6 @@ public class AddPoint extends Activity {
 	
 	private LinearLayout mUploadProgress;
 	
-	// This will be set to true if this activity is called to add a new point
-	private boolean mIsEditingPoint = false;
-	
 	// The id of the created point to be used by async process
 	private int mID;
 	private Bundle mExtras;

@@ -10,7 +10,6 @@ import android.graphics.Point;
 import android.location.Location;
 import android.util.Log;
 
-import com.brousalis.mtm.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;

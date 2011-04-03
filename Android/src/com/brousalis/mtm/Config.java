@@ -1,6 +1,5 @@
 package com.brousalis.mtm;
 
-import com.brousalis.mtm.R;
  /*****************************************************\
  |           AUTO GEN FILE WARNING!!!                  |
  | !!! Edit this file ONLY in config/Config.java !!!   |

@@ -34,7 +34,6 @@ public class DataHandler {
 	private DocumentBuilder _builder;
 	private URL _xmlFile;
 	private Document _doc;
-	private Object mCategories;
 	
 	/**
 	 * Initializes the DataHandler values using a custom XML File
@@ -55,10 +54,8 @@ public class DataHandler {
 	}
 	
 	public ArrayList<String> parseCategoryXML() {
-		URL localXMLFile;
 		DocumentBuilder localBuilder;
 		Document localdoc;
-		mCategories = new ArrayList<String>();
 		_factory = DocumentBuilderFactory.newInstance();
 		try {
 			

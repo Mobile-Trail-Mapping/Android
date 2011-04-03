@@ -1,7 +1,6 @@
 package com.brousalis.mtm;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -31,15 +29,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.ByteArrayBuffer;
 
-//import org.apache.http.entity.mime.*;
-
 import android.app.Activity;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
-import com.brousalis.mtm.R;
 
 /**
  * Utility class that provides multiple network communication methods
@@ -116,7 +110,6 @@ public class NetUtils {
 	
 	public static boolean postHTTPImage(HashMap<String, String> items, String url, String imageFileName) {
 		
-		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);

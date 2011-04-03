@@ -2,9 +2,7 @@ package com.brousalis.mtm;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.DisplayMetrics;
@@ -14,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import com.brousalis.mtm.R;
 
 /**
  * The adapter that allows the GalleryView to display multiple images.
@@ -27,7 +24,6 @@ public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
 	
 	private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
-	private static String WEB_FOLDER;
 	
 	private String mGalleryImageFolder;
 	
@@ -35,7 +31,6 @@ public class ImageAdapter extends BaseAdapter {
 	private int mDensity;
 	
 	public ImageAdapter(Context c, int pointID, int numOfPictures, int density) {
-		WEB_FOLDER = c.getString(R.string.actual_data_root) + c.getString(R.string.photo_path);
 		mContext = c;
 		mGalleryImageFolder = DATA_FOLDER + pointID + "/";
 		mDensity = density;

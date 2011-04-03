@@ -1,6 +1,5 @@
 package com.brousalis.mtm;
 
-import com.brousalis.mtm.R;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 /**
