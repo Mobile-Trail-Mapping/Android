@@ -23,7 +23,7 @@ public class ImageAdapter extends BaseAdapter {
 	int mGalleryItemBackground;
 	private Context mContext;
 	
-	private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
+	private static final String DATA_FOLDER = "/data/data/com.brousalis.mtm/files/";
 	
 	private String mGalleryImageFolder;
 	
@@ -77,7 +77,9 @@ public class ImageAdapter extends BaseAdapter {
 		Log.w(ShowMap.MTM, "getView fired");
 		i = new ImageView(mContext);
 		Log.w(ShowMap.MTM, "using Recycled");
+		Log.w(ShowMap.MTM, "Position: " + position);
 		Bitmap b = mDrawables.get(position);
+		Log.w(ShowMap.MTM, "BMP: " + b);
 		i.setImageBitmap(mDrawables.get(position));
 		int imgHeight = b.getHeight();
 		int imgWidth = b.getWidth();

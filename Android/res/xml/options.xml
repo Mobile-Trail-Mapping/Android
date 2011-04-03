@@ -45,5 +45,11 @@
 			android:title="@string/title_reset_images"
 			android:summary="@string/summary_reset_images"
 			android:key="@string/key_reset_images"/>
+		<com.brousalis.mtm.AboutPreference
+			android:key="@string/key_about"
+			android:title="@string/about_title"
+			android:dialogTitle="@string/about_title"
+			android:dialogMessage="@string/aboutthetrails"
+			android:positiveButtonText="@string/ok"/>
 	</PreferenceCategory>
 </PreferenceScreen>

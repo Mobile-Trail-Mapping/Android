@@ -13,6 +13,8 @@
     <!-- Login Settings Preference Item -->
     <string name="login_title">Login</string>
     
+    <!-- Login Settings Preference Item -->
+    <string name="about_title">About LC Trails</string>
     
     <!-- Default Zoom Preference Item -->
     <string name="title_default_zoom">Default Zoom</string>
@@ -38,4 +40,5 @@
     <string name="key_username">KEY_USERNAME</string>
     <string name="key_password">KEY_PASSWORD</string>
     <string name="key_community">KEY_COMMUNITY</string>
+    <string name="key_about">KEY_ABOUT</string>
 </resources>

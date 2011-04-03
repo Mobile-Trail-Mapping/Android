@@ -29,7 +29,7 @@ import com.brousalis.mtm.R;
  * 
  */
 public class ItemDetails extends Activity {
-	private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
+	private static final String DATA_FOLDER = "/data/data/com.brousalis.mtm/files/";
 	private Bundle _extras;
 	
 	private int mID;

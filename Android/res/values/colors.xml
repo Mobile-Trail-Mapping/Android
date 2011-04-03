@@ -4,4 +4,7 @@
 	<color name="gray_background">#323232</color>
 	<color name="gray_text_light">#BFBFBF</color>
 	<color name="gray_hilight">#FF808080</color>
+	<color name="condition_green">#FF808080</color>
+	<color name="condition_yellow">#FF808080</color>
+	<color name="condition_red">#FF808080</color>
 </resources>
