@@ -84,6 +84,7 @@ public class Trail extends ItemizedOverlay<OverlayItem> {
 		details.putExtra("category", touched.getCategory());
 		details.putExtra("title", touched.getTitle());
 		details.putExtra("summary", touched.getSummary());
+		details.putExtra("condition", touched.getCondition());
 		ShowMap.thisActivity.startActivity(details);
 		return true;
 	}

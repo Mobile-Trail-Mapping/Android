@@ -26,6 +26,7 @@ public class InterestPoint extends Overlay {
 	private String _summary;
 	private Paint _color;
 	private int _categoryID;
+	private String _condition;
 	
 	/**
 	 * Creates a new Interest point with the required params.
@@ -54,6 +55,14 @@ public class InterestPoint extends Overlay {
 		Point screenPts = new Point();
 		mapView.getProjection().toPixels(this._location, screenPts);
 		// canvas.drawCircle(screenPts.x, screenPts.y, 5, _color );
+	}
+	
+	public void setCondition(String cond) {
+		this._condition = cond;
+	}
+	
+	public String getCondition() {
+		return this._condition;
 	}
 	
 	public void setID(int id) {

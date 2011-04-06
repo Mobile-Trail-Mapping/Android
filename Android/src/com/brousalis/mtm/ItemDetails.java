@@ -36,6 +36,7 @@ public class ItemDetails extends Activity {
 	private String mSummary;
 	private String mTitle;
 	private String mCategory;
+	private String mCondition;
 	
 	private Gallery mGallery;
 	private ProgressBar mProgress;
@@ -46,9 +47,14 @@ public class ItemDetails extends Activity {
 	private SharedPreferences mSettings;
 	private ImageAdapter mImageAdapter;
 	
+	private TextView titleTextView;
+	private TextView summaryTextView;
+	private TextView conditionTextView;
+	
 	private int mDensity;
 	
 	private static final int SELECT_IMAGE = 3;
+	private static final int EDIT_POINT = 4;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,30 +69,30 @@ public class ItemDetails extends Activity {
 		
 		// Load extras data to populate view
 		_extras = this.getIntent().getExtras();
-		mTitle = _extras.get("title").toString();
-		mSummary = _extras.get("summary").toString();
+		mTitle = _extras.getString("title");
+		mSummary = _extras.getString("summary");
 		mID = _extras.getInt("id");
 		mCategory = _extras.getString("category");
+		if(_extras.containsKey("condition")) {
+			mCondition = _extras.getString("condition");
+		} else {
+			mCondition = "Open";
+		}
 		
 		// Load Views from XML
-		TextView title = (TextView) this.findViewById(R.id.detail_title);
-		TextView summary = (TextView) this.findViewById(R.id.detail_summary);
+		titleTextView = (TextView) this.findViewById(R.id.detail_title);
+		summaryTextView = (TextView) this.findViewById(R.id.detail_summary);
 		mGallery = (Gallery) this.findViewById(R.id.gallery);
 		mProgress = (ProgressBar) findViewById(R.id.loading_gallery);
-		//TextView condition = (TextView) this.findViewById(R.id.detail_condition);
+		conditionTextView = (TextView) this.findViewById(R.id.detail_condition);
 		mUploadProgress = (LinearLayout) findViewById(R.id.upload_progress);
+
 		// Set values of the textViews
-		title.setText(mTitle);
-		summary.setText(mSummary);
-		// mNumPhotos = Integer.parseInt(NetUtils.getHTTPData(getString(R.string.actual_data_root) + getString(R.string.photo_path) + mID));
-		// verifyImageCache(mID);
-		// loadGallery();
-		new AsyncImageChecker().execute();
-		// TODO: Conditions aren't implemented for a trail scale in the XML yet.
-		// Do that, then this
-		// Line gets uncommented.
-		// condition.setText(_extras.get("title").toString())
+		titleTextView.setText(mTitle);
+		summaryTextView.setText(mSummary);
+		conditionTextView.setText(mCondition);
 		
+		new AsyncImageChecker().execute();
 	}
 	
 	private void verifyImageCache(int pointID) {
@@ -146,7 +152,12 @@ public class ItemDetails extends Activity {
 				startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), SELECT_IMAGE);
 				break;
 			case R.id.menu_edit_point:
-				//startActivityForResult
+				Intent edit_point = new Intent(this, EditPoint.class);
+				edit_point.putExtra("id", mID);
+				edit_point.putExtra("condition", mCondition);
+				edit_point.putExtra("title", mTitle);
+				edit_point.putExtra("summary", mSummary);
+				startActivityForResult(edit_point, EDIT_POINT);
 				break;
 		}
 		return true;
@@ -172,12 +183,12 @@ public class ItemDetails extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			// The most recent photo always has the same id as the count
-			if(mImageAdapter != null) {
+			if (mImageAdapter != null) {
 				// We only want to call add Item when a new photo is uploaded, not the first time, hence the if.
 				mImageAdapter.addItem(mNumPhotos);
 			}
 			Log.w(ShowMap.MTM, "Done uploading, and re-downloading, trying to refresh gallery");
-			if(!mConnectionBroke) {
+			if (!mConnectionBroke) {
 				refreshGallery();
 			}
 			Log.w(ShowMap.MTM, "Gallery refreshed");
@@ -208,6 +219,14 @@ public class ItemDetails extends Activity {
 			mSelectedImageURI = data.getData();
 			mUploadProgress.setVisibility(View.VISIBLE);
 			new AsyncImageUploader().execute();
+		} else if (requestCode == EDIT_POINT && resultCode == Activity.RESULT_OK) {
+			Bundle b = data.getExtras();
+			if (b.containsKey("summary")) {
+				summaryTextView.setText(b.getString("summary"));
+			}
+			if (b.containsKey("condition")) {
+				conditionTextView.setText(b.getString("condition"));
+			}
 		}
 	};
 	

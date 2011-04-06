@@ -455,7 +455,6 @@ public class ShowMap extends MapActivity {
 				ParcelableGeoPoint transportPoint = new ParcelableGeoPoint(getRecentLocation());
 				add_point.putExtra("GEOPOINT", transportPoint);
 				
-				
 				String[] trailNames = mDataHandler.getParsedTrailNames();
 				List<String> catList = mCategoryXMLHandler.parseCategoryXML();
 				String[] catNames = catList.toArray(new String[catList.size()]);

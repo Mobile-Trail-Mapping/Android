@@ -212,7 +212,7 @@ public class DataHandler {
 			if (localPoint.getNodeType() == Node.ELEMENT_NODE && !localPoint.getNodeName().equals("connection") && !localPoint.getNodeName().equals("connections")) {
 				String name = localPoint.getNodeName();
 				String value = localPoint.getFirstChild().getNodeValue();
-				// Log.w("MTM", "MTM Value: " + name + " : " + value);
+				 Log.w("MTM", "MTM Value: " + name + " : " + value);
 				
 				trailPointInfo.put(name, value);
 			}
@@ -228,7 +228,9 @@ public class DataHandler {
 				// Log.w("MTM", "Found the connections node " + localPoint.getFirstChild().getNodeValue());
 			}
 			if (localPoint.getNodeName().equals("longitude")) {
-				createNewTrailPoint(Integer.parseInt((String) trailPointInfo.get("id")), Double.parseDouble((String) trailPointInfo.get("latitude")), Double.parseDouble((String) trailPointInfo.get("longitude")));
+				createNewTrailPoint(Integer.parseInt((String) trailPointInfo.get("id")), 
+						Double.parseDouble((String) trailPointInfo.get("latitude")), Double.parseDouble((String) trailPointInfo.get("longitude")), 
+						trailPointInfo.get("condition").toString());
 				_trailPoint.setCategoryID(Integer.parseInt((String) trailPointInfo.get("categoryID")));
 				_trailPoint.setTitle((String) trailPointInfo.get("title"));
 				_trailPoint.setSummary((String) trailPointInfo.get("description"));
@@ -290,9 +292,11 @@ public class DataHandler {
 	 * @param id ID of the TrailPoint
 	 * @param lat Latitude in double format (ex. 14.1328)
 	 * @param lon Longitude in double format (ex. 12.2334)
+	 * @param condition The Current condition of this location
 	 */
-	private void createNewTrailPoint(int id, double lat, double lon) {
+	private void createNewTrailPoint(int id, double lat, double lon, String condition) {
 		this._trailPoint = new TrailPoint(id, new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6)), new HashSet<TrailPoint>());
+		this._trailPoint.setCondition(condition);
 	}
 	
 	/**

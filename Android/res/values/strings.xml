@@ -12,6 +12,7 @@
     <string name="add_photo_path">image/add</string>
     <string name="add_point_path">point/add</string>
     <string name="add_trail_path">trail/add</string>
+    <string name="edit_point_path">point/update/</string>
     <string name="category_get_path">category/get</string>
     <string name="beta">true</string>
     
@@ -27,6 +28,7 @@
     <!-- Activity Titles -->
     <string name="title_add_point">Add A New Point</string>
     <string name="title_add_trail">Add A New Trail</string>
+    <string name="title_edit_point">Add A New Trail</string>
     <string name="title_details">Location Details</string>
     <string name="title_options">Trail Options</string>
     <string name="point_category">Point Category</string>
