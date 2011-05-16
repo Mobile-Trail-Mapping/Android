@@ -195,7 +195,9 @@ public class ReportProblem extends Activity {
 			setResult(Activity.RESULT_OK, finished);
 			
 			mImagePreview.setImageDrawable(getResources().getDrawable(R.drawable.camera));
-			mPicture.recycle();
+			if(mPicture != null) {
+				mPicture.recycle();
+			}
 			finish();
 		}
 		

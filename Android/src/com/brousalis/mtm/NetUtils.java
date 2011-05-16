@@ -45,7 +45,7 @@ public class NetUtils {
 	/**
 	 * Location to store files at where no other applications can get to it.
 	 */
-	private static final String DATA_FOLDER = "/data/data/com.brousalis/files/";
+	private static final String DATA_FOLDER = "/data/data/com.brousalis.mtm/files/";
 	
 	/**
 	 * Get the return data from a specific HTTP connection.

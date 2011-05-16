@@ -6,6 +6,7 @@
     <!-- Access Strings -->
     <string name="test_url">http://www.fernferret.com/samplexml.xml</string>
     <string name="root_data_url">http://mtmserver.heroku.com/</string>
+    <string name="root_prod_url">http://mtm.linncountytrails.org/</string>
     <string name="root_test_url">http://mtmtest.heroku.com/</string>
     <string name="photo_path">image/get/</string>
     <string name="trail_path">point/get</string>

@@ -3,15 +3,16 @@ package com.brousalis.mtm;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
-import com.brousalis.mtm.R;
 
 /**
  * Preference Activity
@@ -34,6 +35,20 @@ public class TrailPrefs extends PreferenceActivity implements OnSharedPreference
 		this.addPreferencesFromResource(R.xml.options);
 		
 		mLogoutPref = findPreference(getString(R.string.key_logout_preference));
+		mLogoutPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				// Log out the user in the prefs
+				Editor editor = mSettings.edit();
+				editor.putBoolean(getString(R.string.key_is_admin), false);
+				
+				editor.putBoolean(getString(R.string.key_logged_in), false);
+				editor.putString(getString(R.string.key_password), "");
+				editor.commit();
+				return true;
+			}
+		});
 		mLoginPref = (LoginPreference) findPreference(getString(R.string.key_login_preference));
 		mCommunityPrefCategory = ((PreferenceGroup) getPreferenceScreen().findPreference(getString(R.string.key_community)));
 		

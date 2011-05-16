@@ -10,6 +10,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import com.brousalis.mtm.R;
@@ -56,9 +57,11 @@ public class LoginPreference extends DialogPreference implements DialogInterface
 			credentials.put("pwhash", password);
 
 			String result = NetUtils.postHTTPData(credentials, postingURL);
+			Log.d(ShowMap.MTM, result);
 			if(result.equals(ADMIN) || result.equals(USER)) {
 				Editor editor = mSettings.edit();
 				editor.putBoolean(mContext.getString(R.string.key_is_admin), result.equals(ADMIN));
+				
 				editor.putBoolean(mContext.getString(R.string.key_logged_in), true);
 				editor.putString(mContext.getString(R.string.key_username), username);
 				editor.putString(mContext.getString(R.string.key_password), password);
