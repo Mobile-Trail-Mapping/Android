@@ -435,8 +435,9 @@ public class ShowMap extends MapActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_track_enable).setVisible(!GPS_TRACK);
 		menu.findItem(R.id.menu_track_disable).setVisible(GPS_TRACK);
-		menu.findItem(R.id.menu_add_point).setEnabled(GPS_TRACK);
-		menu.findItem(R.id.menu_report_problem).setEnabled(GPS_TRACK);
+		// Always keep these two enabled, show a warning if gps is off!
+		menu.findItem(R.id.menu_add_point).setEnabled(true);
+		menu.findItem(R.id.menu_report_problem).setEnabled(true);
 		// Only show the add point menu if the user is an admin.
 		menu.setGroupVisible(R.id.user, mSettings.getBoolean(getString(R.string.key_logged_in), false));
 		menu.setGroupVisible(R.id.admin, mSettings.getBoolean(getString(R.string.key_is_admin), false));
@@ -451,27 +452,35 @@ public class ShowMap extends MapActivity {
 		
 		switch (item.getItemId()) {
 			case R.id.menu_add_point:
-				Intent add_point = new Intent(this, AddPoint.class);
-				ParcelableGeoPoint transportPoint = new ParcelableGeoPoint(getRecentLocation());
-				add_point.putExtra("GEOPOINT", transportPoint);
-				
-				String[] trailNames = mDataHandler.getParsedTrailNames();
-				List<String> catList = mCategoryXMLHandler.parseCategoryXML();
-				String[] catNames = catList.toArray(new String[catList.size()]);
-				add_point.putExtra("CATNAMES", catNames);
-				
-				add_point.putExtra("TRAILNAMES", trailNames);
-				this.startActivity(add_point);
+				if (GPS_TRACK) {
+					Intent add_point = new Intent(this, AddPoint.class);
+					ParcelableGeoPoint transportPoint = new ParcelableGeoPoint(getRecentLocation());
+					add_point.putExtra("GEOPOINT", transportPoint);
+					
+					String[] trailNames = mDataHandler.getParsedTrailNames();
+					List<String> catList = mCategoryXMLHandler.parseCategoryXML();
+					String[] catNames = catList.toArray(new String[catList.size()]);
+					add_point.putExtra("CATNAMES", catNames);
+					
+					add_point.putExtra("TRAILNAMES", trailNames);
+					this.startActivity(add_point);
+				} else {
+					Toast.makeText(this, "Please Enable Tracking to add a point!", Toast.LENGTH_LONG).show();
+				}
 				break;
 			case R.id.menu_add_trail:
 				Intent add_trail = new Intent(this, AddTrail.class);
 				this.startActivity(add_trail);
 				break;
 			case R.id.menu_report_problem:
-				Intent report_problem = new Intent(this, ReportProblem.class);
-				ParcelableGeoPoint point = new ParcelableGeoPoint(getRecentLocation());
-				report_problem.putExtra("GEOPOINT", point);
-				this.startActivityForResult(report_problem, REPORT_PROBLEM_REQUEST_CODE);
+				if (GPS_TRACK) {
+					Intent report_problem = new Intent(this, ReportProblem.class);
+					ParcelableGeoPoint point = new ParcelableGeoPoint(getRecentLocation());
+					report_problem.putExtra("GEOPOINT", point);
+					this.startActivityForResult(report_problem, REPORT_PROBLEM_REQUEST_CODE);
+				} else {
+					Toast.makeText(this, "Please Enable Tracking to report a problem!", Toast.LENGTH_LONG).show();
+				}
 				break;
 			// case R.id.menu_about:
 			// AlertDialog.Builder builder = new AlertDialog.Builder(this);
