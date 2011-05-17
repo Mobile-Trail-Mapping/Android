@@ -334,6 +334,11 @@ public class ShowMap extends MapActivity {
 		editor.putInt(SAVED_MAP_LONG, this.mMapView.getMapCenter().getLongitudeE6());
 		editor.putInt(SAVED_MAP_ZOOM, this.mMapView.getZoomLevel());
 		editor.commit();
+		
+		if(GPS_TRACK) {
+			turnOffLocationUpdates();
+		}
+		
 		Log.w(MTM, "MTM: onPause()");
 	}
 	
@@ -353,7 +358,9 @@ public class ShowMap extends MapActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+		if(GPS_TRACK) {
+			turnOnLocationUpdates();
+		}
 		Log.w(MTM, "MTM: onResume()");
 	}
 	
@@ -571,8 +578,10 @@ public class ShowMap extends MapActivity {
 	 * Enable Location based updating automatically.
 	 */
 	private void turnOnLocationUpdates() {
-		mMapView.getOverlays().add(mLocationMarker);
+		
 		if (mLocationManager != null) {
+			mMapView.getOverlays().add(mLocationMarker);
+			Toast.makeText(this, "GPS Enabled!", Toast.LENGTH_SHORT).show();
 			mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 			
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_UPDATE_TIME, GPS_UPDATE_DISTANCE, mLocationListen);
@@ -583,8 +592,10 @@ public class ShowMap extends MapActivity {
 	 * Turn off GPS Updates, saves us lots of battery.
 	 */
 	public void turnOffLocationUpdates() {
-		mMapView.getOverlays().remove(mLocationMarker);
+		
 		if (mLocationManager != null)
+			mMapView.getOverlays().remove(mLocationMarker);
+			Toast.makeText(this, "GPS Disabled!", Toast.LENGTH_SHORT).show();
 			mLocationManager.removeUpdates(mLocationListen);
 	}
 	
